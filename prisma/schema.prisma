@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model InputSet {
+  id        String    @id @default(cuid())
+  name      String
+  images    Image[]
+  products  Product[]
+  runs      Run[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Image {
+  id         String   @id @default(cuid())
+  filename   String
+  path       String
+  mimeType   String
+  inputSetId String
+  inputSet   InputSet @relation(fields: [inputSetId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id         String   @id @default(cuid())
+  catalogId  String
+  name       String
+  category   String
+  imageUrl   String?
+  metadata   String   // JSON stored as string for SQLite
+  inputSetId String
+  inputSet   InputSet @relation(fields: [inputSetId], references: [id], onDelete: Cascade)
+}
+
+model PromptTemplate {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  steps       PromptStep[]
+  runs        Run[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model PromptStep {
+  id          String         @id @default(cuid())
+  order       Int
+  prompt      String
+  model       String         @default("gemini-2.0-flash-exp-image-generation")
+  aspectRatio String         @default("1:1")
+  imageSize   String         @default("1K")
+  temperature Float          @default(1.0)
+  templateId  String
+  template    PromptTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+}
+
+model Run {
+  id         String         @id @default(cuid())
+  inputSetId String
+  inputSet   InputSet       @relation(fields: [inputSetId], references: [id], onDelete: Cascade)
+  templateId String
+  template   PromptTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  status     String         @default("pending") // pending, running, completed, failed
+  error      String?
+  results    RunResult[]
+  createdAt  DateTime       @default(now())
+}
+
+model RunResult {
+  id          String   @id @default(cuid())
+  runId       String
+  run         Run      @relation(fields: [runId], references: [id], onDelete: Cascade)
+  stepOrder   Int
+  outputImage String
+  metadata    String   // JSON stored as string for SQLite
+  rating      Int?
+  notes       String?
+  tags        String   @default("[]") // JSON array stored as string
+  createdAt   DateTime @default(now())
+}
