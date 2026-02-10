@@ -26,3 +26,24 @@ export function safeJsonParse<T>(json: string | null | undefined, fallback: T): 
     return fallback;
   }
 }
+
+/**
+ * Format a date string or Date object
+ */
+export function formatDate(date: string | Date, format: 'date' | 'datetime' = 'datetime'): string {
+  const d = typeof date === 'string' ? new Date(date) : date;
+
+  if (format === 'date') {
+    return d.toLocaleDateString();
+  }
+
+  return d.toLocaleString();
+}
+
+/**
+ * Truncate an ID string for display
+ */
+export function truncateId(id: string, length: number = 8): string {
+  if (id.length <= length) return id;
+  return `${id.slice(0, length)}...`;
+}

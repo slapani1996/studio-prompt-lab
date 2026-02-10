@@ -1,55 +1,11 @@
 'use client';
 
-import PromptEditor, { PromptStep } from './PromptEditor';
-import { DEFAULT_MODEL, DEFAULT_ASPECT_RATIO, DEFAULT_IMAGE_SIZE, DEFAULT_TEMPERATURE } from '@/lib/constants';
+import { PromptEditor } from '../PromptEditor';
+import { useChainBuilder } from './useChainBuilder';
+import type { ChainBuilderProps } from './types';
 
-interface ChainBuilderProps {
-  steps: PromptStep[];
-  onChange: (steps: PromptStep[]) => void;
-}
-
-export default function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
-  const addStep = () => {
-    const newStep: PromptStep = {
-      order: steps.length,
-      prompt: '',
-      model: DEFAULT_MODEL,
-      aspectRatio: DEFAULT_ASPECT_RATIO,
-      imageSize: DEFAULT_IMAGE_SIZE,
-      temperature: DEFAULT_TEMPERATURE,
-    };
-    onChange([...steps, newStep]);
-  };
-
-  const updateStep = (index: number, updatedStep: PromptStep) => {
-    const newSteps = [...steps];
-    newSteps[index] = updatedStep;
-    onChange(newSteps);
-  };
-
-  const removeStep = (index: number) => {
-    const newSteps = steps.filter((_, i) => i !== index).map((step, i) => ({
-      ...step,
-      order: i,
-    }));
-    onChange(newSteps);
-  };
-
-  const moveStep = (index: number, direction: 'up' | 'down') => {
-    if (
-      (direction === 'up' && index === 0) ||
-      (direction === 'down' && index === steps.length - 1)
-    ) {
-      return;
-    }
-
-    const newSteps = [...steps];
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
-    [newSteps[index], newSteps[targetIndex]] = [newSteps[targetIndex], newSteps[index]];
-
-    // Update order values
-    onChange(newSteps.map((step, i) => ({ ...step, order: i })));
-  };
+export function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
+  const { addStep, updateStep, removeStep, moveStep } = useChainBuilder(steps, onChange);
 
   return (
     <div className="space-y-4">
@@ -182,3 +138,5 @@ export default function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
     </div>
   );
 }
+
+export default ChainBuilder;

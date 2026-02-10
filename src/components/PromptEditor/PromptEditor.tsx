@@ -1,26 +1,9 @@
 'use client';
 
 import { AVAILABLE_MODELS, ASPECT_RATIOS, IMAGE_SIZES } from '@/types';
+import type { PromptStep, PromptEditorProps } from './types';
 
-export interface PromptStep {
-  id?: string;
-  order: number;
-  prompt: string;
-  model: string;
-  aspectRatio: string;
-  imageSize: string;
-  temperature: number;
-}
-
-interface PromptEditorProps {
-  step: PromptStep;
-  onChange: (step: PromptStep) => void;
-  onRemove?: () => void;
-  stepNumber: number;
-  showRemove?: boolean;
-}
-
-export default function PromptEditor({
+export function PromptEditor({
   step,
   onChange,
   onRemove,
@@ -145,3 +128,5 @@ export default function PromptEditor({
     </div>
   );
 }
+
+export default PromptEditor;

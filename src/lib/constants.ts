@@ -20,3 +20,30 @@ export const DEFAULT_IMAGE_SIZE = '1K';
 
 // Default aspect ratio
 export const DEFAULT_ASPECT_RATIO = '1:1';
+
+// Common tags for image review
+export const COMMON_TAGS = [
+  'good-lighting',
+  'realistic',
+  'wrong-product',
+  'wrong-style',
+  'keeper',
+  'needs-work',
+  'good-composition',
+  'bad-colors',
+  'artifact',
+  'perfect',
+] as const;
+
+// Product categories
+export const PRODUCT_CATEGORIES = [
+  { id: '', name: 'All Products' },
+  { id: 'faucets', name: 'Faucets' },
+  { id: 'mirrors', name: 'Mirrors' },
+  { id: 'shower-systems', name: 'Shower Systems' },
+  { id: 'decorative-lighting', name: 'Decorative Lighting' },
+  { id: 'vanities', name: 'Vanities' },
+  { id: 'tub-doors', name: 'Tub Doors' },
+  { id: 'towel-rings', name: 'Towel Rings' },
+  { id: 'tub-filler', name: 'Tub Filler' },
+] as const;

@@ -1,25 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import type { ResultViewerProps, RunResult } from './types';
 
-interface RunResult {
-  id: string;
-  stepOrder: number;
-  outputImage: string;
-  metadata: string;
-  rating: number | null;
-  notes: string | null;
-  tags: string;
-  createdAt: string;
-}
-
-interface ResultViewerProps {
-  results: RunResult[];
-  onResultClick?: (result: RunResult) => void;
-  selectedResultId?: string;
-}
-
-export default function ResultViewer({
+export function ResultViewer({
   results,
   onResultClick,
   selectedResultId,
@@ -278,3 +262,5 @@ export default function ResultViewer({
     </div>
   );
 }
+
+export default ResultViewer;

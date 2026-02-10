@@ -2,14 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const navigation = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon },
-  { name: 'Input Sets', href: '/inputs', icon: FolderIcon },
-  { name: 'Prompts', href: '/prompts', icon: DocumentIcon },
-  { name: 'Run History', href: '/runs', icon: ClockIcon },
-  { name: 'Review', href: '/review', icon: StarIcon },
-];
+import type { SidebarProps, NavItem } from './types';
 
 function HomeIcon({ className }: { className?: string }) {
   return (
@@ -51,12 +44,15 @@ function StarIcon({ className }: { className?: string }) {
   );
 }
 
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+const navigation: NavItem[] = [
+  { name: 'Dashboard', href: '/', icon: HomeIcon },
+  { name: 'Input Sets', href: '/inputs', icon: FolderIcon },
+  { name: 'Prompts', href: '/prompts', icon: DocumentIcon },
+  { name: 'Run History', href: '/runs', icon: ClockIcon },
+  { name: 'Review', href: '/review', icon: StarIcon },
+];
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -119,3 +115,5 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     </>
   );
 }
+
+export default Sidebar;

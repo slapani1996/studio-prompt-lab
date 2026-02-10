@@ -1,114 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
+import { useReviewPanel } from './useReviewPanel';
+import { COMMON_TAGS } from '@/lib/constants';
+import type { ReviewPanelProps } from './types';
 
-interface RunResult {
-  id: string;
-  stepOrder: number;
-  outputImage: string;
-  metadata: string;
-  rating: number | null;
-  notes: string | null;
-  tags: string;
-  createdAt: string;
-}
-
-interface ReviewPanelProps {
-  result: RunResult;
-  onUpdate?: () => void;
-}
-
-const COMMON_TAGS = [
-  'good-lighting',
-  'realistic',
-  'wrong-product',
-  'wrong-style',
-  'keeper',
-  'needs-work',
-  'good-composition',
-  'bad-colors',
-  'artifact',
-  'perfect',
-];
-
-export default function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
-  const [rating, setRating] = useState<number | null>(result.rating);
-  const [notes, setNotes] = useState(result.notes || '');
-  const [tags, setTags] = useState<string[]>(() => {
-    try {
-      return JSON.parse(result.tags) || [];
-    } catch {
-      return [];
-    }
-  });
-  const [newTag, setNewTag] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    setRating(result.rating);
-    setNotes(result.notes || '');
-    try {
-      setTags(JSON.parse(result.tags) || []);
-    } catch {
-      setTags([]);
-    }
-  }, [result]);
-
-  const saveChanges = async () => {
-    setSaving(true);
-    setSaved(false);
-
-    try {
-      const response = await fetch(`/api/results/${result.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating, notes, tags }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save');
-      }
-
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-
-      if (onUpdate) {
-        onUpdate();
-      }
-    } catch {
-      toast.error('Failed to save changes');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleRatingClick = (value: number) => {
-    setRating(value === rating ? null : value);
-  };
-
-  const addTag = (tag: string) => {
-    const normalizedTag = tag.toLowerCase().trim().replace(/\s+/g, '-');
-    if (normalizedTag && !tags.includes(normalizedTag)) {
-      setTags([...tags, normalizedTag]);
-    }
-    setNewTag('');
-  };
-
-  const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
-  };
-
-  const getMetadata = () => {
-    try {
-      return JSON.parse(result.metadata);
-    } catch {
-      return {};
-    }
-  };
-
-  const metadata = getMetadata();
+export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
+  const {
+    rating,
+    notes,
+    tags,
+    newTag,
+    saving,
+    saved,
+    metadata,
+    setNotes,
+    setNewTag,
+    handleRatingClick,
+    addTag,
+    removeTag,
+    saveChanges,
+  } = useReviewPanel(result, onUpdate);
 
   return (
     <div className="sticky top-8 space-y-6 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
@@ -136,11 +47,11 @@ export default function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-500">Model:</span>
-            <span className="text-gray-900 dark:text-white">{metadata.model || 'N/A'}</span>
+            <span className="text-gray-900 dark:text-white">{(metadata.model as string) || 'N/A'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500">Aspect Ratio:</span>
-            <span className="text-gray-900 dark:text-white">{metadata.aspectRatio || 'N/A'}</span>
+            <span className="text-gray-900 dark:text-white">{(metadata.aspectRatio as string) || 'N/A'}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500">Created:</span>
@@ -277,3 +188,5 @@ export default function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
     </div>
   );
 }
+
+export default ReviewPanel;
