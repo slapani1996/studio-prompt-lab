@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 import { DEFAULT_MODEL, DEFAULT_ASPECT_RATIO, DEFAULT_IMAGE_SIZE, DEFAULT_TEMPERATURE } from '@/lib/constants';
 
 // GET single prompt template
@@ -8,6 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
 
     const template = await prisma.promptTemplate.findUnique({
@@ -50,6 +51,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
     const body = await request.json();
     const { name, description, steps } = body;
@@ -109,6 +111,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
 
     await prisma.promptTemplate.delete({

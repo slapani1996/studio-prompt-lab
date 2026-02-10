@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 
       uploadedFiles.push({
         filename: file.name,
-        path: `/uploads/${filename}`,
+        path: `/api/uploads/${filename}`,
         mimeType: file.type,
       });
     }

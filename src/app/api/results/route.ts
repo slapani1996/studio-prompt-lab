@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 
 // GET all results with filters
 export async function GET(request: NextRequest) {
   try {
+    const prisma = await getDbClient();
     const searchParams = request.nextUrl.searchParams;
     const minRating = searchParams.get('minRating');
     const maxRating = searchParams.get('maxRating');

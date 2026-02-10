@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 
 // GET single input set
 export async function GET(
@@ -7,6 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
 
     const inputSet = await prisma.inputSet.findUnique({
@@ -48,6 +49,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
     const body = await request.json();
     const { name, images, products, removeImageIds, removeProductIds } = body;
@@ -115,6 +117,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const prisma = await getDbClient();
     const { id } = await params;
 
     await prisma.inputSet.delete({

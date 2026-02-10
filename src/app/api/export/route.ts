@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 
 // Helper to get base URL from env or request headers
 function getBaseUrl(request: NextRequest): string {
@@ -24,6 +24,7 @@ function toFullUrl(baseUrl: string, path: string | null): string | null {
 // GET export runs/results as JSON
 export async function GET(request: NextRequest) {
   try {
+    const prisma = await getDbClient();
     const searchParams = request.nextUrl.searchParams;
     const runId = searchParams.get('runId');
     const format = searchParams.get('format') || 'json';

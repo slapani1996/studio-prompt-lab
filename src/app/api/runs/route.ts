@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 
 // GET all runs
 export async function GET(request: NextRequest) {
   try {
+    const prisma = await getDbClient();
     const searchParams = request.nextUrl.searchParams;
     const status = searchParams.get('status') || undefined;
     const inputSetId = searchParams.get('inputSetId') || undefined;
@@ -42,6 +43,7 @@ export async function GET(request: NextRequest) {
 // POST create and execute a new run
 export async function POST(request: NextRequest) {
   try {
+    const prisma = await getDbClient();
     const body = await request.json();
     const { inputSetId, templateId } = body;
 

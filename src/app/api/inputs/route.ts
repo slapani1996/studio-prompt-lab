@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 
 // GET all input sets
 export async function GET() {
   try {
+    const prisma = await getDbClient();
     const inputSets = await prisma.inputSet.findMany({
       include: {
         images: true,
@@ -28,6 +29,7 @@ export async function GET() {
 // POST create new input set
 export async function POST(request: NextRequest) {
   try {
+    const prisma = await getDbClient();
     const body = await request.json();
     const { name, images, products } = body;
 

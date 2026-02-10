@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 import { generateImage } from '@/lib/gemini';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
@@ -10,6 +10,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const prisma = await getDbClient();
   try {
     const { id } = await params;
 
@@ -119,7 +120,7 @@ export async function POST(
         const ext = imageData.mimeType.includes('png') ? '.png' : '.jpg';
         const filename = `step-${step.order}-${uuidv4()}${ext}`;
         const outputPath = path.join(outputDir, filename);
-        const publicPath = `/outputs/${run.id}/${filename}`;
+        const publicPath = `/api/outputs/${run.id}/${filename}`;
 
         await writeFile(outputPath, Buffer.from(imageData.data, 'base64'));
 

@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import prisma from '@/lib/db';
+import { getDbClient } from '@/lib/db';
 import { getStatusColor } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 
 async function getStats() {
+  const prisma = await getDbClient();
   const [inputSetsCount, promptsCount, runsCount, resultsWithRatings] = await Promise.all([
     prisma.inputSet.count(),
     prisma.promptTemplate.count(),
@@ -16,7 +17,7 @@ async function getStats() {
   ]);
 
   const avgRating = resultsWithRatings.length > 0
-    ? resultsWithRatings.reduce((sum, r) => sum + (r.rating || 0), 0) / resultsWithRatings.length
+    ? resultsWithRatings.reduce((sum: number, r: { rating: number | null }) => sum + (r.rating || 0), 0) / resultsWithRatings.length
     : 0;
 
   return {
@@ -28,6 +29,7 @@ async function getStats() {
 }
 
 async function getRecentRuns() {
+  const prisma = await getDbClient();
   return prisma.run.findMany({
     take: 5,
     orderBy: { createdAt: 'desc' },
