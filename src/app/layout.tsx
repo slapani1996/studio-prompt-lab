@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/ui/Sidebar";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { Menu } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,10 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <head>
         <title>Studio Prompt Lab</title>
-        <meta name="description" content="AI-powered image generation prompting workbench for Bond Studio" />
+        <meta
+          name="description"
+          content="AI-powered image generation prompting workbench for Bond Studio"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
@@ -39,9 +43,7 @@ export default function RootLayout({
             className="fixed left-4 top-4 z-40 rounded-lg p-2 text-white md:hidden bg-sidebar"
             aria-label="Open menu"
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+            <Menu className="size-6" />
           </button>
 
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -54,19 +56,19 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#18181b',
-              color: '#fafafa',
+              background: "#18181b",
+              color: "#fafafa",
             },
             success: {
               iconTheme: {
-                primary: '#10b981',
-                secondary: '#fff',
+                primary: "#10b981",
+                secondary: "#fff",
               },
             },
             error: {
               iconTheme: {
-                primary: '#f43f5e',
-                secondary: '#fff',
+                primary: "#f43f5e",
+                secondary: "#fff",
               },
             },
           }}

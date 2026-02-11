@@ -1,163 +1,33 @@
-'use client';
+"use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import ChainBuilder from '@/components/ChainBuilder';
-import { PromptStep } from '@/components/PromptEditor';
-import { DEFAULT_MODEL, DEFAULT_ASPECT_RATIO, DEFAULT_IMAGE_SIZE, DEFAULT_TEMPERATURE } from '@/lib/constants';
-
-interface PromptTemplate {
-  id: string;
-  name: string;
-  description: string | null;
-  steps: PromptStep[];
-  createdAt: string;
-  updatedAt: string;
-  _count?: { runs: number };
-}
+import { Suspense } from "react";
+import ChainBuilder from "@/components/ChainBuilder";
+import { Modal } from "@/components/ui/Modal";
+import { Button } from "@/components/ui/Button";
+import { Input, Textarea } from "@/components/ui/Input";
+import { usePromptsPage } from "./usePromptsPage";
+import { Copy, FileText, Pencil, Plus, Trash2 } from "lucide-react";
 
 function PromptsContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [templates, setTemplates] = useState<PromptTemplate[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(searchParams.get('new') === 'true');
-  const [editingTemplate, setEditingTemplate] = useState<PromptTemplate | null>(null);
-
-  // Form state
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [steps, setSteps] = useState<PromptStep[]>([
-    {
-      order: 0,
-      prompt: '',
-      model: DEFAULT_MODEL,
-      aspectRatio: DEFAULT_ASPECT_RATIO,
-      imageSize: DEFAULT_IMAGE_SIZE,
-      temperature: DEFAULT_TEMPERATURE,
-    },
-  ]);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetchTemplates();
-  }, []);
-
-  const fetchTemplates = async () => {
-    try {
-      const response = await fetch('/api/prompts');
-      const data = await response.json();
-      setTemplates(data);
-    } catch (error) {
-      console.error('Failed to fetch templates:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resetForm = () => {
-    setName('');
-    setDescription('');
-    setSteps([
-      {
-        order: 0,
-        prompt: '',
-        model: DEFAULT_MODEL,
-        aspectRatio: DEFAULT_ASPECT_RATIO,
-        imageSize: DEFAULT_IMAGE_SIZE,
-        temperature: DEFAULT_TEMPERATURE,
-      },
-    ]);
-    setEditingTemplate(null);
-  };
-
-  const openCreateModal = () => {
-    resetForm();
-    setShowModal(true);
-    router.replace('/prompts', { scroll: false });
-  };
-
-  const openEditModal = (template: PromptTemplate) => {
-    setEditingTemplate(template);
-    setName(template.name);
-    setDescription(template.description || '');
-    setSteps(template.steps);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    resetForm();
-    router.replace('/prompts', { scroll: false });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (steps.length === 0 || steps.some((s) => !s.prompt.trim())) {
-      toast.error('Please add at least one step with a prompt');
-      return;
-    }
-
-    setSaving(true);
-
-    try {
-      const payload = {
-        name,
-        description: description || null,
-        steps,
-      };
-
-      const url = editingTemplate ? `/api/prompts/${editingTemplate.id}` : '/api/prompts';
-      const method = editingTemplate ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save template');
-      }
-
-      await fetchTemplates();
-      closeModal();
-      toast.success(editingTemplate ? 'Template updated' : 'Template created');
-    } catch {
-      toast.error('Failed to save template');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this template?')) return;
-
-    try {
-      const response = await fetch(`/api/prompts/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete template');
-      }
-
-      await fetchTemplates();
-      toast.success('Template deleted');
-    } catch {
-      toast.error('Failed to delete template');
-    }
-  };
-
-  const duplicateTemplate = (template: PromptTemplate) => {
-    setEditingTemplate(null);
-    setName(`${template.name} (Copy)`);
-    setDescription(template.description || '');
-    setSteps(template.steps.map((s) => ({ ...s, id: undefined })));
-    setShowModal(true);
-  };
+  const {
+    templates,
+    loading,
+    showModal,
+    editingTemplate,
+    name,
+    description,
+    steps,
+    saving,
+    setName,
+    setDescription,
+    setSteps,
+    openCreateModal,
+    openEditModal,
+    closeModal,
+    handleSubmit,
+    handleDelete,
+    duplicateTemplate,
+  } = usePromptsPage();
 
   if (loading) {
     return (
@@ -168,53 +38,37 @@ function PromptsContent() {
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="md:p-8 p-4">
+      <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">Prompt Templates</h1>
-          <p className="mt-1 text-zinc-600 dark:text-[#d8dee9]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            Prompt Templates
+          </h1>
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
             Build and manage your image generation prompts
           </p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
+        <Button onClick={openCreateModal} icon={<Plus className="size-5" />}>
           New Template
-        </button>
+        </Button>
       </div>
 
       {templates.length === 0 ? (
         <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
-          <svg
-            className="mx-auto h-12 w-12 text-zinc-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-            />
-          </svg>
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">No templates</h3>
+          <FileText className="size-12 text-zinc-400 mx-auto" />
+
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+            No templates
+          </h3>
           <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             Create your first prompt template to get started.
           </p>
-          <button
-            onClick={openCreateModal}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
-          >
+          <Button onClick={openCreateModal} className="mt-4">
             Create Template
-          </button>
+          </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
           {templates.map((template) => (
             <div
               key={template.id}
@@ -222,22 +76,31 @@ function PromptsContent() {
             >
               <div className="p-4">
                 <div className="mb-2 flex items-start justify-between">
-                  <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">{template.name}</h3>
+                  <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">
+                    {template.name}
+                  </h3>
                   <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]">
-                    {template.steps.length} step{template.steps.length !== 1 ? 's' : ''}
+                    {template.steps.length} step
+                    {template.steps.length !== 1 ? "s" : ""}
                   </span>
                 </div>
 
                 {template.description && (
-                  <p className="mb-3 text-sm text-zinc-600 dark:text-[#d8dee9]">{template.description}</p>
+                  <p className="mb-3 text-sm text-zinc-600 dark:text-[#d8dee9]">
+                    {template.description}
+                  </p>
                 )}
 
                 {/* Steps Preview */}
                 <div className="mb-3 space-y-2">
                   {template.steps.slice(0, 2).map((step, index) => (
-                    <div key={index} className="rounded bg-zinc-50 p-2 dark:bg-[#434c5e]">
+                    <div
+                      key={index}
+                      className="rounded bg-zinc-50 p-2 dark:bg-[#434c5e]"
+                    >
                       <p className="truncate text-xs text-zinc-700 dark:text-[#e5e9f0]">
-                        <span className="font-medium">Step {index + 1}:</span> {step.prompt}
+                        <span className="font-medium">Step {index + 1}:</span>{" "}
+                        {step.prompt}
                       </p>
                       <div className="mt-1 flex gap-2 text-xs text-zinc-500">
                         <span>{step.aspectRatio}</span>
@@ -248,37 +111,49 @@ function PromptsContent() {
                   ))}
                   {template.steps.length > 2 && (
                     <p className="text-center text-xs text-zinc-500">
-                      +{template.steps.length - 2} more step{template.steps.length - 2 !== 1 ? 's' : ''}
+                      +{template.steps.length - 2} more step
+                      {template.steps.length - 2 !== 1 ? "s" : ""}
                     </p>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-zinc-500">
                   <span>{template._count?.runs || 0} runs</span>
-                  <span>Updated {new Date(template.updatedAt).toLocaleDateString()}</span>
+                  <span>
+                    Updated {new Date(template.updatedAt).toLocaleDateString()}
+                  </span>
                 </div>
               </div>
 
               {/* Actions */}
               <div className="flex border-t border-zinc-200 dark:border-[#4c566a]">
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => openEditModal(template)}
-                  className="flex-1 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
+                  icon={<Pencil className="size-4" />}
+                  className="flex-1 rounded-none border-0"
                 >
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => duplicateTemplate(template)}
-                  className="flex-1 border-l border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
+                  icon={<Copy className="size-4" />}
+                  className="flex-1 rounded-none border-l border-zinc-200 dark:border-[#4c566a]"
                 >
                   Duplicate
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="text"
+                  size="sm"
                   onClick={() => handleDelete(template.id)}
-                  className="flex-1 border-l border-zinc-200 px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 dark:border-[#4c566a] dark:text-rose-400 dark:hover:bg-rose-900/20"
+                  icon={<Trash2 className="size-4" />}
+                  className="flex-1 rounded-none border-l border-zinc-200 text-rose-600 hover:bg-rose-50 dark:border-[#4c566a] dark:text-rose-400 dark:hover:bg-rose-900/20"
                 >
                   Delete
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -286,88 +161,75 @@ function PromptsContent() {
       )}
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/50 p-4">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white shadow-xl dark:bg-[#3b4252]">
-            <form onSubmit={handleSubmit}>
-              <div className="border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
-                  {editingTemplate ? 'Edit Template' : 'Create Template'}
-                </h2>
-              </div>
+      <Modal
+        isOpen={showModal}
+        onClose={closeModal}
+        title={editingTemplate ? "Edit Template" : "Create Template"}
+        size="xl"
+        footer={
+          <>
+            <Button variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form="prompt-template-form"
+              disabled={saving || !name || steps.length === 0}
+              loading={saving}
+            >
+              {editingTemplate ? "Update" : "Create"}
+            </Button>
+          </>
+        }
+      >
+        <form
+          id="prompt-template-form"
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
+          {/* Name */}
+          <Input
+            label="Template Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="e.g., Kitchen Renovation Visualization"
+          />
 
-              <div className="space-y-6 p-6">
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Template Name
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-                    placeholder="e.g., Kitchen Renovation Visualization"
-                  />
-                </div>
+          {/* Description */}
+          <Textarea
+            label="Description (Optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            placeholder="Describe what this template does..."
+          />
 
-                {/* Description */}
-                <div>
-                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Description (Optional)
-                  </label>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    rows={2}
-                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-                    placeholder="Describe what this template does..."
-                  />
-                </div>
-
-                {/* Steps */}
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Prompt Steps
-                  </label>
-                  <div className="pl-10">
-                    <ChainBuilder steps={steps} onChange={setSteps} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving || !name || steps.length === 0}
-                  className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
-                >
-                  {saving ? 'Saving...' : editingTemplate ? 'Update' : 'Create'}
-                </button>
-              </div>
-            </form>
+          {/* Steps */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+              Prompt Steps
+            </label>
+            <div className="pl-10">
+              <ChainBuilder steps={steps} onChange={setSteps} />
+            </div>
           </div>
-        </div>
-      )}
+        </form>
+      </Modal>
     </div>
   );
 }
 
 export default function PromptsPage() {
   return (
-    <Suspense fallback={
-      <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex h-full items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
+        </div>
+      }
+    >
       <PromptsContent />
     </Suspense>
   );

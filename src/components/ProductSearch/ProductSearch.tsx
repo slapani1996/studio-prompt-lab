@@ -1,18 +1,22 @@
-'use client';
+"use client";
 
-import { useProductSearch } from './useProductSearch';
-import type { ProductSearchProps, Category } from './types';
+import { useProductSearch } from "./useProductSearch";
+import type { ProductSearchProps, Category } from "./types";
+import { Dropdown } from "@/components/ui/Dropdown";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Check, Image, Plus, X } from "lucide-react";
 
 const CATEGORIES: Category[] = [
-  { id: '', name: 'All Products' },
-  { id: 'faucets', name: 'Faucets' },
-  { id: 'mirrors', name: 'Mirrors' },
-  { id: 'shower-systems', name: 'Shower Systems' },
-  { id: 'decorative-lighting', name: 'Decorative Lighting' },
-  { id: 'vanities', name: 'Vanities' },
-  { id: 'tub-doors', name: 'Tub Doors' },
-  { id: 'towel-rings', name: 'Towel Rings' },
-  { id: 'tub-filler', name: 'Tub Filler' },
+  { id: "", name: "All Products" },
+  { id: "faucets", name: "Faucets" },
+  { id: "mirrors", name: "Mirrors" },
+  { id: "shower-systems", name: "Shower Systems" },
+  { id: "decorative-lighting", name: "Decorative Lighting" },
+  { id: "vanities", name: "Vanities" },
+  { id: "tub-doors", name: "Tub Doors" },
+  { id: "towel-rings", name: "Towel Rings" },
+  { id: "tub-filler", name: "Tub Filler" },
 ];
 
 export function ProductSearch({
@@ -38,6 +42,11 @@ export function ProductSearch({
     isProductSelected,
   } = useProductSearch(selectedProducts, onProductsChange, existingProducts);
 
+  const categoryOptions = CATEGORIES.map((c) => ({
+    value: c.id,
+    label: c.name,
+  }));
+
   return (
     <div className="space-y-4">
       {/* Existing Products */}
@@ -50,7 +59,7 @@ export function ProductSearch({
             {existingProducts.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center gap-2 rounded-full bg-violet-100 py-1 pl-1 pr-3 dark:bg-violet-900/30"
+                className="flex md:items-center items-start gap-2 md:rounded-full rounded-md bg-violet-100 py-1 pl-1 pr-3 dark:bg-violet-900/30"
               >
                 {product.imageUrl && (
                   <img
@@ -59,16 +68,16 @@ export function ProductSearch({
                     className="h-6 w-6 rounded-full object-cover"
                   />
                 )}
-                <span className="text-sm text-violet-800 dark:text-violet-300">{product.name}</span>
+                <span className="text-sm text-violet-800 dark:text-violet-300">
+                  {product.name}
+                </span>
                 {onRemoveExisting && (
                   <button
                     type="button"
                     onClick={() => onRemoveExisting(product.id)}
                     className="ml-1 text-violet-600 hover:text-violet-800 dark:text-violet-400"
                   >
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    <X className="size-4" />
                   </button>
                 )}
               </div>
@@ -96,15 +105,15 @@ export function ProductSearch({
                     className="h-6 w-6 rounded-full object-cover"
                   />
                 )}
-                <span className="text-sm text-emerald-800 dark:text-emerald-300">{product.name}</span>
+                <span className="text-sm text-emerald-800 dark:text-emerald-300">
+                  {product.name}
+                </span>
                 <button
                   type="button"
                   onClick={() => removeProduct(product.catalogId)}
                   className="ml-1 text-emerald-600 hover:text-emerald-800 dark:text-emerald-400"
                 >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <X className="size-4" />
                 </button>
               </div>
             ))}
@@ -119,9 +128,7 @@ export function ProductSearch({
           onClick={() => setShowSearch(true)}
           className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#4c566a] dark:text-[#d8dee9]"
         >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
+          <Plus className="size-5" />
           Search & Add Products
         </button>
       )}
@@ -130,40 +137,37 @@ export function ProductSearch({
       {showSearch && (
         <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
           <div className="mb-4 flex items-center justify-between">
-            <h4 className="font-medium text-zinc-900 dark:text-[#eceff4]">Product Catalog</h4>
+            <h4 className="font-medium text-zinc-900 dark:text-[#eceff4]">
+              Product Catalog
+            </h4>
             <button
               type="button"
               onClick={() => setShowSearch(false)}
               className="text-zinc-500 hover:text-zinc-700 dark:text-[#d8dee9]"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="size-5" />
             </button>
           </div>
 
           {/* Filters */}
           <div className="mb-4 flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
-              <input
+              <Input
                 type="text"
                 value={search}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder="Search products..."
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
               />
             </div>
-            <select
+            <Dropdown
+              options={categoryOptions}
               value={category}
-              onChange={(e) => handleCategoryChange(e.target.value)}
-              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 sm:w-auto dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-            >
-              {CATEGORIES.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+              onChange={handleCategoryChange}
+              ariaLabel="Filter by category"
+              className="w-full sm:w-auto sm:min-w-[180px]"
+              buttonClassName="rounded-md focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+              menuClassName="rounded-md"
+            />
           </div>
 
           {/* Products Grid */}
@@ -186,8 +190,8 @@ export function ProductSearch({
                     disabled={isProductSelected(product.id)}
                     className={`rounded-lg border p-2 text-left transition-colors ${
                       isProductSelected(product.id)
-                        ? 'border-green-300 bg-emerald-50 dark:border-green-700 dark:bg-emerald-900/20'
-                        : 'border-zinc-200 hover:border-violet-300 hover:bg-violet-50 dark:border-[#4c566a] dark:hover:border-[#88c0d0] dark:hover:bg-[#5e81ac]/20'
+                        ? "border-green-300 bg-emerald-50 dark:border-green-700 dark:bg-emerald-900/20"
+                        : "border-zinc-200 hover:border-violet-300 hover:bg-violet-50 dark:border-[#4c566a] dark:hover:border-[#88c0d0] dark:hover:bg-[#5e81ac]/20"
                     }`}
                   >
                     {product.featuredImage?.url ? (
@@ -198,20 +202,18 @@ export function ProductSearch({
                       />
                     ) : (
                       <div className="mb-2 flex h-20 items-center justify-center rounded bg-zinc-200 dark:bg-[#434c5e]">
-                        <svg className="h-8 w-8 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                        </svg>
+                        <Image className="size-8 text-zinc-400" />
                       </div>
                     )}
                     <p className="truncate text-xs font-medium text-zinc-900 dark:text-[#eceff4]">
                       {product.name}
                     </p>
-                    <p className="truncate text-xs text-zinc-500">{product.category.name}</p>
+                    <p className="truncate text-xs text-zinc-500">
+                      {product.category.name}
+                    </p>
                     {isProductSelected(product.id) && (
                       <span className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
+                        <Check className="size-4" />
                         Selected
                       </span>
                     )}
@@ -222,25 +224,25 @@ export function ProductSearch({
               {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-4 flex items-center justify-center gap-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="rounded px-3 py-1 text-sm text-zinc-600 hover:bg-zinc-200 disabled:opacity-50 dark:text-[#d8dee9] dark:hover:bg-[#434c5e]"
                   >
                     Previous
-                  </button>
+                  </Button>
                   <span className="text-sm text-zinc-600 dark:text-[#d8dee9]">
                     Page {page} of {totalPages}
                   </span>
-                  <button
-                    type="button"
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="rounded px-3 py-1 text-sm text-zinc-600 hover:bg-zinc-200 disabled:opacity-50 dark:text-[#d8dee9] dark:hover:bg-[#434c5e]"
                   >
                     Next
-                  </button>
+                  </Button>
                 </div>
               )}
             </>

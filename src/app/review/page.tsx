@@ -1,178 +1,140 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import ReviewPanel from '@/components/ReviewPanel';
+import Link from "next/link";
+import ReviewPanel from "@/components/ReviewPanel";
+import { Dropdown } from "@/components/ui/Dropdown";
+import { Button } from "@/components/ui/Button";
+import { useReviewPage } from "./useReviewPage";
+import { Download, Image, Star } from "lucide-react";
 
-interface RunResult {
-  id: string;
-  stepOrder: number;
-  outputImage: string;
-  metadata: string;
-  rating: number | null;
-  notes: string | null;
-  tags: string;
-  createdAt: string;
-  run: {
-    id: string;
-    inputSet: { id: string; name: string };
-    template: { id: string; name: string };
-  };
-}
+const RATING_OPTIONS = [
+  { value: "", label: "All ratings" },
+  { value: "1", label: "1+ stars" },
+  { value: "2", label: "2+ stars" },
+  { value: "3", label: "3+ stars" },
+  { value: "4", label: "4+ stars" },
+  { value: "5", label: "5 stars only" },
+];
 
 export default function ReviewPage() {
-  const [results, setResults] = useState<RunResult[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedResult, setSelectedResult] = useState<RunResult | null>(null);
+  const {
+    results,
+    loading,
+    selectedResult,
+    minRating,
+    filterTag,
+    allTags,
+    totalResults,
+    ratedResults,
+    avgRating,
+    topRated,
+    setSelectedResult,
+    setMinRating,
+    setFilterTag,
+    clearFilters,
+    fetchResults,
+    getTags,
+  } = useReviewPage();
 
-  // Filters
-  const [minRating, setMinRating] = useState<string>('');
-  const [filterTag, setFilterTag] = useState<string>('');
-
-  useEffect(() => {
-    fetchResults();
-  }, [minRating, filterTag]);
-
-  const fetchResults = async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (minRating) params.set('minRating', minRating);
-      if (filterTag) params.set('tags', filterTag);
-
-      const response = await fetch(`/api/results?${params}`);
-      const data = await response.json();
-      setResults(data);
-    } catch (error) {
-      console.error('Failed to fetch results:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getTags = (result: RunResult): string[] => {
-    try {
-      return JSON.parse(result.tags) || [];
-    } catch {
-      return [];
-    }
-  };
-
-  // Get all unique tags from results
-  const allTags = Array.from(
-    new Set(results.flatMap((r) => getTags(r)))
-  ).sort();
-
-  // Statistics
-  const totalResults = results.length;
-  const ratedResults = results.filter((r) => r.rating !== null);
-  const avgRating = ratedResults.length > 0
-    ? (ratedResults.reduce((sum, r) => sum + (r.rating || 0), 0) / ratedResults.length).toFixed(1)
-    : '0.0';
-  const topRated = results.filter((r) => r.rating && r.rating >= 4).length;
+  const tagOptions = [
+    { value: "", label: "All tags" },
+    ...allTags.map((tag) => ({ value: tag, label: tag })),
+  ];
 
   return (
-    <div className="h-full overflow-auto p-8">
-      <div className="mb-6 flex items-start justify-between">
+    <div className="h-full overflow-auto md:p-8 p-4">
+      <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">Review Results</h1>
-          <p className="mt-1 text-zinc-600 dark:text-[#d8dee9]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            Review Results
+          </h1>
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
             Browse, filter, and annotate your generated images
           </p>
         </div>
         <div className="flex gap-2">
-          <a
-            href="/api/export?format=json"
-            download
-            className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:bg-[#3b4252] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
+          <Button
+            variant="secondary"
+            icon={<Download className="size-4" />}
+            onClick={() => window.location.href = "/api/export?format=json"}
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
             Export JSON
-          </a>
-          <a
-            href="/api/export?format=csv"
-            download
-            className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:bg-[#3b4252] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
+          </Button>
+          <Button
+            variant="secondary"
+            icon={<Download className="size-4" />}
+            onClick={() => window.location.href = "/api/export?format=csv"}
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
             Export CSV
-          </a>
+          </Button>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">Total Results</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">{totalResults}</p>
+          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">
+            Total Results
+          </p>
+          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            {totalResults}
+          </p>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
           <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">Rated</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">{ratedResults.length}</p>
+          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            {ratedResults.length}
+          </p>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">Avg. Rating</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">{avgRating}/5</p>
+          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">
+            Avg. Rating
+          </p>
+          <p className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            {avgRating}/5
+          </p>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">Top Rated (4+)</p>
-          <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{topRated}</p>
+          <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">
+            Top Rated (4+)
+          </p>
+          <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+            {topRated}
+          </p>
         </div>
       </div>
 
       {/* Filters */}
       <div className="mb-6 flex flex-wrap gap-4">
-        <div>
+        <div className="w-full min-w-0 sm:w-auto sm:min-w-[180px]">
           <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
             Min Rating
           </label>
-          <select
+          <Dropdown
+            options={RATING_OPTIONS}
             value={minRating}
-            onChange={(e) => setMinRating(e.target.value)}
-            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-          >
-            <option value="">All ratings</option>
-            <option value="1">1+ stars</option>
-            <option value="2">2+ stars</option>
-            <option value="3">3+ stars</option>
-            <option value="4">4+ stars</option>
-            <option value="5">5 stars only</option>
-          </select>
+            onChange={setMinRating}
+            ariaLabel="Filter by minimum rating"
+          />
         </div>
 
-        <div>
+        <div className="w-full min-w-0 sm:w-auto sm:min-w-[180px]">
           <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
             Filter by Tag
           </label>
-          <select
+          <Dropdown
+            options={tagOptions}
             value={filterTag}
-            onChange={(e) => setFilterTag(e.target.value)}
-            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-          >
-            <option value="">All tags</option>
-            {allTags.map((tag) => (
-              <option key={tag} value={tag}>
-                {tag}
-              </option>
-            ))}
-          </select>
+            onChange={setFilterTag}
+            ariaLabel="Filter by tag"
+          />
         </div>
 
         {(minRating || filterTag) && (
           <div className="flex items-end">
-            <button
-              onClick={() => {
-                setMinRating('');
-                setFilterTag('');
-              }}
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
-            >
+            <Button variant="secondary" onClick={clearFilters}>
               Clear Filters
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -183,31 +145,18 @@ export default function ReviewPage() {
         </div>
       ) : results.length === 0 ? (
         <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
-          <svg
-            className="mx-auto h-12 w-12 text-zinc-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-            />
-          </svg>
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">No results found</h3>
+          <Image className="size-12 text-zinc-400 mx-auto" />
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+            No results found
+          </h3>
           <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             {minRating || filterTag
-              ? 'Try adjusting your filters.'
-              : 'Run some prompts to generate images.'}
+              ? "Try adjusting your filters."
+              : "Run some prompts to generate images."}
           </p>
           {!minRating && !filterTag && (
-            <Link
-              href="/runs?new=true"
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
-            >
-              Start a Run
+            <Link href="/runs?new=true">
+              <Button className="mt-4">Start a Run</Button>
             </Link>
           )}
         </div>
@@ -215,7 +164,7 @@ export default function ReviewPage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Results Grid */}
           <div className="lg:col-span-2">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {results.map((result) => {
                 const tags = getTags(result);
 
@@ -225,8 +174,8 @@ export default function ReviewPage() {
                     onClick={() => setSelectedResult(result)}
                     className={`cursor-pointer overflow-hidden rounded-lg border bg-white transition-all dark:bg-[#3b4252] ${
                       selectedResult?.id === result.id
-                        ? 'border-[#88c0d0] ring-2 ring-[#88c0d0]/30 dark:ring-[#88c0d0]/30'
-                        : 'border-zinc-200 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a]'
+                        ? "border-[#88c0d0] ring-2 ring-[#88c0d0]/30 dark:ring-[#88c0d0]/30"
+                        : "border-zinc-200 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a]"
                     }`}
                   >
                     {/* Image */}
@@ -239,37 +188,41 @@ export default function ReviewPage() {
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center bg-zinc-100 dark:bg-[#434c5e]">
-                          <span className="text-xs text-zinc-500">No image</span>
+                          <span className="text-xs text-zinc-500">
+                            No image
+                          </span>
                         </div>
                       )}
 
                       {/* Rating Badge */}
                       {result.rating && (
                         <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded bg-black/60 px-1.5 py-0.5">
-                          <svg className="h-3 w-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                          <span className="text-xs text-white">{result.rating}</span>
+                          <Star className="size-3 fill-amber-400 text-amber-400" />
+                          <span className="text-xs text-white">
+                            {result.rating}
+                          </span>
                         </div>
                       )}
 
                       {/* Tags Badge */}
                       {tags.length > 0 && (
                         <div className="absolute right-2 top-2 rounded bg-black/60 px-1.5 py-0.5">
-                          <span className="text-xs text-white">{tags.length} tags</span>
+                          <span className="text-xs text-white">
+                            {tags.length} tags
+                          </span>
                         </div>
                       )}
                     </div>
 
                     {/* Info */}
                     <div className="p-2">
-                      <p className="truncate text-xs text-zinc-600 dark:text-[#d8dee9]">
+                      <p className="truncate text-sm text-zinc-600 dark:text-[#d8dee9]">
                         {result.run.inputSet.name}
                       </p>
                       <Link
                         href={`/runs/${result.run.id}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-xs text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
+                        className="text-sm text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
                       >
                         View Run
                       </Link>
@@ -286,19 +239,7 @@ export default function ReviewPage() {
               <ReviewPanel result={selectedResult} onUpdate={fetchResults} />
             ) : (
               <div className="sticky top-8 rounded-lg border border-zinc-200 bg-white p-6 text-center dark:border-[#4c566a] dark:bg-[#3b4252]">
-                <svg
-                  className="mx-auto h-12 w-12 text-zinc-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                  />
-                </svg>
+                <Star className="mx-auto size-10 text-zinc-400" />
                 <p className="mt-2 text-zinc-500 dark:text-[#d8dee9]">
                   Select an image to review
                 </p>

@@ -1,200 +1,35 @@
-'use client';
+"use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import ImageUploader from '@/components/ImageUploader';
-import ProductSearch from '@/components/ProductSearch';
-
-interface Image {
-  id: string;
-  filename: string;
-  path: string;
-  mimeType: string;
-}
-
-interface Product {
-  id: string;
-  catalogId: string;
-  name: string;
-  category: string;
-  imageUrl: string | null;
-  metadata: string;
-}
-
-interface InputSet {
-  id: string;
-  name: string;
-  images: Image[];
-  products: Product[];
-  createdAt: string;
-  updatedAt: string;
-  _count?: { runs: number };
-}
-
-interface ImageFile {
-  id: string;
-  file: File;
-  preview: string;
-}
-
-interface SelectedProduct {
-  catalogId: string;
-  name: string;
-  category: string;
-  imageUrl?: string;
-  metadata: Record<string, unknown>;
-}
+import { Suspense } from "react";
+import ImageUploader from "@/components/ImageUploader";
+import ProductSearch from "@/components/ProductSearch";
+import { Modal } from "@/components/ui/Modal";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { useInputSetsPage } from "./useInputSetsPage";
+import { FolderClosed, Image, Pencil, Plus, Trash2 } from "lucide-react";
 
 function InputSetsContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [inputSets, setInputSets] = useState<InputSet[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(searchParams.get('new') === 'true');
-  const [editingSet, setEditingSet] = useState<InputSet | null>(null);
-
-  // Form state
-  const [name, setName] = useState('');
-  const [newImages, setNewImages] = useState<ImageFile[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
-  const [removeImageIds, setRemoveImageIds] = useState<string[]>([]);
-  const [removeProductIds, setRemoveProductIds] = useState<string[]>([]);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetchInputSets();
-  }, []);
-
-  const fetchInputSets = async () => {
-    try {
-      const response = await fetch('/api/inputs');
-      const data = await response.json();
-      setInputSets(data);
-    } catch (error) {
-      console.error('Failed to fetch input sets:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resetForm = () => {
-    setName('');
-    setNewImages([]);
-    setSelectedProducts([]);
-    setRemoveImageIds([]);
-    setRemoveProductIds([]);
-    setEditingSet(null);
-  };
-
-  const openCreateModal = () => {
-    resetForm();
-    setShowModal(true);
-    router.replace('/inputs', { scroll: false });
-  };
-
-  const openEditModal = (inputSet: InputSet) => {
-    setEditingSet(inputSet);
-    setName(inputSet.name);
-    setNewImages([]);
-    setSelectedProducts([]);
-    setRemoveImageIds([]);
-    setRemoveProductIds([]);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    resetForm();
-    router.replace('/inputs', { scroll: false });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-
-    try {
-      // Upload new images first
-      let uploadedImages: Array<{ filename: string; path: string; mimeType: string }> = [];
-      if (newImages.length > 0) {
-        const formData = new FormData();
-        newImages.forEach((img) => formData.append('files', img.file));
-
-        const uploadResponse = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error('Failed to upload images');
-        }
-
-        const uploadData = await uploadResponse.json();
-        uploadedImages = uploadData.files;
-      }
-
-      const payload = {
-        name,
-        images: uploadedImages,
-        products: selectedProducts,
-        ...(editingSet && {
-          removeImageIds,
-          removeProductIds,
-        }),
-      };
-
-      const url = editingSet ? `/api/inputs/${editingSet.id}` : '/api/inputs';
-      const method = editingSet ? 'PUT' : 'POST';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save input set');
-      }
-
-      await fetchInputSets();
-      closeModal();
-      toast.success(editingSet ? 'Input set updated' : 'Input set created');
-    } catch {
-      toast.error('Failed to save input set');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this input set?')) return;
-
-    try {
-      const response = await fetch(`/api/inputs/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete input set');
-      }
-
-      await fetchInputSets();
-      toast.success('Input set deleted');
-    } catch {
-      toast.error('Failed to delete input set');
-    }
-  };
-
-  const handleRemoveExistingImage = (imageId: string) => {
-    setRemoveImageIds((prev) => [...prev, imageId]);
-  };
-
-  const handleRemoveExistingProduct = (productId: string) => {
-    setRemoveProductIds((prev) => [...prev, productId]);
-  };
-
-  const existingImages = editingSet?.images.filter((img) => !removeImageIds.includes(img.id)) || [];
-  const existingProducts = editingSet?.products.filter((prod) => !removeProductIds.includes(prod.id)) || [];
+  const {
+    inputSets,
+    loading,
+    showModal,
+    editingSet,
+    name,
+    saving,
+    existingImages,
+    existingProducts,
+    setName,
+    setNewImages,
+    setSelectedProducts,
+    openCreateModal,
+    openEditModal,
+    closeModal,
+    handleSubmit,
+    handleDelete,
+    handleRemoveExistingImage,
+    handleRemoveExistingProduct,
+  } = useInputSetsPage();
 
   if (loading) {
     return (
@@ -205,50 +40,36 @@ function InputSetsContent() {
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="md:p-8 p-4">
+      <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">Input Sets</h1>
-          <p className="mt-1 text-zinc-600 dark:text-[#d8dee9]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            Input Sets
+          </h1>
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
             Manage your image and product collections for generation
           </p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
-        >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
+        <Button onClick={openCreateModal} icon={<Plus className="size-5" />}>
           New Input Set
-        </button>
+        </Button>
       </div>
 
       {inputSets.length === 0 ? (
         <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
-          <svg
-            className="mx-auto h-12 w-12 text-zinc-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
-            />
-          </svg>
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">No input sets</h3>
+          <FolderClosed className="size-12 text-zinc-400 mx-auto" />
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+            No input sets
+          </h3>
           <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             Get started by creating a new input set with images and products.
           </p>
-          <button
+          <Button
             onClick={openCreateModal}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
+            className="mt-4"
           >
             Create Input Set
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -282,16 +103,16 @@ function InputSetsContent() {
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <svg className="h-12 w-12 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                    </svg>
+                    <Image className="size-10 text-zinc-400 mx-auto" />
                   </div>
                 )}
               </div>
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">{inputSet.name}</h3>
+                <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">
+                  {inputSet.name}
+                </h3>
                 <div className="mt-2 flex gap-4 text-sm text-zinc-500 dark:text-[#d8dee9]">
                   <span>{inputSet.images.length} images</span>
                   <span>{inputSet.products.length} products</span>
@@ -303,18 +124,24 @@ function InputSetsContent() {
 
                 {/* Actions */}
                 <div className="mt-4 flex gap-2">
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => openEditModal(inputSet)}
-                    className="flex-1 rounded bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-[#434c5e] dark:text-[#e5e9f0] dark:hover:bg-[#4c566a]"
+                    icon={<Pencil className="h-4 w-4" />}
+                    className="flex-1 bg-zinc-100 dark:bg-[#434c5e]"
                   >
                     Edit
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
                     onClick={() => handleDelete(inputSet.id)}
-                    className="rounded bg-rose-100 px-3 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:hover:bg-rose-900/50"
+                    icon={<Trash2 className="h-4 w-4" />}
+                    className="flex-1"
                   >
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -323,89 +150,77 @@ function InputSetsContent() {
       )}
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white shadow-xl dark:bg-[#3b4252]">
-            <form onSubmit={handleSubmit}>
-              <div className="border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
-                  {editingSet ? 'Edit Input Set' : 'Create Input Set'}
-                </h2>
-              </div>
+      <Modal
+        isOpen={showModal}
+        onClose={closeModal}
+        title={editingSet ? "Edit Input Set" : "Create Input Set"}
+        size="xl"
+        footer={
+          <>
+            <Button variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form="input-set-form"
+              disabled={saving || !name}
+              loading={saving}
+            >
+              {editingSet ? "Update" : "Create"}
+            </Button>
+          </>
+        }
+      >
+        <form id="input-set-form" onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <Input
+            label="Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            placeholder="e.g., Kitchen Remodel Project"
+          />
 
-              <div className="space-y-6 p-6">
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
-                    placeholder="e.g., Kitchen Remodel Project"
-                  />
-                </div>
-
-                {/* Images */}
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Images
-                  </label>
-                  <ImageUploader
-                    onImagesChange={setNewImages}
-                    existingImages={existingImages}
-                    onRemoveExisting={handleRemoveExistingImage}
-                  />
-                </div>
-
-                {/* Products */}
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
-                    Products
-                  </label>
-                  <ProductSearch
-                    selectedProducts={selectedProducts}
-                    onProductsChange={setSelectedProducts}
-                    existingProducts={existingProducts}
-                    onRemoveExisting={handleRemoveExistingProduct}
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving || !name}
-                  className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
-                >
-                  {saving ? 'Saving...' : editingSet ? 'Update' : 'Create'}
-                </button>
-              </div>
-            </form>
+          {/* Images */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+              Images
+            </label>
+            <ImageUploader
+              onImagesChange={setNewImages}
+              existingImages={existingImages}
+              onRemoveExisting={handleRemoveExistingImage}
+            />
           </div>
-        </div>
-      )}
+
+          {/* Products */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+              Products
+            </label>
+            <ProductSearch
+              selectedProducts={[]}
+              onProductsChange={setSelectedProducts}
+              existingProducts={existingProducts}
+              onRemoveExisting={handleRemoveExistingProduct}
+            />
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }
 
 export default function InputSetsPage() {
   return (
-    <Suspense fallback={
-      <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex h-full items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
+        </div>
+      }
+    >
       <InputSetsContent />
     </Suspense>
   );
