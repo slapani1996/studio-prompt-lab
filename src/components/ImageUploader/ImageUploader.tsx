@@ -3,6 +3,7 @@
 import { useImageUploader } from "./useImageUploader";
 import type { ImageUploaderProps } from "./types";
 import { Image, X } from "lucide-react";
+import { TruncatedText } from "@/components/ui/TruncatedText";
 
 export function ImageUploader({
   onImagesChange,
@@ -30,8 +31,8 @@ export function ImageUploader({
         onClick={() => fileInputRef.current?.click()}
         className={`relative cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
           isDragging
-            ? "border-violet-500 bg-violet-50 dark:bg-[#5e81ac]/20"
-            : "border-zinc-300 hover:border-zinc-400 dark:border-[#4c566a] dark:hover:border-[#88c0d0]"
+            ? "border-violet-500 bg-violet-50 dark:bg-[#7F56D9]/20"
+            : "border-zinc-300 hover:border-zinc-400 dark:border-[#333741] dark:hover:border-[#9E77ED]"
         }`}
       >
         <input
@@ -43,13 +44,13 @@ export function ImageUploader({
           className="hidden"
         />
         <Image className="mx-auto h-12 w-12 text-zinc-400" />
-        <p className="mt-2 text-sm text-zinc-600 dark:text-[#d8dee9]">
-          <span className="font-medium text-violet-600 dark:text-[#88c0d0]">
+        <p className="mt-2 text-sm text-zinc-600 dark:text-[#94969C]">
+          <span className="font-medium text-violet-600 dark:text-[#9E77ED]">
             Click to upload
           </span>{" "}
           or drag and drop
         </p>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-[#d8dee9]">
+        <p className="mt-1 text-xs text-zinc-500 dark:text-[#94969C]">
           PNG, JPG, WEBP up to 10MB each
         </p>
       </div>
@@ -57,7 +58,7 @@ export function ImageUploader({
       {/* Existing Images */}
       {existingImages.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <h4 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-[#CECFD2]">
             Existing Images
           </h4>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -78,9 +79,11 @@ export function ImageUploader({
                   </button>
                 )}
                 <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-black/50 px-2 py-1">
-                  <p className="truncate text-xs text-white">
-                    {image.filename}
-                  </p>
+                  <TruncatedText
+                    text={image.filename}
+                    as="p"
+                    className="text-xs text-white"
+                  />
                 </div>
               </div>
             ))}
@@ -91,7 +94,7 @@ export function ImageUploader({
       {/* New Image Previews */}
       {images.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <h4 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-[#CECFD2]">
             New Images ({images.length})
           </h4>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -110,9 +113,11 @@ export function ImageUploader({
                   <X className="size-4" />
                 </button>
                 <div className="absolute inset-x-0 bottom-0 rounded-b-lg bg-black/50 px-2 py-1">
-                  <p className="truncate text-xs text-white">
-                    {image.file.name}
-                  </p>
+                  <TruncatedText
+                    text={image.file.name}
+                    as="p"
+                    className="text-xs text-white"
+                  />
                 </div>
               </div>
             ))}

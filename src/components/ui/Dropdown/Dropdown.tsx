@@ -49,11 +49,11 @@ export function Dropdown({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-label={ariaLabel}
-        className={`flex w-full items-center justify-between gap-2 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-left text-sm dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4] ${buttonClassName}`}
+        className={`flex w-full items-center justify-between gap-2 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-left text-sm dark:border-[#333741] dark:bg-[#1F242F] dark:text-white ${buttonClassName}`}
       >
         <span>{displayValue}</span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-zinc-500 transition-transform dark:text-[#d8dee9] ${
+          className={`h-4 w-4 shrink-0 text-zinc-500 transition-transform dark:text-[#94969C] ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -61,7 +61,7 @@ export function Dropdown({
       {isOpen && (
         <ul
           role="listbox"
-          className={`absolute left-0 top-full z-50 mt-1 max-h-60 min-w-full overflow-auto rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-[#4c566a] dark:bg-[#434c5e] ${menuClassName}`}
+          className={`absolute left-0 top-full z-50 mt-1 max-h-60 min-w-full overflow-auto rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-[#333741] dark:bg-[#1F242F] ${menuClassName}`}
         >
           {options.map((option) => (
             <li
@@ -75,10 +75,10 @@ export function Dropdown({
                   onChange(option.value);
                   setIsOpen(false);
                 }}
-                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-violet-50 dark:hover:bg-[#4c566a] ${
+                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-violet-50 dark:hover:bg-[#333741] ${
                   value === option.value
                     ? "bg-violet-50 font-medium text-violet-700 dark:bg-violet-900/30 dark:text-violet-300"
-                    : "text-zinc-900 dark:text-[#eceff4]"
+                    : "text-zinc-900 dark:text-white"
                 }`}
               >
                 {value === option.value && <Check className="size-4 shrink-0" />}

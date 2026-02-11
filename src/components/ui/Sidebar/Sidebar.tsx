@@ -60,8 +60,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Mobile close button */}
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-zinc-400 hover:text-white md:hidden"
-            style={{ backgroundColor: "transparent" }}
+            className="rounded-lg p-1 md:hidden transition-colors"
+            style={{ backgroundColor: "transparent", color: "var(--sidebar-text)" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--sidebar-text-active)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--sidebar-text)";
+            }}
             aria-label="Close menu"
           >
             <X className="size-6" />
@@ -78,22 +84,28 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className={`group flex gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                      isActive ? "text-white" : "text-zinc-400 hover:text-white"
-                    }`}
+                    className="group flex gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors"
                     style={{
+                      color: isActive
+                        ? "var(--sidebar-text-active)"
+                        : "var(--sidebar-text)",
                       backgroundColor: isActive
                         ? "var(--sidebar-active)"
                         : "transparent",
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive)
+                      if (!isActive) {
                         e.currentTarget.style.backgroundColor =
                           "var(--sidebar-hover)";
+                        e.currentTarget.style.color =
+                          "var(--sidebar-text-active)";
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive)
+                      if (!isActive) {
                         e.currentTarget.style.backgroundColor = "transparent";
+                        e.currentTarget.style.color = "var(--sidebar-text)";
+                      }
                     }}
                   >
                     <item.icon className="h-5 w-5 shrink-0" />
@@ -109,7 +121,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           style={{ borderTop: "1px solid var(--sidebar-border)" }}
         >
           <ThemeToggle />
-          <p className="mt-3 text-xs text-zinc-500">Studio Prompt Lab v1.0</p>
+          <p className="mt-3 text-xs" style={{ color: "var(--sidebar-text)" }}>
+            Studio Prompt Lab v1.0
+          </p>
         </div>
       </div>
     </>

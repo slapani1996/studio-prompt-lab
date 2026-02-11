@@ -43,10 +43,10 @@ export function ResultViewer({
 
   if (results.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-[#4c566a]">
+      <div className="flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-[#333741]">
         <div className="text-center">
           <Image className="size-12 text-zinc-400 mx-auto" />
-          <p className="mt-2 text-zinc-500 dark:text-[#d8dee9]">
+          <p className="mt-2 text-zinc-500 dark:text-[#94969C]">
             No results yet
           </p>
         </div>
@@ -63,7 +63,7 @@ export function ResultViewer({
             variant={viewMode === "grid" ? "ghost" : "text"}
             size="sm"
             onClick={() => setViewMode("grid")}
-            className={viewMode === "grid" ? "bg-violet-100 text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]" : ""}
+            className={viewMode === "grid" ? "bg-violet-100 text-violet-700 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]" : ""}
           >
             Grid View
           </Button>
@@ -71,7 +71,7 @@ export function ResultViewer({
             variant={viewMode === "compare" ? "ghost" : "text"}
             size="sm"
             onClick={() => setViewMode("compare")}
-            className={viewMode === "compare" ? "bg-violet-100 text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]" : ""}
+            className={viewMode === "compare" ? "bg-violet-100 text-violet-700 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]" : ""}
           >
             Compare ({compareResults.length}/4)
           </Button>
@@ -98,11 +98,10 @@ export function ResultViewer({
             return (
               <div
                 key={result.id}
-                className={`overflow-hidden rounded-lg border bg-white shadow-sm transition-all dark:bg-[#3b4252] ${
-                  selectedResultId === result.id
-                    ? "border-[#88c0d0] ring-2 ring-[#88c0d0]/30 dark:ring-[#88c0d0]/30"
-                    : "border-zinc-200 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a]"
-                }`}
+                className={`overflow-hidden rounded-lg border bg-white shadow-sm transition-all dark:bg-[#161B26] ${selectedResultId === result.id
+                    ? "border-[#7F56D9] ring-2 ring-[#7F56D9]/30 dark:ring-[#7F56D9]/30"
+                    : "border-zinc-200 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#333741]"
+                  }`}
               >
                 {/* Image */}
                 <div
@@ -116,7 +115,7 @@ export function ResultViewer({
                       className="aspect-square w-full object-cover"
                     />
                   ) : (
-                    <div className="flex aspect-square items-center justify-center bg-zinc-100 dark:bg-[#434c5e]">
+                    <div className="flex aspect-square items-center justify-center bg-zinc-100 dark:bg-[#1F242F]">
                       <span className="text-sm text-zinc-500">No image</span>
                     </div>
                   )}
@@ -128,11 +127,10 @@ export function ResultViewer({
                         e.stopPropagation();
                         toggleCompare(result.id);
                       }}
-                      className={`rounded p-1 ${
-                        compareResults.includes(result.id)
+                      className={`rounded p-1 ${compareResults.includes(result.id)
                           ? "bg-violet-500 text-white"
                           : "bg-black/50 text-white hover:bg-black/70"
-                      }`}
+                        }`}
                     >
                       <CircleCheck className="size-5" />
                     </button>
@@ -152,7 +150,7 @@ export function ResultViewer({
                 {/* Info */}
                 <div className="p-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-zinc-900 dark:text-[#eceff4]">
+                    <span className="text-sm font-medium text-zinc-900 dark:text-white">
                       Step {result.stepOrder + 1}
                     </span>
                     <span className="text-xs text-zinc-500">
@@ -166,7 +164,7 @@ export function ResultViewer({
                       {tags.slice(0, 3).map((tag, i) => (
                         <span
                           key={i}
-                          className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-[#434c5e] dark:text-[#d8dee9]"
+                          className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-[#1F242F] dark:text-[#94969C]"
                         >
                           {tag}
                         </span>
@@ -201,8 +199,8 @@ export function ResultViewer({
           }}
         >
           {compareResults.length === 0 ? (
-            <div className="col-span-full flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-[#4c566a]">
-              <p className="text-zinc-500 dark:text-[#d8dee9] text-center">
+            <div className="col-span-full flex h-64 items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 dark:border-[#333741]">
+              <p className="text-zinc-500 dark:text-[#94969C] text-center">
                 Click the checkbox on images to add them to comparison
               </p>
             </div>
@@ -216,7 +214,7 @@ export function ResultViewer({
               return (
                 <div
                   key={result.id}
-                  className="overflow-hidden rounded-lg border border-zinc-200 dark:border-[#4c566a]"
+                  className="overflow-hidden rounded-lg border border-zinc-200 dark:border-[#333741]"
                 >
                   <div className="relative">
                     <img
@@ -231,9 +229,9 @@ export function ResultViewer({
                       <X className="size-4" />
                     </button>
                   </div>
-                  <div className="bg-white p-3 dark:bg-[#3b4252]">
+                  <div className="bg-white p-3 dark:bg-[#161B26]">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-zinc-900 dark:text-[#eceff4]">
+                      <span className="font-medium text-zinc-900 dark:text-white">
                         Step {result.stepOrder + 1}
                       </span>
                       {result.rating && (

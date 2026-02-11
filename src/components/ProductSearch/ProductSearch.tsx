@@ -5,6 +5,7 @@ import type { ProductSearchProps, Category } from "./types";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { TruncatedText } from "@/components/ui/TruncatedText";
 import { Check, Image, Plus, X } from "lucide-react";
 
 const CATEGORIES: Category[] = [
@@ -52,7 +53,7 @@ export function ProductSearch({
       {/* Existing Products */}
       {existingProducts.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <h4 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-[#CECFD2]">
             Existing Products
           </h4>
           <div className="flex flex-wrap gap-2">
@@ -89,7 +90,7 @@ export function ProductSearch({
       {/* Selected Products */}
       {selectedProducts.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <h4 className="mb-2 text-sm font-semibold text-zinc-700 dark:text-[#CECFD2]">
             New Products ({selectedProducts.length})
           </h4>
           <div className="flex flex-wrap gap-2">
@@ -126,7 +127,7 @@ export function ProductSearch({
         <button
           type="button"
           onClick={() => setShowSearch(true)}
-          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#4c566a] dark:text-[#d8dee9] dark:hover:text-[#eceff4]"
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#333741] dark:text-[#94969C] dark:hover:text-[#eceff4]"
         >
           <Plus className="size-5" />
           Search & Add Products
@@ -135,15 +136,15 @@ export function ProductSearch({
 
       {/* Search Panel */}
       {showSearch && (
-        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-[#333741] dark:bg-[#161B26]">
           <div className="mb-4 flex items-center justify-between">
-            <h4 className="font-medium text-zinc-900 dark:text-[#eceff4]">
+            <h4 className="font-semibold text-zinc-900 dark:text-white">
               Product Catalog
             </h4>
             <button
               type="button"
               onClick={() => setShowSearch(false)}
-              className="text-zinc-500 hover:text-zinc-700 dark:text-[#d8dee9]"
+              className="text-zinc-500 hover:text-zinc-700 dark:text-[#94969C]"
             >
               <X className="size-5" />
             </button>
@@ -191,7 +192,7 @@ export function ProductSearch({
                     className={`rounded-lg border p-2 text-left transition-colors ${
                       isProductSelected(product.id)
                         ? "border-green-300 bg-emerald-50 dark:border-green-700 dark:bg-emerald-900/20"
-                        : "border-zinc-200 hover:border-violet-300 hover:bg-violet-50 dark:border-[#4c566a] dark:hover:border-[#88c0d0] dark:hover:bg-[#5e81ac]/20"
+                        : "border-zinc-200 hover:border-violet-300 hover:bg-violet-50 dark:border-[#333741] dark:hover:border-[#9E77ED] dark:hover:bg-[#7F56D9]/20"
                     }`}
                   >
                     {product.featuredImage?.url ? (
@@ -201,16 +202,20 @@ export function ProductSearch({
                         className="mb-2 h-20 w-full rounded object-cover"
                       />
                     ) : (
-                      <div className="mb-2 flex h-20 items-center justify-center rounded bg-zinc-200 dark:bg-[#434c5e]">
+                      <div className="mb-2 flex h-20 items-center justify-center rounded bg-zinc-200 dark:bg-[#1F242F]">
                         <Image className="size-8 text-zinc-400" />
                       </div>
                     )}
-                    <p className="truncate text-xs font-medium text-zinc-900 dark:text-[#eceff4]">
-                      {product.name}
-                    </p>
-                    <p className="truncate text-xs text-zinc-500">
-                      {product.category.name}
-                    </p>
+                    <TruncatedText
+                      text={product.name}
+                      as="p"
+                      className="text-xs font-medium text-zinc-900 dark:text-white"
+                    />
+                    <TruncatedText
+                      text={product.category.name}
+                      as="p"
+                      className="text-xs text-zinc-500"
+                    />
                     {isProductSelected(product.id) && (
                       <span className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
                         <Check className="size-4" />
@@ -232,7 +237,7 @@ export function ProductSearch({
                   >
                     Previous
                   </Button>
-                  <span className="text-sm text-zinc-600 dark:text-[#d8dee9]">
+                  <span className="text-sm text-zinc-600 dark:text-[#94969C]">
                     Page {page} of {totalPages}
                   </span>
                   <Button

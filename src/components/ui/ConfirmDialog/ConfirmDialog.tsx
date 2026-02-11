@@ -31,7 +31,7 @@ export function ConfirmDialog({
           <button
             onClick={onClose}
             disabled={loading}
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-[#333741] dark:text-[#CECFD2] dark:hover:bg-[#1F242F]"
           >
             {cancelLabel}
           </button>
@@ -45,7 +45,7 @@ export function ConfirmDialog({
         </>
       }
     >
-      <p className="text-sm text-zinc-600 dark:text-[#d8dee9]">{message}</p>
+      <p className="text-sm text-zinc-600 dark:text-[#94969C]">{message}</p>
     </Modal>
   );
 }

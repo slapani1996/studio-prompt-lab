@@ -65,12 +65,12 @@ function RunsContent() {
 
   return (
     <div className="md:p-8 p-4 h-full overflow-auto">
-      <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
+      <div className="mb-4 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-white">
             Run History
           </h1>
-          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#94969C]">
             View and manage your image generation runs
           </p>
         </div>
@@ -95,12 +95,12 @@ function RunsContent() {
       </div>
 
       {runs.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
+        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#333741]">
           <Clock3 className="size-12 text-zinc-400 mx-auto" />
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-white">
             No runs yet
           </h3>
-          <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
+          <p className="mt-1 text-zinc-500 dark:text-[#94969C]">
             {inputSets.length === 0 || templates.length === 0
               ? "Create an input set and template first."
               : "Start a new run to generate images."}
@@ -130,7 +130,7 @@ function RunsContent() {
                 <TableCell>
                   <Link
                     href={`/runs/${run.id}`}
-                    className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
+                    className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#9E77ED] dark:hover:text-[#9E77ED]"
                   >
                     {run.id}
                   </Link>
@@ -139,7 +139,7 @@ function RunsContent() {
                 <TableCell>{run.template.name}</TableCell>
                 <TableCell>
                   <span
-                    className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(run.status)}`}
+                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold transition-all duration-150 hover:scale-105 hover:shadow-sm ${getStatusColor(run.status)}`}
                   >
                     {run.status}
                   </span>
@@ -148,7 +148,7 @@ function RunsContent() {
                   {run.results.length} image
                   {run.results.length !== 1 ? "s" : ""}
                 </TableCell>
-                <TableCell className="text-zinc-500 dark:text-[#d8dee9]">
+                <TableCell className="text-zinc-500 dark:text-[#94969C]">
                   {new Date(run.createdAt).toLocaleString()}
                 </TableCell>
                 <TableCell align="center">
@@ -190,7 +190,7 @@ function RunsContent() {
       >
         <form id="new-run-form" onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Input Set
             </label>
             <div className="mt-1">
@@ -206,7 +206,7 @@ function RunsContent() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Prompt Template
             </label>
             <div className="mt-1">

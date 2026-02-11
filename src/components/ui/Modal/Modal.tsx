@@ -47,11 +47,11 @@ export function Modal({
 
       {/* Modal */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#3b4252] ${className}`}
+        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#161B26] ${className}`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-[#eceff4]">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-[#333741]">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
             {title}
           </h2>
           <button
@@ -67,7 +67,7 @@ export function Modal({
 
         {/* Footer */}
         {footer && (
-          <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
+          <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#333741]">
             {footer}
           </div>
         )}

@@ -39,12 +39,12 @@ function PromptsContent() {
 
   return (
     <div className="md:p-8 p-4 h-full overflow-auto">
-      <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
+      <div className="mb-4 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-white">
             Prompt Templates
           </h1>
-          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#94969C]">
             Build and manage your image generation prompts
           </p>
         </div>
@@ -54,13 +54,13 @@ function PromptsContent() {
       </div>
 
       {templates.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
+        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#333741]">
           <FileText className="size-12 text-zinc-400 mx-auto" />
 
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-white">
             No templates
           </h3>
-          <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
+          <p className="mt-1 text-zinc-500 dark:text-[#94969C]">
             Create your first prompt template to get started.
           </p>
           <Button onClick={openCreateModal} className="mt-4">
@@ -72,21 +72,21 @@ function PromptsContent() {
           {templates.map((template) => (
             <div
               key={template.id}
-              className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a] dark:bg-[#3b4252]"
+              className="flex flex-col justify-between overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#333741] dark:bg-[#161B26]"
             >
               <div className="p-4">
                 <div className="mb-2 flex items-start justify-between">
-                  <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">
+                  <h3 className="font-semibold text-zinc-900 dark:text-white">
                     {template.name}
                   </h3>
-                  <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]">
+                  <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs text-violet-700 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
                     {template.steps.length} step
                     {template.steps.length !== 1 ? "s" : ""}
                   </span>
                 </div>
 
                 {template.description && (
-                  <p className="mb-3 text-sm text-zinc-600 dark:text-[#d8dee9]">
+                  <p className="mb-3 text-sm text-zinc-600 dark:text-[#94969C]">
                     {template.description}
                   </p>
                 )}
@@ -96,9 +96,9 @@ function PromptsContent() {
                   {template.steps.slice(0, 2).map((step, index) => (
                     <div
                       key={index}
-                      className="rounded bg-zinc-50 p-2 dark:bg-[#434c5e]"
+                      className="rounded bg-zinc-50 p-2 dark:bg-[#1F242F]"
                     >
-                      <p className="truncate text-xs text-zinc-700 dark:text-[#e5e9f0]">
+                      <p className="text-xs text-zinc-700 dark:text-[#CECFD2]">
                         <span className="font-medium">Step {index + 1}:</span>{" "}
                         {step.prompt}
                       </p>
@@ -126,7 +126,7 @@ function PromptsContent() {
               </div>
 
               {/* Actions */}
-              <div className="flex border-t border-zinc-200 dark:border-[#4c566a]">
+              <div className="flex border-t border-zinc-200 dark:border-[#333741]">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -141,7 +141,7 @@ function PromptsContent() {
                   size="sm"
                   onClick={() => duplicateTemplate(template)}
                   icon={<Copy className="size-4" />}
-                  className="flex-1 rounded-none border-l border-zinc-200 dark:border-[#4c566a]"
+                  className="flex-1 rounded-none border-l border-zinc-200 dark:border-[#333741]"
                 >
                   Duplicate
                 </Button>
@@ -150,7 +150,7 @@ function PromptsContent() {
                   size="sm"
                   onClick={() => handleDelete(template.id)}
                   icon={<Trash2 className="size-4" />}
-                  className="flex-1 rounded-none border-l border-zinc-200 text-rose-600 hover:bg-rose-50 dark:border-[#4c566a] dark:text-rose-400 dark:hover:bg-rose-900/20"
+                  className="flex-1 rounded-none border-l border-zinc-200 text-rose-600 hover:bg-rose-50 dark:border-[#333741] dark:text-rose-400 dark:hover:bg-rose-900/20"
                 >
                   Delete
                 </Button>
@@ -208,7 +208,7 @@ function PromptsContent() {
 
           {/* Steps */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Prompt Steps
             </label>
             <div className="pl-10">

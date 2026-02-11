@@ -25,10 +25,10 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
   } = useReviewPanel(result, onUpdate);
 
   return (
-    <div className="sticky top-8 space-y-5 rounded-lg border border-zinc-200 bg-white md:p-6 p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+    <div className="sticky top-8 space-y-5 rounded-lg border border-zinc-200 bg-white md:p-6 p-4 dark:border-[#333741] dark:bg-[#161B26]">
       <div>
-        <h3 className="text-lg font-semibold text-zinc-900 dark:text-[#eceff4]">
-          Review Result
+        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+          Preview Result
         </h3>
         <p className="text-sm text-zinc-500">Step {result.stepOrder + 1}</p>
       </div>
@@ -45,26 +45,26 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
       )}
 
       {/* Metadata */}
-      <div className="rounded bg-zinc-50 p-3 dark:bg-[#434c5e]">
+      <div className="rounded bg-zinc-50 p-3 dark:bg-[#1F242F]">
         <h4 className="mb-2 text-xs font-medium uppercase text-zinc-500">
           Details
         </h4>
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
             <span className="text-zinc-500">Model:</span>
-            <span className="text-zinc-900 dark:text-[#eceff4] text-right">
+            <span className="text-zinc-900 dark:text-white text-right">
               {(metadata.model as string) || "N/A"}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-zinc-500">Aspect Ratio:</span>
-            <span className="text-zinc-900 dark:text-[#eceff4]">
+            <span className="text-zinc-900 dark:text-white">
               {(metadata.aspectRatio as string) || "N/A"}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-zinc-500">Created:</span>
-            <span className="text-zinc-900 dark:text-[#eceff4]">
+            <span className="text-zinc-900 dark:text-white">
               {new Date(result.createdAt).toLocaleString()}
             </span>
           </div>
@@ -73,7 +73,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
       {/* Rating */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
           Rating
         </label>
         <div className="flex gap-1">
@@ -85,11 +85,10 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
               className="p-1 transition-transform hover:scale-110"
             >
               <Star
-                className={`h-8 w-8 ${
-                  rating && value <= rating
+                className={`h-8 w-8 ${rating && value <= rating
                     ? "text-amber-400 fill-amber-400"
-                    : "text-zinc-300 fill-zinc-300 dark:text-[#4c566a] dark:fill-[#4c566a]"
-                }`}
+                    : "text-zinc-300 fill-zinc-300 dark:text-[#333741] dark:fill-[#333741]"
+                  }`}
               />
             </button>
           ))}
@@ -98,7 +97,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
       {/* Tags */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
           Tags
         </label>
 
@@ -108,7 +107,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-1 text-xs text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]"
+                className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-1 text-xs text-violet-700 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]"
               >
                 {tag}
                 <button
@@ -143,7 +142,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
             size="sm"
             onClick={() => addTag(newTag)}
             disabled={!newTag.trim()}
-            className="bg-violet-100 text-violet-700 hover:bg-violet-200 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]"
+            className="bg-violet-100 text-violet-700 hover:bg-violet-200 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]"
           >
             Add
           </Button>
@@ -160,7 +159,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
                   key={tag}
                   type="button"
                   onClick={() => addTag(tag)}
-                  className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200 dark:bg-[#434c5e] dark:text-[#d8dee9] dark:hover:bg-[#4c566a]"
+                  className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200 dark:bg-[#1F242F] dark:text-[#94969C] dark:hover:bg-[#333741]"
                 >
                   +{tag}
                 </button>

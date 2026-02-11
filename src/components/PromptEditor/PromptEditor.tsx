@@ -36,10 +36,10 @@ export function PromptEditor({
   }));
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+    <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
       <div className="mb-4 flex items-center justify-between">
-        <h4 className="flex items-center gap-2 font-medium text-zinc-900 dark:text-[#eceff4]">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-sm text-violet-600 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]">
+        <h4 className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-white">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-sm text-violet-600 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
             {stepNumber}
           </span>
           Step {stepNumber}
@@ -71,7 +71,7 @@ export function PromptEditor({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {/* Model */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
             Model
           </label>
           <Dropdown
@@ -86,7 +86,7 @@ export function PromptEditor({
 
         {/* Aspect Ratio */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
             Aspect Ratio
           </label>
           <Dropdown
@@ -101,7 +101,7 @@ export function PromptEditor({
 
         {/* Image Size */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
             Image Size
           </label>
           <Dropdown
@@ -116,7 +116,7 @@ export function PromptEditor({
 
         {/* Temperature */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
             Temperature: {step.temperature.toFixed(1)}
           </label>
           <input

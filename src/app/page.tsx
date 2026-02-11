@@ -29,9 +29,9 @@ async function getStats() {
   const avgRating =
     resultsWithRatings.length > 0
       ? resultsWithRatings.reduce(
-          (sum: number, r: { rating: number | null }) => sum + (r.rating || 0),
-          0,
-        ) / resultsWithRatings.length
+        (sum: number, r: { rating: number | null }) => sum + (r.rating || 0),
+        0,
+      ) / resultsWithRatings.length
       : 0;
 
   return {
@@ -62,10 +62,10 @@ export default async function Dashboard() {
   return (
     <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="md:mb-8 mb-4">
-        <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+        <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-white">
           Dashboard
         </h1>
-        <p className="mt-2 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
+        <p className="lg:text-base text-sm text-zinc-600 dark:text-[#94969C]">
           Welcome to Studio Prompt Lab - your AI image generation workbench
         </p>
       </div>
@@ -89,7 +89,7 @@ export default async function Dashboard() {
 
       {/* Quick Actions */}
       <div className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
           Quick Actions
         </h2>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -116,12 +116,12 @@ export default async function Dashboard() {
 
       {/* Recent Runs */}
       <div>
-        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
+        <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
           Recent Runs
         </h2>
         {recentRuns.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-zinc-300 dark:border-[#4c566a] p-8 text-center">
-            <p className="text-zinc-500 dark:text-[#d8dee9]">
+          <div className="rounded-lg border border-dashed border-zinc-300 dark:border-[#333741] p-8 text-center">
+            <p className="text-zinc-500 dark:text-[#94969C]">
               No runs yet. Start by creating an input set and prompt template.
             </p>
           </div>
@@ -142,7 +142,7 @@ export default async function Dashboard() {
                   <TableCell>
                     <Link
                       href={`/runs/${run.id}`}
-                      className="text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
+                      className="text-violet-600 hover:text-violet-700 dark:text-[#9E77ED] dark:hover:text-[#9E77ED]"
                     >
                       {run.id}
                     </Link>
@@ -177,15 +177,15 @@ function StatCard({
   return (
     <Link
       href={href}
-      className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a] dark:bg-[#3b4252]"
+      className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#333741] dark:bg-[#161B26]"
     >
-      <p className="text-sm font-medium text-zinc-600 dark:text-[#d8dee9]">
+      <p className="text-sm font-medium text-zinc-600 dark:text-[#94969C]">
         {title}
       </p>
-      <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">
+      <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">
         {value}
         {suffix && (
-          <span className="text-lg font-normal text-zinc-500 dark:text-[#d8dee9]">
+          <span className="text-lg font-normal text-zinc-500 dark:text-[#94969C]">
             {suffix}
           </span>
         )}
@@ -208,16 +208,16 @@ function QuickActionCard({
   return (
     <Link
       href={href}
-      className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:border-violet-300 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a] dark:bg-[#3b4252] dark:hover:border-[#88c0d0]"
+      className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:border-violet-300 hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#333741] dark:bg-[#161B26] dark:hover:border-[#9E77ED]"
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
         {icon}
       </div>
       <div>
-        <h3 className="font-medium text-zinc-900 dark:text-[#eceff4]">
+        <h3 className="font-semibold text-zinc-900 dark:text-white">
           {title}
         </h3>
-        <p className="text-sm text-zinc-500 dark:text-[#d8dee9]">
+        <p className="text-sm text-zinc-500 dark:text-[#94969C]">
           {description}
         </p>
       </div>

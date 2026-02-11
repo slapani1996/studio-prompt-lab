@@ -191,12 +191,12 @@ export default function RunDetailPage({
   if (!run) {
     return (
       <div className="flex h-full flex-col items-center justify-center">
-        <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
           Run not found
         </h2>
         <Link
           href="/runs"
-          className="mt-4 text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
+          className="mt-4 text-violet-600 hover:text-violet-700 dark:text-[#9E77ED] dark:hover:text-[#9E77ED]"
         >
           Back to runs
         </Link>
@@ -212,11 +212,11 @@ export default function RunDetailPage({
           <div className="flex items-center gap-3">
             <Link
               href="/runs"
-              className="text-zinc-500 hover:text-zinc-700 dark:text-[#d8dee9]"
+              className="text-zinc-500 hover:text-zinc-700 dark:text-[#94969C]"
             >
               <ArrowLeft />
             </Link>
-            <h1 className="lg:text-2xl text-xl font-bold text-zinc-900 dark:text-[#eceff4]">
+            <h1 className="lg:text-2xl text-xl font-bold text-zinc-900 dark:text-white">
               Run Details
             </h1>
             <span
@@ -225,7 +225,7 @@ export default function RunDetailPage({
               {run.status}
             </span>
           </div>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-[#d8dee9]">
+          <p className="mt-1 text-sm text-zinc-500 dark:text-[#94969C]">
             ID: {run.id} | Created: {new Date(run.createdAt).toLocaleString()}
           </p>
         </div>
@@ -264,7 +264,7 @@ export default function RunDetailPage({
 
       {/* Error Message */}
       {run.error && (
-        <div className="mb-6 rounded-lg border border-rose-200 bg-rose-50 p-4 dark:border-[#bf616a] dark:bg-[#bf616a]/20">
+        <div className="mb-6 rounded-lg border border-rose-200 bg-rose-50 p-4 dark:border-rose-500 dark:bg-rose-500/20">
           <p className="text-sm text-rose-700 dark:text-rose-400">
             {run.error}
           </p>
@@ -276,11 +276,11 @@ export default function RunDetailPage({
         <div className="lg:col-span-2 space-y-6">
           {/* Input Set & Template Info */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-              <h3 className="text-sm font-medium text-zinc-500 dark:text-[#d8dee9]">
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+              <h3 className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
                 Input Set
               </h3>
-              <p className="mt-1 font-semibold text-zinc-900 dark:text-[#eceff4]">
+              <p className="mt-1 font-semibold text-zinc-900 dark:text-white">
                 {run.inputSet.name}
               </p>
               <div className="mt-2 flex gap-2 text-xs text-zinc-500">
@@ -289,11 +289,11 @@ export default function RunDetailPage({
                 <span>{run.inputSet.products.length} products</span>
               </div>
             </div>
-            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-              <h3 className="text-sm font-medium text-zinc-500 dark:text-[#d8dee9]">
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+              <h3 className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
                 Template
               </h3>
-              <p className="mt-1 font-semibold text-zinc-900 dark:text-[#eceff4]">
+              <p className="mt-1 font-semibold text-zinc-900 dark:text-white">
                 {run.template.name}
               </p>
               <p className="mt-2 text-xs text-zinc-500">
@@ -304,8 +304,8 @@ export default function RunDetailPage({
 
           {/* Input Images Preview */}
           {run.inputSet.images.length > 0 && (
-            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-              <h3 className="mb-3 font-medium text-zinc-900 dark:text-[#eceff4]">
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+              <h3 className="mb-3 font-semibold text-zinc-900 dark:text-white">
                 Input Images
               </h3>
               <div className="flex gap-2 overflow-x-auto">
@@ -322,8 +322,8 @@ export default function RunDetailPage({
           )}
 
           {/* Results */}
-          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-            <h3 className="mb-4 font-medium text-zinc-900 dark:text-[#eceff4]">
+          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+            <h3 className="mb-4 font-semibold text-zinc-900 dark:text-white">
               Generated Results ({run.results.length})
             </h3>
             <ResultViewer
@@ -334,8 +334,8 @@ export default function RunDetailPage({
           </div>
 
           {/* Prompt Steps */}
-          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
-            <h3 className="mb-4 font-medium text-zinc-900 dark:text-[#eceff4]">
+          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+            <h3 className="mb-4 font-semibold text-zinc-900 dark:text-white">
               Prompt Steps
             </h3>
             <div className="space-y-3">
@@ -349,14 +349,13 @@ export default function RunDetailPage({
                 return (
                   <div
                     key={step.id}
-                    className={`rounded-lg border p-3 ${
-                      hasError
-                        ? "border-rose-200 bg-rose-50 dark:border-[#bf616a] dark:bg-[#bf616a]/20"
-                        : "border-zinc-100 bg-zinc-50 dark:border-[#4c566a] dark:bg-[#434c5e]"
-                    }`}
+                    className={`rounded-lg border p-3 ${hasError
+                      ? "border-rose-200 bg-rose-50 dark:border-rose-500 dark:bg-rose-500/20"
+                      : "border-zinc-100 bg-zinc-50 dark:border-[#333741] dark:bg-[#1F242F]"
+                      }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-zinc-900 dark:text-[#eceff4]">
+                      <span className="text-sm font-medium text-zinc-900 dark:text-white">
                         Step {index + 1}
                       </span>
                       <div className="flex gap-2 text-xs text-zinc-500">
@@ -365,7 +364,7 @@ export default function RunDetailPage({
                         <span>{step.imageSize}</span>
                       </div>
                     </div>
-                    <p className="mt-2 text-sm text-zinc-600 dark:text-[#d8dee9]">
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-[#94969C]">
                       {step.prompt}
                     </p>
                   </div>
@@ -384,7 +383,7 @@ export default function RunDetailPage({
             />
           ) : (
             <div className="rounded-lg border border-zinc-200 bg-white p-6 text-center dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="text-zinc-500 dark:text-[#d8dee9]">
+              <p className="text-zinc-500 dark:text-[#94969C]">
                 Select a result to review
               </p>
             </div>

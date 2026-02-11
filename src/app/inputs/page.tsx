@@ -43,10 +43,10 @@ function InputSetsContent() {
     <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
-          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
+          <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-white">
             Input Sets
           </h1>
-          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#d8dee9]">
+          <p className="mt-1 lg:text-base text-sm text-zinc-600 dark:text-[#94969C]">
             Manage your image and product collections for generation
           </p>
         </div>
@@ -56,12 +56,12 @@ function InputSetsContent() {
       </div>
 
       {inputSets.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
+        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#333741]">
           <FolderClosed className="size-12 text-zinc-400 mx-auto" />
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-white">
             No input sets
           </h3>
-          <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
+          <p className="mt-1 text-zinc-500 dark:text-[#94969C]">
             Get started by creating a new input set with images and products.
           </p>
           <Button onClick={openCreateModal} className="mt-4">
@@ -73,10 +73,10 @@ function InputSetsContent() {
           {inputSets.map((inputSet) => (
             <div
               key={inputSet.id}
-              className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a] dark:bg-[#3b4252]"
+              className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#333741] dark:bg-[#161B26]"
             >
               {/* Image Preview */}
-              <div className="relative h-40 bg-zinc-100 dark:bg-[#434c5e]">
+              <div className="relative h-40 bg-zinc-100 dark:bg-[#1F242F]">
                 {inputSet.images.length > 0 ? (
                   <div className="flex h-full">
                     {inputSet.images.slice(0, 3).map((img, i) => (
@@ -107,10 +107,10 @@ function InputSetsContent() {
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">
+                <h3 className="font-semibold text-zinc-900 dark:text-white">
                   {inputSet.name}
                 </h3>
-                <div className="mt-2 flex gap-4 text-sm text-zinc-500 dark:text-[#d8dee9]">
+                <div className="mt-2 flex gap-4 text-sm text-zinc-500 dark:text-[#94969C]">
                   <span>{inputSet.images.length} images</span>
                   <span>{inputSet.products.length} products</span>
                   <span>{inputSet._count?.runs || 0} runs</span>
@@ -126,7 +126,7 @@ function InputSetsContent() {
                     size="sm"
                     onClick={() => openEditModal(inputSet)}
                     icon={<Pencil className="h-4 w-4" />}
-                    className="flex-1 bg-zinc-100 dark:bg-[#434c5e]"
+                    className="flex-1 bg-zinc-100 dark:bg-[#1F242F]"
                   >
                     Edit
                   </Button>
@@ -181,7 +181,7 @@ function InputSetsContent() {
 
           {/* Images */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Images
             </label>
             <ImageUploader
@@ -193,7 +193,7 @@ function InputSetsContent() {
 
           {/* Products */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
+            <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Products
             </label>
             <ProductSearch

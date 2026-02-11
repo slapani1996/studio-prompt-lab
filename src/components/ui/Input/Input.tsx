@@ -4,17 +4,17 @@ import { forwardRef } from "react";
 import type { InputProps, TextareaProps, FormGroupProps } from "./types";
 
 const baseInputClasses =
-  "block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]";
+  "block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#333741] dark:bg-[#1F242F] dark:text-white";
 
 const errorInputClasses =
   "border-rose-500 focus:border-rose-500 focus:ring-rose-500";
 
 const labelClasses =
-  "block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]";
+  "block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]";
 
 const errorTextClasses = "mt-1 text-sm text-rose-600 dark:text-rose-400";
 
-const helperTextClasses = "mt-1 text-sm text-zinc-500 dark:text-[#d8dee9]";
+const helperTextClasses = "mt-1 text-sm text-zinc-500 dark:text-[#94969C]";
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, helperText, className = "", id, ...props }, ref) => {

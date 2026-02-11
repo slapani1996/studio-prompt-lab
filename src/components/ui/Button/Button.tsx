@@ -6,13 +6,13 @@ const variantClasses: Record<string, string> = {
   primary:
     "bg-violet-600 text-white hover:bg-violet-700 disabled:opacity-50",
   secondary:
-    "border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:bg-[#3b4252] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]",
+    "border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-[#333741] dark:bg-[#161B26] dark:text-[#CECFD2] dark:hover:bg-[#1F242F]",
   danger:
     "bg-rose-100 text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:hover:bg-rose-900/50",
   ghost:
-    "text-zinc-600 hover:bg-zinc-100 dark:text-[#d8dee9] dark:hover:bg-[#434c5e]",
+    "text-zinc-600 hover:bg-zinc-100 dark:text-[#94969C] dark:hover:bg-[#1F242F]",
   text:
-    "text-zinc-600 hover:text-zinc-900 dark:text-[#d8dee9] dark:hover:text-[#eceff4]",
+    "text-zinc-600 hover:text-zinc-900 dark:text-[#94969C] dark:hover:text-white",
 };
 
 const sizeClasses: Record<string, string> = {

@@ -58,14 +58,14 @@ export default function RootLayout({
           {/* Mobile hamburger button */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="fixed left-4 top-4 z-40 rounded-lg p-2 text-white md:hidden bg-sidebar"
+            className="fixed left-4 top-4 z-40 rounded-lg p-2 md:hidden bg-violet-600 text-white shadow-md"
             aria-label="Open menu"
           >
             <Menu className="size-6" />
           </button>
 
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-          <main className="flex-1 overflow-auto bg-zinc-50 dark:bg-[#2e3440] pt-16 md:pt-0">
+          <main className="flex-1 overflow-auto bg-zinc-50 dark:bg-[#0C111D] pt-16 md:pt-0">
             {children}
           </main>
         </div>

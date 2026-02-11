@@ -1,6 +1,7 @@
 'use client';
 
 import type { ItemCardProps } from './types';
+import { TruncatedText } from '@/components/ui/TruncatedText';
 
 export function ItemCard({
   title,
@@ -37,11 +38,17 @@ export function ItemCard({
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
-            <h3 className="truncate font-medium text-zinc-900 dark:text-[#eceff4]">{title}</h3>
+            <TruncatedText
+              text={title}
+              as="h3"
+              className="font-medium text-zinc-900 dark:text-[#eceff4]"
+            />
             {subtitle && (
-              <p className="mt-0.5 truncate text-sm text-zinc-500 dark:text-[#d8dee9]">
-                {subtitle}
-              </p>
+              <TruncatedText
+                text={subtitle}
+                as="p"
+                className="mt-0.5 text-sm text-zinc-500 dark:text-[#d8dee9]"
+              />
             )}
           </div>
           {badge && <div className="shrink-0">{badge}</div>}

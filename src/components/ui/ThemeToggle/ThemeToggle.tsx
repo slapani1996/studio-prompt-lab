@@ -9,7 +9,8 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-400"
+        className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium"
+        style={{ color: "var(--sidebar-text)" }}
         disabled
       >
         <Sun className="h-5 w-5" />
@@ -24,13 +25,15 @@ export function ThemeToggle() {
   return (
     <button
       onClick={cycleTheme}
-      className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-zinc-400 transition-colors hover:text-white"
-      style={{ backgroundColor: "transparent" }}
+      className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+      style={{ backgroundColor: "transparent", color: "var(--sidebar-text)" }}
       onMouseEnter={(e) => {
         e.currentTarget.style.backgroundColor = "var(--sidebar-hover)";
+        e.currentTarget.style.color = "var(--sidebar-text-active)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.backgroundColor = "transparent";
+        e.currentTarget.style.color = "var(--sidebar-text)";
       }}
       aria-label={`Current theme: ${label}. Click to toggle theme.`}
     >

@@ -11,9 +11,9 @@ import type {
 
 export function Table({ children, className = "", ...props }: TableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-[#4c566a]">
+    <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-[#333741]">
       <table
-        className={`min-w-full divide-y divide-zinc-200 dark:divide-[#4c566a] ${className}`}
+        className={`min-w-full divide-y divide-zinc-200 dark:divide-[#333741] ${className}`}
         {...props}
       >
         {children}
@@ -24,7 +24,7 @@ export function Table({ children, className = "", ...props }: TableProps) {
 
 export function TableHead({ children, className = "", ...props }: TableHeadProps) {
   return (
-    <thead className={`bg-zinc-50 dark:bg-[#3b4252] ${className}`} {...props}>
+    <thead className={`bg-zinc-50 dark:bg-[#161B26] ${className}`} {...props}>
       {children}
     </thead>
   );
@@ -33,7 +33,7 @@ export function TableHead({ children, className = "", ...props }: TableHeadProps
 export function TableBody({ children, className = "", ...props }: TableBodyProps) {
   return (
     <tbody
-      className={`divide-y divide-zinc-200 bg-white dark:divide-[#4c566a] dark:bg-[#3b4252] ${className}`}
+      className={`divide-y divide-zinc-200 bg-white dark:divide-[#333741] dark:bg-[#161B26] ${className}`}
       {...props}
     >
       {children}
@@ -42,7 +42,7 @@ export function TableBody({ children, className = "", ...props }: TableBodyProps
 }
 
 export function TableRow({ children, hoverable = true, className = "", ...props }: TableRowProps) {
-  const hoverClasses = hoverable ? "hover:bg-zinc-50 dark:hover:bg-[#434c5e]" : "";
+  const hoverClasses = hoverable ? "hover:bg-zinc-50 dark:hover:bg-[#1F242F]" : "";
   return (
     <tr className={`${hoverClasses} ${className}`} {...props}>
       {children}
@@ -61,7 +61,7 @@ export function TableHeader({
 
   return (
     <th
-      className={`px-6 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9] ${alignmentClass} ${className}`}
+      className={`px-6 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-[#94969C] ${alignmentClass} ${className}`}
       {...props}
     >
       {children}
@@ -80,7 +80,7 @@ export function TableCell({
 
   return (
     <td
-      className={`whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0] ${alignmentClass} ${className}`}
+      className={`whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#CECFD2] ${alignmentClass} ${className}`}
       {...props}
     >
       {children}
