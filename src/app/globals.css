@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #fafafa;
   --foreground: #18181b;
@@ -48,11 +50,9 @@ button {
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--nord0);
-    --foreground: var(--nord5);
-  }
+.dark {
+  --background: var(--nord0);
+  --foreground: var(--nord5);
 }
 
 body {

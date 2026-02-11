@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { SidebarProps, NavItem } from "./types";
 import { Clock3, FileText, FolderClosed, House, Star, X } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 function HomeIcon({ className }: { className?: string }) {
   return <House className={className} />;
@@ -107,7 +108,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           className="p-4"
           style={{ borderTop: "1px solid var(--sidebar-border)" }}
         >
-          <p className="text-xs text-zinc-500">Studio Prompt Lab v1.0</p>
+          <ThemeToggle />
+          <p className="mt-3 text-xs text-zinc-500">Studio Prompt Lab v1.0</p>
         </div>
       </div>
     </>

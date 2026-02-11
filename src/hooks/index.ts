@@ -5,3 +5,5 @@ export { useCrudOperations } from './useCrudOperations';
 export type { UseCrudOperationsResult } from './useCrudOperations';
 
 export { useClickOutside } from './useClickOutside';
+
+export { useTheme } from './useTheme';

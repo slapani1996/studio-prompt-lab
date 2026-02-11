@@ -25,12 +25,30 @@ export default function RootLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
         <title>Studio Prompt Lab</title>
         <meta
           name="description"
           content="AI-powered image generation prompting workbench for Bond Studio"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (!theme || (theme !== 'light' && theme !== 'dark')) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    localStorage.setItem('theme', theme);
+                  }
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
         />
       </head>
       <body
