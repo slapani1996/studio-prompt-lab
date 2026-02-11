@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import type { FormEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -14,7 +14,7 @@ export type { UseRunsPageReturn } from "./types";
 export function useRunsPage(): UseRunsPageReturn {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [runs, setRuns] = useState<Run[]>([]);
+  const [allRuns, setAllRuns] = useState<Run[]>([]);
   const [inputSets, setInputSets] = useState<InputSet[]>([]);
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ export function useRunsPage(): UseRunsPageReturn {
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [executing, setExecuting] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = useCallback(async () => {
     try {
@@ -44,7 +45,7 @@ export function useRunsPage(): UseRunsPageReturn {
         templatesRes.json(),
       ]);
 
-      setRuns(runsData);
+      setAllRuns(runsData);
       setInputSets(inputSetsData);
       setTemplates(templatesData);
     } catch (error) {
@@ -53,6 +54,16 @@ export function useRunsPage(): UseRunsPageReturn {
       setLoading(false);
     }
   }, [statusFilter]);
+
+  const runs = useMemo(() => {
+    if (!searchQuery.trim()) return allRuns;
+    const query = searchQuery.toLowerCase();
+    return allRuns.filter(
+      (run) =>
+        run.inputSet.name.toLowerCase().includes(query) ||
+        run.template.name.toLowerCase().includes(query)
+    );
+  }, [allRuns, searchQuery]);
 
   useEffect(() => {
     fetchData();
@@ -150,11 +161,13 @@ export function useRunsPage(): UseRunsPageReturn {
     selectedTemplate,
     executing,
     statusFilter,
+    searchQuery,
     openModal,
     closeModal,
     setSelectedInputSet,
     setSelectedTemplate,
     setStatusFilter,
+    setSearchQuery,
     handleSubmit,
     handleDelete,
   };

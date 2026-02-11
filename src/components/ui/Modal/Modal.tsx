@@ -19,6 +19,7 @@ export function Modal({
   footer,
   size = "md",
   className,
+  scrollable = false,
 }: ModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -47,7 +48,7 @@ export function Modal({
 
       {/* Modal */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#161B26] ${className}`}
+        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#161B26] ${scrollable ? "max-h-[90vh] flex flex-col" : ""} ${className}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-[#333741]">
@@ -63,7 +64,7 @@ export function Modal({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-4">{children}</div>
+        <div className={`px-6 py-4 ${scrollable ? "overflow-y-auto flex-1 min-h-0" : ""}`}>{children}</div>
 
         {/* Footer */}
         {footer && (

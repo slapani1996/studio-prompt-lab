@@ -5,6 +5,7 @@ import ChainBuilder from "@/components/ChainBuilder";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { usePromptsPage } from "./usePromptsPage";
 import { Copy, FileText, Pencil, Plus, Trash2 } from "lucide-react";
 
@@ -18,9 +19,11 @@ function PromptsContent() {
     description,
     steps,
     saving,
+    searchQuery,
     setName,
     setDescription,
     setSteps,
+    setSearchQuery,
     openCreateModal,
     openEditModal,
     closeModal,
@@ -51,6 +54,15 @@ function PromptsContent() {
         <Button onClick={openCreateModal} icon={<Plus className="size-5" />}>
           New Template
         </Button>
+      </div>
+
+      <div className="mb-6">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search templates..."
+          className="max-w-md"
+        />
       </div>
 
       {templates.length === 0 ? (
@@ -167,6 +179,7 @@ function PromptsContent() {
         onClose={closeModal}
         title={editingTemplate ? "Edit Template" : "Create Template"}
         className="!max-w-5xl"
+        scrollable
         footer={
           <>
             <Button variant="secondary" onClick={closeModal}>

@@ -4,11 +4,12 @@ import type { RunResult, UseReviewPageReturn } from "./types";
 export type { UseReviewPageReturn } from "./types";
 
 export function useReviewPage(): UseReviewPageReturn {
-  const [results, setResults] = useState<RunResult[]>([]);
+  const [allResults, setAllResults] = useState<RunResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedResult, setSelectedResult] = useState<RunResult | null>(null);
   const [minRating, setMinRating] = useState<string>("");
   const [filterTag, setFilterTag] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const fetchResults = useCallback(async () => {
     setLoading(true);
@@ -19,7 +20,7 @@ export function useReviewPage(): UseReviewPageReturn {
 
       const response = await fetch(`/api/results?${params}`);
       const data = await response.json();
-      setResults(data);
+      setAllResults(data);
     } catch (error) {
       console.error("Failed to fetch results:", error);
     } finally {
@@ -30,6 +31,14 @@ export function useReviewPage(): UseReviewPageReturn {
   useEffect(() => {
     fetchResults();
   }, [fetchResults]);
+
+  const results = useMemo(() => {
+    if (!searchQuery.trim()) return allResults;
+    const query = searchQuery.toLowerCase();
+    return allResults.filter((result) =>
+      result.run.inputSet.name.toLowerCase().includes(query)
+    );
+  }, [allResults, searchQuery]);
 
   const getTags = useCallback((result: RunResult): string[] => {
     try {
@@ -63,6 +72,7 @@ export function useReviewPage(): UseReviewPageReturn {
   const clearFilters = useCallback(() => {
     setMinRating("");
     setFilterTag("");
+    setSearchQuery("");
   }, []);
 
   return {
@@ -71,6 +81,7 @@ export function useReviewPage(): UseReviewPageReturn {
     selectedResult,
     minRating,
     filterTag,
+    searchQuery,
     allTags,
     totalResults,
     ratedResults,
@@ -79,6 +90,7 @@ export function useReviewPage(): UseReviewPageReturn {
     setSelectedResult,
     setMinRating,
     setFilterTag,
+    setSearchQuery,
     clearFilters,
     fetchResults,
     getTags,

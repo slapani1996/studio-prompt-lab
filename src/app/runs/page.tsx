@@ -6,12 +6,10 @@ import { getStatusColor } from "@/lib/utils";
 import { Modal } from "@/components/ui/Modal";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
+import { SearchInput } from "@/components/ui/SearchInput";
 import {
-  Table,
-  TableHead,
-  TableBody,
+  PaginatedTable,
   TableRow,
-  TableHeader,
   TableCell,
 } from "@/components/ui/Table";
 import { useRunsPage } from "./useRunsPage";
@@ -36,11 +34,13 @@ function RunsContent() {
     selectedTemplate,
     executing,
     statusFilter,
+    searchQuery,
     openModal,
     closeModal,
     setSelectedInputSet,
     setSelectedTemplate,
     setStatusFilter,
+    setSearchQuery,
     handleSubmit,
     handleDelete,
   } = useRunsPage();
@@ -84,7 +84,13 @@ function RunsContent() {
       </div>
 
       {/* Filters */}
-      <div className="mb-6 flex flex-wrap gap-4">
+      <div className="mb-4 flex flex-wrap items-center gap-4">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search runs..."
+          className="w-full sm:w-auto sm:min-w-[280px]"
+        />
         <Dropdown
           options={STATUS_OPTIONS}
           value={statusFilter}
@@ -94,76 +100,73 @@ function RunsContent() {
         />
       </div>
 
-      {runs.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#333741]">
-          <Clock3 className="size-12 text-zinc-400 mx-auto" />
-          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-white">
-            No runs yet
-          </h3>
-          <p className="mt-1 text-zinc-500 dark:text-[#94969C]">
-            {inputSets.length === 0 || templates.length === 0
-              ? "Create an input set and template first."
-              : "Start a new run to generate images."}
-          </p>
-          {inputSets.length > 0 && templates.length > 0 && (
-            <Button onClick={openModal} className="mt-4">
-              Start New Run
-            </Button>
-          )}
-        </div>
-      ) : (
-        <Table>
-          <TableHead>
-            <TableRow hoverable={false}>
-              <TableHeader>Run</TableHeader>
-              <TableHeader>Input Set</TableHeader>
-              <TableHeader>Template</TableHeader>
-              <TableHeader>Status</TableHeader>
-              <TableHeader>Results</TableHeader>
-              <TableHeader>Created</TableHeader>
-              <TableHeader align="center">Actions</TableHeader>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {runs.map((run) => (
-              <TableRow key={run.id}>
-                <TableCell>
-                  <Link
-                    href={`/runs/${run.id}`}
-                    className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#9E77ED] dark:hover:text-[#9E77ED]"
-                  >
-                    {run.id}
-                  </Link>
-                </TableCell>
-                <TableCell>{run.inputSet.name}</TableCell>
-                <TableCell>{run.template.name}</TableCell>
-                <TableCell>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold transition-all duration-150 hover:scale-105 hover:shadow-sm ${getStatusColor(run.status)}`}
-                  >
-                    {run.status}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  {run.results.length} image
-                  {run.results.length !== 1 ? "s" : ""}
-                </TableCell>
-                <TableCell className="text-zinc-500 dark:text-[#94969C]">
-                  {new Date(run.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell align="center">
-                  <button
-                    onClick={() => handleDelete(run.id)}
-                    className="text-rose-600 hover:text-rose-700 dark:text-rose-400"
-                  >
-                    <Trash2 className="size-5" />
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
+      <PaginatedTable
+        data={runs}
+        columns={[
+          { header: "Run" },
+          { header: "Input Set" },
+          { header: "Template" },
+          { header: "Status" },
+          { header: "Results" },
+          { header: "Created" },
+          { header: "Actions", align: "center" },
+        ]}
+        pageSize={10}
+        emptyMessage={
+          <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#333741]">
+            <Clock3 className="size-12 text-zinc-400 mx-auto" />
+            <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-white">
+              No runs yet
+            </h3>
+            <p className="mt-1 text-zinc-500 dark:text-[#94969C]">
+              {inputSets.length === 0 || templates.length === 0
+                ? "Create an input set and template first."
+                : "Start a new run to generate images."}
+            </p>
+            {inputSets.length > 0 && templates.length > 0 && (
+              <Button onClick={openModal} className="mt-4">
+                Start New Run
+              </Button>
+            )}
+          </div>
+        }
+        renderRow={(run) => (
+          <TableRow key={run.id}>
+            <TableCell>
+              <Link
+                href={`/runs/${run.id}`}
+                className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#9E77ED] dark:hover:text-[#9E77ED]"
+              >
+                {run.id}
+              </Link>
+            </TableCell>
+            <TableCell>{run.inputSet.name}</TableCell>
+            <TableCell>{run.template.name}</TableCell>
+            <TableCell>
+              <span
+                className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold transition-all duration-150 hover:scale-105 hover:shadow-sm ${getStatusColor(run.status)}`}
+              >
+                {run.status}
+              </span>
+            </TableCell>
+            <TableCell>
+              {run.results.length} image
+              {run.results.length !== 1 ? "s" : ""}
+            </TableCell>
+            <TableCell className="text-zinc-500 dark:text-[#94969C]">
+              {new Date(run.createdAt).toLocaleString()}
+            </TableCell>
+            <TableCell align="center">
+              <button
+                onClick={() => handleDelete(run.id)}
+                className="text-rose-600 hover:text-rose-700 dark:text-rose-400"
+              >
+                <Trash2 className="size-5" />
+              </button>
+            </TableCell>
+          </TableRow>
+        )}
+      />
 
       {/* New Run Modal */}
       <Modal

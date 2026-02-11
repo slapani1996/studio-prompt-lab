@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import type { FormEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -16,8 +16,9 @@ export type { UsePromptsPageReturn } from "./types";
 export function usePromptsPage(): UsePromptsPageReturn {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [templates, setTemplates] = useState<PromptTemplate[]>([]);
+  const [allTemplates, setAllTemplates] = useState<PromptTemplate[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(
     searchParams.get("new") === "true"
   );
@@ -43,13 +44,23 @@ export function usePromptsPage(): UsePromptsPageReturn {
     try {
       const response = await fetch("/api/prompts");
       const data = await response.json();
-      setTemplates(data);
+      setAllTemplates(data);
     } catch (error) {
       console.error("Failed to fetch templates:", error);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const templates = useMemo(() => {
+    if (!searchQuery.trim()) return allTemplates;
+    const query = searchQuery.toLowerCase();
+    return allTemplates.filter(
+      (template) =>
+        template.name.toLowerCase().includes(query) ||
+        template.description?.toLowerCase().includes(query)
+    );
+  }, [allTemplates, searchQuery]);
 
   useEffect(() => {
     fetchTemplates();
@@ -177,9 +188,11 @@ export function usePromptsPage(): UsePromptsPageReturn {
     description,
     steps,
     saving,
+    searchQuery,
     setName,
     setDescription,
     setSteps,
+    setSearchQuery,
     openCreateModal,
     openEditModal,
     closeModal,

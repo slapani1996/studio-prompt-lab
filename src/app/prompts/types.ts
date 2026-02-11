@@ -20,9 +20,11 @@ export interface UsePromptsPageReturn {
   description: string;
   steps: PromptStep[];
   saving: boolean;
+  searchQuery: string;
   setName: (name: string) => void;
   setDescription: (description: string) => void;
   setSteps: (steps: PromptStep[]) => void;
+  setSearchQuery: (query: string) => void;
   openCreateModal: () => void;
   openEditModal: (template: PromptTemplate) => void;
   closeModal: () => void;

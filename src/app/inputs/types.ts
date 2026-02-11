@@ -49,9 +49,11 @@ export interface UseInputSetsPageReturn {
   saving: boolean;
   existingImages: Image[];
   existingProducts: Product[];
+  searchQuery: string;
   setName: (name: string) => void;
   setNewImages: (images: ImageFile[]) => void;
   setSelectedProducts: (products: SelectedProduct[]) => void;
+  setSearchQuery: (query: string) => void;
   openCreateModal: () => void;
   openEditModal: (inputSet: InputSet) => void;
   closeModal: () => void;

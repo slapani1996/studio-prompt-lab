@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import type {
@@ -15,8 +15,9 @@ export type { UseInputSetsPageReturn } from "./types";
 export function useInputSetsPage(): UseInputSetsPageReturn {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [inputSets, setInputSets] = useState<InputSet[]>([]);
+  const [allInputSets, setAllInputSets] = useState<InputSet[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(
     searchParams.get("new") === "true"
   );
@@ -35,13 +36,21 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
     try {
       const response = await fetch("/api/inputs");
       const data = await response.json();
-      setInputSets(data);
+      setAllInputSets(data);
     } catch (error) {
       console.error("Failed to fetch input sets:", error);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const inputSets = useMemo(() => {
+    if (!searchQuery.trim()) return allInputSets;
+    const query = searchQuery.toLowerCase();
+    return allInputSets.filter((inputSet) =>
+      inputSet.name.toLowerCase().includes(query)
+    );
+  }, [allInputSets, searchQuery]);
 
   useEffect(() => {
     fetchInputSets();
@@ -198,9 +207,11 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
     saving,
     existingImages,
     existingProducts,
+    searchQuery,
     setName,
     setNewImages,
     setSelectedProducts,
+    setSearchQuery,
     openCreateModal,
     openEditModal,
     closeModal,

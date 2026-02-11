@@ -6,6 +6,7 @@ import ProductSearch from "@/components/ProductSearch";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { useInputSetsPage } from "./useInputSetsPage";
 import { FolderClosed, Image, Pencil, Plus, Trash2 } from "lucide-react";
 
@@ -19,9 +20,11 @@ function InputSetsContent() {
     saving,
     existingImages,
     existingProducts,
+    searchQuery,
     setName,
     setNewImages,
     setSelectedProducts,
+    setSearchQuery,
     openCreateModal,
     openEditModal,
     closeModal,
@@ -53,6 +56,15 @@ function InputSetsContent() {
         <Button onClick={openCreateModal} icon={<Plus className="size-5" />}>
           New Input Set
         </Button>
+      </div>
+
+      <div className="mb-6">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Search input sets..."
+          className="max-w-md"
+        />
       </div>
 
       {inputSets.length === 0 ? (

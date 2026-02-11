@@ -4,9 +4,10 @@ import Link from "next/link";
 import ReviewPanel from "@/components/ReviewPanel";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { TruncatedText } from "@/components/ui/TruncatedText";
 import { useReviewPage } from "./useReviewPage";
-import { Download, Image as ImageIcon, Star } from "lucide-react";
+import { Award, CheckCircle, Download, Image as ImageIcon, Images, Star } from "lucide-react";
 
 const RATING_OPTIONS = [
   { value: "", label: "All ratings" },
@@ -24,6 +25,7 @@ export default function ReviewPage() {
     selectedResult,
     minRating,
     filterTag,
+    searchQuery,
     allTags,
     totalResults,
     ratedResults,
@@ -32,6 +34,7 @@ export default function ReviewPage() {
     setSelectedResult,
     setMinRating,
     setFilterTag,
+    setSearchQuery,
     clearFilters,
     fetchResults,
     getTags,
@@ -73,40 +76,71 @@ export default function ReviewPage() {
 
       {/* Stats */}
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
-          <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
-            Total Results
-          </p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-white">
-            {totalResults}
-          </p>
+        <div className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+          <div>
+            <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
+              Total Results
+            </p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+              {totalResults}
+            </p>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
+            <Images className="h-5 w-5" />
+          </div>
         </div>
-        <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
-          <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">Rated</p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-white">
-            {ratedResults.length}
-          </p>
+        <div className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+          <div>
+            <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">Rated</p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+              {ratedResults.length}
+            </p>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
+            <CheckCircle className="h-5 w-5" />
+          </div>
         </div>
-        <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
-          <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
-            Avg. Rating
-          </p>
-          <p className="text-2xl font-bold text-zinc-900 dark:text-white">
-            {avgRating}/5
-          </p>
+        <div className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+          <div>
+            <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
+              Avg. Rating
+            </p>
+            <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+              {avgRating}/5
+            </p>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-[#7F56D9]/20 dark:text-[#9E77ED]">
+            <Star className="h-5 w-5" />
+          </div>
         </div>
-        <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
-          <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
-            Top Rated (4+)
-          </p>
-          <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-            {topRated}
-          </p>
+        <div className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#333741] dark:bg-[#161B26]">
+          <div>
+            <p className="text-sm font-semibold text-zinc-500 dark:text-[#94969C]">
+              Top Rated (4+)
+            </p>
+            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+              {topRated}
+            </p>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+            <Award className="h-5 w-5" />
+          </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="mb-4 flex flex-wrap gap-4">
+      <div className="mb-4 flex flex-wrap gap-4 items-end">
+        <div className="w-full min-w-0 sm:w-auto sm:min-w-[280px]">
+          <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
+            Search
+          </label>
+          <SearchInput
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search by input set name..."
+          />
+        </div>
+
         <div className="w-full min-w-0 sm:w-auto sm:min-w-[180px]">
           <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
             Min Rating
@@ -131,7 +165,7 @@ export default function ReviewPage() {
           />
         </div>
 
-        {(minRating || filterTag) && (
+        {(minRating || filterTag || searchQuery) && (
           <div className="flex items-end">
             <Button variant="secondary" onClick={clearFilters}>
               Clear Filters

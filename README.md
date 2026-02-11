@@ -30,63 +30,51 @@ An AI-powered image generation prompting workbench for Bond Studio. This tool he
 ### Installation
 
 1. Clone the repository:
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/slapani1996/studio-prompt-lab.git
 cd image-gen
 ```
 
-2. Install dependencies:
+1. Install dependencies:
+
 ```bash
 npm install
 ```
 
-3. Set up environment variables:
+1. Set up environment variables:
+
 ```bash
 cp .env.example .env
 ```
 
-4. Edit `.env` and add your Gemini API key:
+1. Edit `.env` and add your Gemini API key:
+
 ```env
 DATABASE_URL="file:./dev.db"
 GEMINI_API_KEY="your-gemini-api-key"
 CATALOG_API_URL="https://api.studioxlowes.com/catalog/v3"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+#Optional
+TURSO_DATABASE_URL="your-turso-database-url"
+TURSO_AUTH_TOKEN="your-turso-auth-token"
 ```
 
-5. Set up the database:
+1. Set up the database:
+
 ```bash
 npx prisma migrate dev
 npx prisma generate
 ```
 
-6. Start the development server:
+1. Start the development server:
+
 ```bash
 npm run dev
 ```
 
-7. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Getting a Gemini API Key
-
-### Quick Setup
-1. Go to [https://aistudio.google.com](https://aistudio.google.com)
-2. Sign in with your Google account
-3. Click **"Get API Key"** > **"Create API Key"**
-4. Copy the key and add to your `.env` file
-
-### Enable Paid Usage
-1. Go to [https://console.cloud.google.com](https://console.cloud.google.com)
-2. Select your project > **Billing** > Link billing account
-3. Add a payment method
-
-### Pricing
-| Model | Cost | Images per $100 |
-|-------|------|-----------------|
-| gemini-2.0-flash-exp-image-generation | ~$0.04/image | ~2,500 |
-| imagen-3.0-generate-002 | ~$0.10/image | ~1,000 |
-
-### Free Tier
-- 15 requests/minute, 1,500 requests/day (no billing required)
+1. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
@@ -102,12 +90,27 @@ image-gen/
 │   │   └── api/                  # API routes
 │   ├── components/
 │   │   ├── ui/                   # Base UI components
-│   │   ├── ImageUploader.tsx     # Drag & drop image upload
-│   │   ├── ProductSearch.tsx     # Catalog product search
-│   │   ├── PromptEditor.tsx      # Single step prompt editor
-│   │   ├── ChainBuilder.tsx      # Multi-step chain builder
-│   │   ├── ResultViewer.tsx      # Results grid & comparison
-│   │   └── ReviewPanel.tsx       # Rating, notes, tags
+│   │   │   ├── Button/           # Button component
+│   │   │   ├── ConfirmDialog/    # Confirmation dialogs
+│   │   │   ├── Dropdown/         # Dropdown menus
+│   │   │   ├── EmptyState/       # Empty state displays
+│   │   │   ├── Input/            # Form inputs
+│   │   │   ├── ItemCard/         # Card components
+│   │   │   ├── LoadingSpinner/   # Loading indicators
+│   │   │   ├── Modal/            # Modal dialogs
+│   │   │   ├── Pagination/       # Pagination controls
+│   │   │   ├── SearchInput/      # Search input with clear
+│   │   │   ├── Sidebar/          # Navigation sidebar
+│   │   │   ├── StatusBadge/      # Status indicators
+│   │   │   ├── Table/            # Table & PaginatedTable
+│   │   │   ├── ThemeToggle/      # Dark/light mode toggle
+│   │   │   └── TruncatedText/    # Text truncation
+│   │   ├── ChainBuilder/         # Multi-step chain builder
+│   │   ├── ImageUploader/        # Drag & drop image upload
+│   │   ├── ProductSearch/        # Catalog product search
+│   │   ├── PromptEditor/         # Single step prompt editor
+│   │   ├── ResultViewer/         # Results grid & comparison
+│   │   └── ReviewPanel/          # Rating, notes, tags
 │   ├── lib/
 │   │   ├── db.ts                 # Prisma client
 │   │   ├── gemini.ts             # Gemini API client
@@ -125,6 +128,7 @@ image-gen/
 ## Usage Guide
 
 ### 1. Create an Input Set
+
 1. Go to **Input Sets** in the sidebar
 2. Click **New Input Set**
 3. Upload reference images (drag & drop or click)
@@ -132,6 +136,7 @@ image-gen/
 5. Save with a descriptive name
 
 ### 2. Build a Prompt Template
+
 1. Go to **Prompts** in the sidebar
 2. Click **New Template**
 3. Add one or more steps with:
@@ -142,12 +147,14 @@ image-gen/
 4. Save the template
 
 ### 3. Run a Generation
+
 1. Go to **Run History** in the sidebar
 2. Click **New Run**
 3. Select an input set and prompt template
 4. Click **Start Run** and wait for completion
 
 ### 4. Review Results
+
 1. View results in the run detail page
 2. Or go to **Review** for all results
 3. Rate results (1-5 stars)
@@ -155,6 +162,7 @@ image-gen/
 5. Compare multiple results side-by-side
 
 ### 5. Export Data
+
 - Export all rated results as JSON or CSV
 - Export individual runs with full metadata
 
@@ -163,6 +171,7 @@ image-gen/
 ### Option 1: Turso Database (Recommended for Production)
 
 1. **Set up Turso database:**
+
 ```bash
 # Install Turso CLI
 brew install tursodatabase/tap/turso
@@ -176,12 +185,13 @@ turso db show studio-prompt-lab --url
 turso db tokens create studio-prompt-lab
 ```
 
-2. **Push schema to Turso:**
+1. **Push schema to Turso:**
+
 ```bash
 turso db shell studio-prompt-lab < prisma/migrations/*/migration.sql
 ```
 
-3. **Deploy to Vercel:**
+1. **Deploy to Vercel:**
    - Push code to GitHub
    - Import repository in [vercel.com](https://vercel.com)
    - Add environment variables:
@@ -190,8 +200,9 @@ turso db shell studio-prompt-lab < prisma/migrations/*/migration.sql
      - `GEMINI_API_KEY`: Your Gemini API key
      - `CATALOG_API_URL`: `https://api.studioxlowes.com/catalog/v3`
      - `NEXT_PUBLIC_APP_URL`: Your Vercel deployment URL
+     - `DATABASE_URL`= `file:./dev.db`
 
-4. Deploy
+2. Deploy
 
 ### Option 2: SQLite (Development Only)
 
@@ -207,6 +218,7 @@ Note: SQLite data will not persist between Vercel deployments.
 ## API Reference
 
 ### Input Sets
+
 - `GET /api/inputs` - List all input sets
 - `POST /api/inputs` - Create input set
 - `GET /api/inputs/[id]` - Get input set
@@ -214,6 +226,7 @@ Note: SQLite data will not persist between Vercel deployments.
 - `DELETE /api/inputs/[id]` - Delete input set
 
 ### Prompts
+
 - `GET /api/prompts` - List all templates
 - `POST /api/prompts` - Create template
 - `GET /api/prompts/[id]` - Get template
@@ -221,6 +234,7 @@ Note: SQLite data will not persist between Vercel deployments.
 - `DELETE /api/prompts/[id]` - Delete template
 
 ### Runs
+
 - `GET /api/runs` - List all runs
 - `POST /api/runs` - Create run
 - `GET /api/runs/[id]` - Get run
@@ -228,15 +242,18 @@ Note: SQLite data will not persist between Vercel deployments.
 - `DELETE /api/runs/[id]` - Delete run
 
 ### Results
+
 - `GET /api/results` - List results with filters
 - `PATCH /api/results/[id]` - Update result (rating, notes, tags)
 
 ### Export
+
 - `GET /api/export?format=json` - Export all rated results as JSON
 - `GET /api/export?format=csv` - Export all rated results as CSV
 - `GET /api/export?runId=[id]&format=json` - Export specific run
 
 ### Catalog
+
 - `GET /api/catalog?category=...&search=...&page=...` - Search products
 
 ## Available Models
@@ -256,6 +273,7 @@ Note: SQLite data will not persist between Vercel deployments.
 ## Prompt Variables
 
 Use these variables in your prompts:
+
 - `{{product}}` or `{{products}}` - Replaced with product catalog information
 - `{{previous_output}}` - In chains, references the previous step's output
 

@@ -8,6 +8,7 @@ export interface ModalProps {
   footer?: ReactNode;
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
+  scrollable?: boolean;
 }
 
 export interface UseModalReturn {
