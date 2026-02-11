@@ -126,35 +126,36 @@ function PromptsContent() {
               </div>
 
               {/* Actions */}
-              <div className="flex border-t border-zinc-200 dark:border-[#333741]">
+              <div className="flex p-4 gap-4">
                 <Button
-                  variant="ghost"
+                  variant="text"
                   size="sm"
                   onClick={() => openEditModal(template)}
                   icon={<Pencil className="size-4" />}
-                  className="flex-1 rounded-none border-0"
+                  className="flex-1 bg-zinc-100 dark:bg-[#1F242F]"
                 >
                   Edit
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant="text"
                   size="sm"
                   onClick={() => duplicateTemplate(template)}
                   icon={<Copy className="size-4" />}
-                  className="flex-1 rounded-none border-l border-zinc-200 dark:border-[#333741]"
+                  className="flex-1 bg-zinc-100 dark:bg-[#1F242F]"
                 >
                   Duplicate
                 </Button>
                 <Button
-                  variant="text"
+                  variant="danger"
                   size="sm"
                   onClick={() => handleDelete(template.id)}
                   icon={<Trash2 className="size-4" />}
-                  className="flex-1 rounded-none border-l border-zinc-200 text-rose-600 hover:bg-rose-50 dark:border-[#333741] dark:text-rose-400 dark:hover:bg-rose-900/20"
+                  className="flex-1"
                 >
                   Delete
                 </Button>
               </div>
+
             </div>
           ))}
         </div>

@@ -188,7 +188,7 @@ function RunsContent() {
           </>
         }
       >
-        <form id="new-run-form" onSubmit={handleSubmit} className="space-y-4">
+        <form id="new-run-form" onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
           <div>
             <label className="block text-sm font-medium text-zinc-700 dark:text-[#CECFD2]">
               Input Set

@@ -1,5 +1,7 @@
+"use client";
+
+import { Suspense } from "react";
 import Link from "next/link";
-import { getDbClient } from "@/lib/db";
 import { getStatusColor } from "@/lib/utils";
 import { FilePlus, Play, Plus } from "lucide-react";
 import {
@@ -10,54 +12,18 @@ import {
   TableHeader,
   TableCell,
 } from "@/components/ui/Table";
+import { useDashboard } from "./useDashboard";
 
-export const dynamic = "force-dynamic";
+function DashboardContent() {
+  const { stats, recentRuns, loading } = useDashboard();
 
-async function getStats() {
-  const prisma = await getDbClient();
-  const [inputSetsCount, promptsCount, runsCount, resultsWithRatings] =
-    await Promise.all([
-      prisma.inputSet.count(),
-      prisma.promptTemplate.count(),
-      prisma.run.count(),
-      prisma.runResult.findMany({
-        where: { rating: { not: null } },
-        select: { rating: true },
-      }),
-    ]);
-
-  const avgRating =
-    resultsWithRatings.length > 0
-      ? resultsWithRatings.reduce(
-        (sum: number, r: { rating: number | null }) => sum + (r.rating || 0),
-        0,
-      ) / resultsWithRatings.length
-      : 0;
-
-  return {
-    inputSets: inputSetsCount,
-    prompts: promptsCount,
-    runs: runsCount,
-    avgRating: avgRating.toFixed(1),
-  };
-}
-
-async function getRecentRuns() {
-  const prisma = await getDbClient();
-  return prisma.run.findMany({
-    take: 5,
-    orderBy: { createdAt: "desc" },
-    include: {
-      inputSet: { select: { name: true } },
-      template: { select: { name: true } },
-      results: { select: { id: true } },
-    },
-  });
-}
-
-export default async function Dashboard() {
-  const stats = await getStats();
-  const recentRuns = await getRecentRuns();
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="md:p-8 p-4 h-full overflow-auto">
@@ -72,16 +38,20 @@ export default async function Dashboard() {
 
       {/* Stats */}
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Input Sets" value={stats.inputSets} href="/inputs" />
+        <StatCard
+          title="Input Sets"
+          value={stats?.inputSets ?? 0}
+          href="/inputs"
+        />
         <StatCard
           title="Prompt Templates"
-          value={stats.prompts}
+          value={stats?.prompts ?? 0}
           href="/prompts"
         />
-        <StatCard title="Total Runs" value={stats.runs} href="/runs" />
+        <StatCard title="Total Runs" value={stats?.runs ?? 0} href="/runs" />
         <StatCard
           title="Avg. Rating"
-          value={stats.avgRating}
+          value={stats?.avgRating ?? "0.0"}
           suffix="/5"
           href="/review"
         />
@@ -163,6 +133,20 @@ export default async function Dashboard() {
   );
 }
 
+export default function Dashboard() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-full items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
+  );
+}
+
 function StatCard({
   title,
   value,
@@ -214,9 +198,7 @@ function QuickActionCard({
         {icon}
       </div>
       <div>
-        <h3 className="font-semibold text-zinc-900 dark:text-white">
-          {title}
-        </h3>
+        <h3 className="font-semibold text-zinc-900 dark:text-white">{title}</h3>
         <p className="text-sm text-zinc-500 dark:text-[#94969C]">
           {description}
         </p>
