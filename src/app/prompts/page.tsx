@@ -38,7 +38,7 @@ function PromptsContent() {
   }
 
   return (
-    <div className="md:p-8 p-4">
+    <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
           <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
@@ -165,7 +165,7 @@ function PromptsContent() {
         isOpen={showModal}
         onClose={closeModal}
         title={editingTemplate ? "Edit Template" : "Create Template"}
-        size="xl"
+        className="!max-w-5xl"
         footer={
           <>
             <Button variant="secondary" onClick={closeModal}>

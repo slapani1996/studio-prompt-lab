@@ -50,10 +50,18 @@ export function TableRow({ children, hoverable = true, className = "", ...props 
   );
 }
 
-export function TableHeader({ children, className = "", ...props }: TableHeaderProps) {
+export function TableHeader({
+  children,
+  className = "",
+  align = "left",
+  ...props
+}: TableHeaderProps) {
+  const alignmentClass =
+    align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left";
+
   return (
     <th
-      className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9] ${className}`}
+      className={`px-6 py-3 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9] ${alignmentClass} ${className}`}
       {...props}
     >
       {children}
@@ -61,10 +69,18 @@ export function TableHeader({ children, className = "", ...props }: TableHeaderP
   );
 }
 
-export function TableCell({ children, className = "", ...props }: TableCellProps) {
+export function TableCell({
+  children,
+  className = "",
+  align = "left",
+  ...props
+}: TableCellProps) {
+  const alignmentClass =
+    align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left";
+
   return (
     <td
-      className={`whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0] ${className}`}
+      className={`whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0] ${alignmentClass} ${className}`}
       {...props}
     >
       {children}

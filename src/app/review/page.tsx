@@ -56,14 +56,14 @@ export default function ReviewPage() {
           <Button
             variant="secondary"
             icon={<Download className="size-4" />}
-            onClick={() => window.location.href = "/api/export?format=json"}
+            onClick={() => (window.location.href = "/api/export?format=json")}
           >
             Export JSON
           </Button>
           <Button
             variant="secondary"
             icon={<Download className="size-4" />}
-            onClick={() => window.location.href = "/api/export?format=csv"}
+            onClick={() => (window.location.href = "/api/export?format=csv")}
           >
             Export CSV
           </Button>
@@ -222,7 +222,7 @@ export default function ReviewPage() {
                       <Link
                         href={`/runs/${result.run.id}`}
                         onClick={(e) => e.stopPropagation()}
-                        className="text-sm text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
+                        className="text-sm text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
                       >
                         View Run
                       </Link>

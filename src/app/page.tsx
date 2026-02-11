@@ -60,7 +60,7 @@ export default async function Dashboard() {
   const recentRuns = await getRecentRuns();
 
   return (
-    <div className="md:p-8 p-4">
+    <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="md:mb-8 mb-4">
         <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
           Dashboard
@@ -142,9 +142,9 @@ export default async function Dashboard() {
                   <TableCell>
                     <Link
                       href={`/runs/${run.id}`}
-                      className="text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
+                      className="text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
                     >
-                      {run.id.slice(0, 8)}...
+                      {run.id}
                     </Link>
                   </TableCell>
                   <TableCell>{run.inputSet.name}</TableCell>
@@ -185,7 +185,9 @@ function StatCard({
       <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">
         {value}
         {suffix && (
-          <span className="text-lg font-normal text-zinc-500">{suffix}</span>
+          <span className="text-lg font-normal text-zinc-500 dark:text-[#d8dee9]">
+            {suffix}
+          </span>
         )}
       </p>
     </Link>

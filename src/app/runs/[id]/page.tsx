@@ -196,7 +196,7 @@ export default function RunDetailPage({
         </h2>
         <Link
           href="/runs"
-          className="mt-4 text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
+          className="mt-4 text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
         >
           Back to runs
         </Link>

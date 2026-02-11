@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -6,7 +6,8 @@ export interface ModalProps {
   title: string;
   children: ReactNode;
   footer?: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
+  className?: string;
 }
 
 export interface UseModalReturn {

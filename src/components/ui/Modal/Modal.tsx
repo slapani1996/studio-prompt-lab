@@ -18,6 +18,7 @@ export function Modal({
   children,
   footer,
   size = "md",
+  className,
 }: ModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -46,7 +47,7 @@ export function Modal({
 
       {/* Modal */}
       <div
-        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#3b4252]`}
+        className={`relative z-10 w-full ${sizeClasses[size]} mx-4 rounded-lg bg-white shadow-xl dark:bg-[#3b4252] ${className}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
@@ -55,14 +56,14 @@ export function Modal({
           </h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-[#434c5e]"
+            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-900/20 dark:hover:text-zinc-400"
           >
             <X className="size-5" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-6 py-4 max-h-[70vh] overflow-y-auto">{children}</div>
 
         {/* Footer */}
         {footer && (

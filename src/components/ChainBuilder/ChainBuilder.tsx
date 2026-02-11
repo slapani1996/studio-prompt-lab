@@ -50,7 +50,7 @@ export function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
                     type="button"
                     onClick={() => moveStep(index, "up")}
                     disabled={index === 0}
-                    className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 disabled:opacity-30 dark:hover:bg-[#434c5e]"
+                    className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 disabled:opacity-30 dark:hover:bg-[#434c5e] dark:hover:text-zinc-400"
                   >
                     <ChevronUp className="size-5" />
                   </button>
@@ -58,7 +58,7 @@ export function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
                     type="button"
                     onClick={() => moveStep(index, "down")}
                     disabled={index === steps.length - 1}
-                    className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 disabled:opacity-30 dark:hover:bg-[#434c5e]"
+                    className="rounded p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 disabled:opacity-30 dark:hover:bg-[#434c5e] dark:hover:text-zinc-400"
                   >
                     <ChevronDown className="size-5" />
                   </button>
@@ -86,7 +86,7 @@ export function ChainBuilder({ steps, onChange }: ChainBuilderProps) {
           <button
             type="button"
             onClick={addStep}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 py-4 text-zinc-500 transition-colors hover:border-violet-400 hover:text-violet-600 dark:border-[#4c566a] dark:hover:border-[#88c0d0]"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 py-4 text-zinc-500 transition-colors hover:border-violet-400 hover:text-violet-600 dark:border-[#4c566a] dark:hover:border-[#88c0d0] dark:hover:text-zinc-400"
           >
             <Plus className="size-5" /> Add Step
           </button>

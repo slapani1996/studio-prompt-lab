@@ -64,7 +64,7 @@ function RunsContent() {
   }
 
   return (
-    <div className="md:p-8 p-4">
+    <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
           <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
@@ -121,7 +121,7 @@ function RunsContent() {
               <TableHeader>Status</TableHeader>
               <TableHeader>Results</TableHeader>
               <TableHeader>Created</TableHeader>
-              <TableHeader className="text-center">Actions</TableHeader>
+              <TableHeader align="center">Actions</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -130,9 +130,9 @@ function RunsContent() {
                 <TableCell>
                   <Link
                     href={`/runs/${run.id}`}
-                    className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
+                    className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#88c0d0] dark:hover:text-[#88c0d0]"
                   >
-                    {run.id.slice(0, 8)}...
+                    {run.id}
                   </Link>
                 </TableCell>
                 <TableCell>{run.inputSet.name}</TableCell>
@@ -151,7 +151,7 @@ function RunsContent() {
                 <TableCell className="text-zinc-500 dark:text-[#d8dee9]">
                   {new Date(run.createdAt).toLocaleString()}
                 </TableCell>
-                <TableCell className="text-center">
+                <TableCell align="center">
                   <button
                     onClick={() => handleDelete(run.id)}
                     className="text-rose-600 hover:text-rose-700 dark:text-rose-400"

@@ -126,7 +126,7 @@ export function ProductSearch({
         <button
           type="button"
           onClick={() => setShowSearch(true)}
-          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#4c566a] dark:text-[#d8dee9]"
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#4c566a] dark:text-[#d8dee9] dark:hover:text-[#eceff4]"
         >
           <Plus className="size-5" />
           Search & Add Products

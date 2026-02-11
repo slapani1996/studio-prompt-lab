@@ -40,7 +40,7 @@ function InputSetsContent() {
   }
 
   return (
-    <div className="md:p-8 p-4">
+    <div className="md:p-8 p-4 h-full overflow-auto">
       <div className="mb-6 flex lg:items-center items-start justify-between flex-col lg:flex-row gap-4">
         <div>
           <h1 className="lg:text-3xl text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
@@ -64,10 +64,7 @@ function InputSetsContent() {
           <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             Get started by creating a new input set with images and products.
           </p>
-          <Button
-            onClick={openCreateModal}
-            className="mt-4"
-          >
+          <Button onClick={openCreateModal} className="mt-4">
             Create Input Set
           </Button>
         </div>
@@ -154,7 +151,7 @@ function InputSetsContent() {
         isOpen={showModal}
         onClose={closeModal}
         title={editingSet ? "Edit Input Set" : "Create Input Set"}
-        size="xl"
+        className="!max-w-3xl"
         footer={
           <>
             <Button variant="secondary" onClick={closeModal}>
