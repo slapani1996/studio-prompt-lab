@@ -40,6 +40,8 @@ export interface UseRunsPageReturn {
   executing: boolean;
   statusFilter: string;
   searchQuery: string;
+  showDeleteDialog: boolean;
+  deleting: boolean;
   openModal: () => void;
   closeModal: () => void;
   setSelectedInputSet: (id: string) => void;
@@ -47,5 +49,7 @@ export interface UseRunsPageReturn {
   setStatusFilter: (status: string) => void;
   setSearchQuery: (query: string) => void;
   handleSubmit: (e: FormEvent) => Promise<void>;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: string) => void;
+  confirmDelete: () => Promise<void>;
+  closeDeleteDialog: () => void;
 }

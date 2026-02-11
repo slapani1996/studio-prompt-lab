@@ -27,6 +27,9 @@ export function useRunsPage(): UseRunsPageReturn {
   const [executing, setExecuting] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -129,27 +132,39 @@ export function useRunsPage(): UseRunsPageReturn {
     [selectedInputSet, selectedTemplate, fetchData, closeModal, router]
   );
 
-  const handleDelete = useCallback(
-    async (id: string) => {
-      if (!confirm("Are you sure you want to delete this run?")) return;
+  const handleDelete = useCallback((id: string) => {
+    setDeleteTargetId(id);
+    setShowDeleteDialog(true);
+  }, []);
 
-      try {
-        const response = await fetch(`/api/runs/${id}`, {
-          method: "DELETE",
-        });
+  const confirmDelete = useCallback(async () => {
+    if (!deleteTargetId) return;
 
-        if (!response.ok) {
-          throw new Error("Failed to delete run");
-        }
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/runs/${deleteTargetId}`, {
+        method: "DELETE",
+      });
 
-        await fetchData();
-        toast.success("Run deleted");
-      } catch {
-        toast.error("Failed to delete run");
+      if (!response.ok) {
+        throw new Error("Failed to delete run");
       }
-    },
-    [fetchData]
-  );
+
+      await fetchData();
+      toast.success("Run deleted");
+      setShowDeleteDialog(false);
+      setDeleteTargetId(null);
+    } catch {
+      toast.error("Failed to delete run");
+    } finally {
+      setDeleting(false);
+    }
+  }, [deleteTargetId, fetchData]);
+
+  const closeDeleteDialog = useCallback(() => {
+    setShowDeleteDialog(false);
+    setDeleteTargetId(null);
+  }, []);
 
   return {
     runs,
@@ -162,6 +177,8 @@ export function useRunsPage(): UseRunsPageReturn {
     executing,
     statusFilter,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     openModal,
     closeModal,
     setSelectedInputSet,
@@ -170,5 +187,7 @@ export function useRunsPage(): UseRunsPageReturn {
     setSearchQuery,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
   };
 }

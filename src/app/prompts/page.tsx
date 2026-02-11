@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import ChainBuilder from "@/components/ChainBuilder";
 import { Modal } from "@/components/ui/Modal";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { SearchInput } from "@/components/ui/SearchInput";
@@ -20,6 +21,8 @@ function PromptsContent() {
     steps,
     saving,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     setName,
     setDescription,
     setSteps,
@@ -29,6 +32,8 @@ function PromptsContent() {
     closeModal,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
     duplicateTemplate,
   } = usePromptsPage();
 
@@ -231,6 +236,17 @@ function PromptsContent() {
           </div>
         </form>
       </Modal>
+
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDelete}
+        title="Delete Template"
+        message="Are you sure you want to delete this template? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        loading={deleting}
+      />
     </div>
   );
 }

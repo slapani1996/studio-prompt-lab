@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ImageUploader from "@/components/ImageUploader";
 import ProductSearch from "@/components/ProductSearch";
 import { Modal } from "@/components/ui/Modal";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { SearchInput } from "@/components/ui/SearchInput";
@@ -22,6 +23,8 @@ function InputSetsContent() {
     existingProducts,
     selectedProducts,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     setName,
     setNewImages,
     setSelectedProducts,
@@ -31,6 +34,8 @@ function InputSetsContent() {
     closeModal,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
     handleRemoveExistingImage,
     handleRemoveExistingProduct,
   } = useInputSetsPage();
@@ -219,6 +224,17 @@ function InputSetsContent() {
           </div>
         </form>
       </Modal>
+
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDelete}
+        title="Delete Input Set"
+        message="Are you sure you want to delete this input set? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        loading={deleting}
+      />
     </div>
   );
 }

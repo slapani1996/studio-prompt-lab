@@ -39,6 +39,9 @@ export function usePromptsPage(): UsePromptsPageReturn {
     },
   ]);
   const [saving, setSaving] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchTemplates = useCallback(async () => {
     try {
@@ -149,27 +152,39 @@ export function usePromptsPage(): UsePromptsPageReturn {
     [name, description, steps, editingTemplate, fetchTemplates, closeModal]
   );
 
-  const handleDelete = useCallback(
-    async (id: string) => {
-      if (!confirm("Are you sure you want to delete this template?")) return;
+  const handleDelete = useCallback((id: string) => {
+    setDeleteTargetId(id);
+    setShowDeleteDialog(true);
+  }, []);
 
-      try {
-        const response = await fetch(`/api/prompts/${id}`, {
-          method: "DELETE",
-        });
+  const confirmDelete = useCallback(async () => {
+    if (!deleteTargetId) return;
 
-        if (!response.ok) {
-          throw new Error("Failed to delete template");
-        }
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/prompts/${deleteTargetId}`, {
+        method: "DELETE",
+      });
 
-        await fetchTemplates();
-        toast.success("Template deleted");
-      } catch {
-        toast.error("Failed to delete template");
+      if (!response.ok) {
+        throw new Error("Failed to delete template");
       }
-    },
-    [fetchTemplates]
-  );
+
+      await fetchTemplates();
+      toast.success("Template deleted");
+      setShowDeleteDialog(false);
+      setDeleteTargetId(null);
+    } catch {
+      toast.error("Failed to delete template");
+    } finally {
+      setDeleting(false);
+    }
+  }, [deleteTargetId, fetchTemplates]);
+
+  const closeDeleteDialog = useCallback(() => {
+    setShowDeleteDialog(false);
+    setDeleteTargetId(null);
+  }, []);
 
   const duplicateTemplate = useCallback((template: PromptTemplate) => {
     setEditingTemplate(null);
@@ -189,6 +204,8 @@ export function usePromptsPage(): UsePromptsPageReturn {
     steps,
     saving,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     setName,
     setDescription,
     setSteps,
@@ -198,6 +215,8 @@ export function usePromptsPage(): UsePromptsPageReturn {
     closeModal,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
     duplicateTemplate,
   };
 }

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { getStatusColor } from "@/lib/utils";
 import { Modal } from "@/components/ui/Modal";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { SearchInput } from "@/components/ui/SearchInput";
@@ -35,6 +36,8 @@ function RunsContent() {
     executing,
     statusFilter,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     openModal,
     closeModal,
     setSelectedInputSet,
@@ -43,6 +46,8 @@ function RunsContent() {
     setSearchQuery,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
   } = useRunsPage();
 
   const inputSetOptions = [
@@ -225,6 +230,17 @@ function RunsContent() {
           </div>
         </form>
       </Modal>
+
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDelete}
+        title="Delete Run"
+        message="Are you sure you want to delete this run? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        loading={deleting}
+      />
     </div>
   );
 }

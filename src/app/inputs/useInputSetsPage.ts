@@ -31,6 +31,9 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
   const [removeImageIds, setRemoveImageIds] = useState<string[]>([]);
   const [removeProductIds, setRemoveProductIds] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchInputSets = useCallback(async () => {
     try {
@@ -159,27 +162,39 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
     ]
   );
 
-  const handleDelete = useCallback(
-    async (id: string) => {
-      if (!confirm("Are you sure you want to delete this input set?")) return;
+  const handleDelete = useCallback((id: string) => {
+    setDeleteTargetId(id);
+    setShowDeleteDialog(true);
+  }, []);
 
-      try {
-        const response = await fetch(`/api/inputs/${id}`, {
-          method: "DELETE",
-        });
+  const confirmDelete = useCallback(async () => {
+    if (!deleteTargetId) return;
 
-        if (!response.ok) {
-          throw new Error("Failed to delete input set");
-        }
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/inputs/${deleteTargetId}`, {
+        method: "DELETE",
+      });
 
-        await fetchInputSets();
-        toast.success("Input set deleted");
-      } catch {
-        toast.error("Failed to delete input set");
+      if (!response.ok) {
+        throw new Error("Failed to delete input set");
       }
-    },
-    [fetchInputSets]
-  );
+
+      await fetchInputSets();
+      toast.success("Input set deleted");
+      setShowDeleteDialog(false);
+      setDeleteTargetId(null);
+    } catch {
+      toast.error("Failed to delete input set");
+    } finally {
+      setDeleting(false);
+    }
+  }, [deleteTargetId, fetchInputSets]);
+
+  const closeDeleteDialog = useCallback(() => {
+    setShowDeleteDialog(false);
+    setDeleteTargetId(null);
+  }, []);
 
   const handleRemoveExistingImage = useCallback((imageId: string) => {
     setRemoveImageIds((prev) => [...prev, imageId]);
@@ -208,6 +223,8 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
     existingImages,
     existingProducts,
     searchQuery,
+    showDeleteDialog,
+    deleting,
     setName,
     setNewImages,
     setSelectedProducts,
@@ -217,6 +234,8 @@ export function useInputSetsPage(): UseInputSetsPageReturn {
     closeModal,
     handleSubmit,
     handleDelete,
+    confirmDelete,
+    closeDeleteDialog,
     handleRemoveExistingImage,
     handleRemoveExistingProduct,
   };

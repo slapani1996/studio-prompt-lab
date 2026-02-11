@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import ResultViewer from "@/components/ResultViewer";
 import ReviewPanel from "@/components/ReviewPanel";
 import { Button } from "@/components/ui/Button";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { getStatusColor } from "@/lib/utils";
 import { ArrowLeft, Play, RefreshCcw, Trash2 } from "lucide-react";
 
@@ -74,6 +75,8 @@ export default function RunDetailPage({
   const [selectedResult, setSelectedResult] = useState<RunResult | null>(null);
   const [rerunning, setRerunning] = useState(false);
   const [executing, setExecuting] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     fetchRun();
@@ -157,9 +160,14 @@ export default function RunDetailPage({
     }
   };
 
-  const handleDelete = async () => {
-    if (!run || !confirm("Are you sure you want to delete this run?")) return;
+  const handleDelete = () => {
+    setShowDeleteDialog(true);
+  };
 
+  const confirmDelete = async () => {
+    if (!run) return;
+
+    setDeleting(true);
     try {
       const response = await fetch(`/api/runs/${run.id}`, {
         method: "DELETE",
@@ -170,10 +178,17 @@ export default function RunDetailPage({
       }
 
       toast.success("Run deleted");
+      setShowDeleteDialog(false);
       router.push("/runs");
     } catch {
       toast.error("Failed to delete run");
+    } finally {
+      setDeleting(false);
     }
+  };
+
+  const closeDeleteDialog = () => {
+    setShowDeleteDialog(false);
   };
 
   const handleResultUpdate = async () => {
@@ -390,6 +405,17 @@ export default function RunDetailPage({
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={closeDeleteDialog}
+        onConfirm={confirmDelete}
+        title="Delete Run"
+        message="Are you sure you want to delete this run? This action cannot be undone."
+        confirmLabel="Delete"
+        variant="danger"
+        loading={deleting}
+      />
     </div>
   );
 }

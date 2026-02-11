@@ -21,6 +21,8 @@ export interface UsePromptsPageReturn {
   steps: PromptStep[];
   saving: boolean;
   searchQuery: string;
+  showDeleteDialog: boolean;
+  deleting: boolean;
   setName: (name: string) => void;
   setDescription: (description: string) => void;
   setSteps: (steps: PromptStep[]) => void;
@@ -29,6 +31,8 @@ export interface UsePromptsPageReturn {
   openEditModal: (template: PromptTemplate) => void;
   closeModal: () => void;
   handleSubmit: (e: FormEvent) => Promise<void>;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: string) => void;
+  confirmDelete: () => Promise<void>;
+  closeDeleteDialog: () => void;
   duplicateTemplate: (template: PromptTemplate) => void;
 }

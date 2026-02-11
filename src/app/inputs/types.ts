@@ -50,6 +50,8 @@ export interface UseInputSetsPageReturn {
   existingImages: Image[];
   existingProducts: Product[];
   searchQuery: string;
+  showDeleteDialog: boolean;
+  deleting: boolean;
   setName: (name: string) => void;
   setNewImages: (images: ImageFile[]) => void;
   setSelectedProducts: (products: SelectedProduct[]) => void;
@@ -58,7 +60,9 @@ export interface UseInputSetsPageReturn {
   openEditModal: (inputSet: InputSet) => void;
   closeModal: () => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: string) => void;
+  confirmDelete: () => Promise<void>;
+  closeDeleteDialog: () => void;
   handleRemoveExistingImage: (imageId: string) => void;
   handleRemoveExistingProduct: (productId: string) => void;
 }
