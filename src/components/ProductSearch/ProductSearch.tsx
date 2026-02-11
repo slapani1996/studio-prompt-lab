@@ -43,14 +43,14 @@ export function ProductSearch({
       {/* Existing Products */}
       {existingProducts.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
             Existing Products
           </h4>
           <div className="flex flex-wrap gap-2">
             {existingProducts.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center gap-2 rounded-full bg-blue-100 py-1 pl-1 pr-3 dark:bg-blue-900/30"
+                className="flex items-center gap-2 rounded-full bg-violet-100 py-1 pl-1 pr-3 dark:bg-violet-900/30"
               >
                 {product.imageUrl && (
                   <img
@@ -59,12 +59,12 @@ export function ProductSearch({
                     className="h-6 w-6 rounded-full object-cover"
                   />
                 )}
-                <span className="text-sm text-blue-800 dark:text-blue-300">{product.name}</span>
+                <span className="text-sm text-violet-800 dark:text-violet-300">{product.name}</span>
                 {onRemoveExisting && (
                   <button
                     type="button"
                     onClick={() => onRemoveExisting(product.id)}
-                    className="ml-1 text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                    className="ml-1 text-violet-600 hover:text-violet-800 dark:text-violet-400"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -80,14 +80,14 @@ export function ProductSearch({
       {/* Selected Products */}
       {selectedProducts.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
             New Products ({selectedProducts.length})
           </h4>
           <div className="flex flex-wrap gap-2">
             {selectedProducts.map((product) => (
               <div
                 key={product.catalogId}
-                className="flex items-center gap-2 rounded-full bg-green-100 py-1 pl-1 pr-3 dark:bg-green-900/30"
+                className="flex items-center gap-2 rounded-full bg-emerald-100 py-1 pl-1 pr-3 dark:bg-emerald-900/30"
               >
                 {product.imageUrl && (
                   <img
@@ -96,11 +96,11 @@ export function ProductSearch({
                     className="h-6 w-6 rounded-full object-cover"
                   />
                 )}
-                <span className="text-sm text-green-800 dark:text-green-300">{product.name}</span>
+                <span className="text-sm text-emerald-800 dark:text-emerald-300">{product.name}</span>
                 <button
                   type="button"
                   onClick={() => removeProduct(product.catalogId)}
-                  className="ml-1 text-green-600 hover:text-green-800 dark:text-green-400"
+                  className="ml-1 text-emerald-600 hover:text-emerald-800 dark:text-emerald-400"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -117,7 +117,7 @@ export function ProductSearch({
         <button
           type="button"
           onClick={() => setShowSearch(true)}
-          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-2 text-sm text-gray-600 hover:border-gray-400 hover:text-gray-700 dark:border-gray-600 dark:text-gray-400"
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:border-zinc-400 hover:text-zinc-700 dark:border-[#4c566a] dark:text-[#d8dee9]"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -128,13 +128,13 @@ export function ProductSearch({
 
       {/* Search Panel */}
       {showSearch && (
-        <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
+        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
           <div className="mb-4 flex items-center justify-between">
-            <h4 className="font-medium text-gray-900 dark:text-white">Product Catalog</h4>
+            <h4 className="font-medium text-zinc-900 dark:text-[#eceff4]">Product Catalog</h4>
             <button
               type="button"
               onClick={() => setShowSearch(false)}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400"
+              className="text-zinc-500 hover:text-zinc-700 dark:text-[#d8dee9]"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -150,13 +150,13 @@ export function ProductSearch({
                 value={search}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder="Search products..."
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
               />
             </div>
             <select
               value={category}
               onChange={(e) => handleCategoryChange(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:w-auto dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+              className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 sm:w-auto dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -169,10 +169,10 @@ export function ProductSearch({
           {/* Products Grid */}
           {loading ? (
             <div className="flex h-48 items-center justify-center">
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
             </div>
           ) : products.length === 0 ? (
-            <div className="flex h-48 items-center justify-center text-gray-500">
+            <div className="flex h-48 items-center justify-center text-zinc-500">
               No products found
             </div>
           ) : (
@@ -186,8 +186,8 @@ export function ProductSearch({
                     disabled={isProductSelected(product.id)}
                     className={`rounded-lg border p-2 text-left transition-colors ${
                       isProductSelected(product.id)
-                        ? 'border-green-300 bg-green-50 dark:border-green-700 dark:bg-green-900/20'
-                        : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50 dark:border-gray-600 dark:hover:border-blue-600 dark:hover:bg-blue-900/20'
+                        ? 'border-green-300 bg-emerald-50 dark:border-green-700 dark:bg-emerald-900/20'
+                        : 'border-zinc-200 hover:border-violet-300 hover:bg-violet-50 dark:border-[#4c566a] dark:hover:border-[#88c0d0] dark:hover:bg-[#5e81ac]/20'
                     }`}
                   >
                     {product.featuredImage?.url ? (
@@ -197,18 +197,18 @@ export function ProductSearch({
                         className="mb-2 h-20 w-full rounded object-cover"
                       />
                     ) : (
-                      <div className="mb-2 flex h-20 items-center justify-center rounded bg-gray-200 dark:bg-gray-700">
-                        <svg className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <div className="mb-2 flex h-20 items-center justify-center rounded bg-zinc-200 dark:bg-[#434c5e]">
+                        <svg className="h-8 w-8 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                         </svg>
                       </div>
                     )}
-                    <p className="truncate text-xs font-medium text-gray-900 dark:text-white">
+                    <p className="truncate text-xs font-medium text-zinc-900 dark:text-[#eceff4]">
                       {product.name}
                     </p>
-                    <p className="truncate text-xs text-gray-500">{product.category.name}</p>
+                    <p className="truncate text-xs text-zinc-500">{product.category.name}</p>
                     {isProductSelected(product.id) && (
-                      <span className="mt-1 inline-flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+                      <span className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
@@ -226,18 +226,18 @@ export function ProductSearch({
                     type="button"
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="rounded px-3 py-1 text-sm text-gray-600 hover:bg-gray-200 disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-700"
+                    className="rounded px-3 py-1 text-sm text-zinc-600 hover:bg-zinc-200 disabled:opacity-50 dark:text-[#d8dee9] dark:hover:bg-[#434c5e]"
                   >
                     Previous
                   </button>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-sm text-zinc-600 dark:text-[#d8dee9]">
                     Page {page} of {totalPages}
                   </span>
                   <button
                     type="button"
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="rounded px-3 py-1 text-sm text-gray-600 hover:bg-gray-200 disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-700"
+                    className="rounded px-3 py-1 text-sm text-zinc-600 hover:bg-zinc-200 disabled:opacity-50 dark:text-[#d8dee9] dark:hover:bg-[#434c5e]"
                   >
                     Next
                   </button>

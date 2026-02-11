@@ -3,10 +3,10 @@
 import type { StatusBadgeProps, StatusType } from './types';
 
 const statusStyles: Record<StatusType, string> = {
-  completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  running: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+  completed: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
+  running: 'bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400',
+  failed: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400',
+  pending: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
 };
 
 const statusLabels: Record<StatusType, string> = {

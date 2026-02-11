@@ -22,12 +22,12 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
   } = useReviewPanel(result, onUpdate);
 
   return (
-    <div className="sticky top-8 space-y-6 rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+    <div className="sticky top-8 space-y-6 rounded-lg border border-zinc-200 bg-white p-6 dark:border-[#4c566a] dark:bg-[#3b4252]">
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg font-semibold text-zinc-900 dark:text-[#eceff4]">
           Review Result
         </h3>
-        <p className="text-sm text-gray-500">Step {result.stepOrder + 1}</p>
+        <p className="text-sm text-zinc-500">Step {result.stepOrder + 1}</p>
       </div>
 
       {/* Large Image Preview */}
@@ -42,20 +42,20 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
       )}
 
       {/* Metadata */}
-      <div className="rounded bg-gray-50 p-3 dark:bg-gray-900">
-        <h4 className="mb-2 text-xs font-medium uppercase text-gray-500">Details</h4>
+      <div className="rounded bg-zinc-50 p-3 dark:bg-[#434c5e]">
+        <h4 className="mb-2 text-xs font-medium uppercase text-zinc-500">Details</h4>
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-500">Model:</span>
-            <span className="text-gray-900 dark:text-white">{(metadata.model as string) || 'N/A'}</span>
+            <span className="text-zinc-500">Model:</span>
+            <span className="text-zinc-900 dark:text-[#eceff4]">{(metadata.model as string) || 'N/A'}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Aspect Ratio:</span>
-            <span className="text-gray-900 dark:text-white">{(metadata.aspectRatio as string) || 'N/A'}</span>
+            <span className="text-zinc-500">Aspect Ratio:</span>
+            <span className="text-zinc-900 dark:text-[#eceff4]">{(metadata.aspectRatio as string) || 'N/A'}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Created:</span>
-            <span className="text-gray-900 dark:text-white">
+            <span className="text-zinc-500">Created:</span>
+            <span className="text-zinc-900 dark:text-[#eceff4]">
               {new Date(result.createdAt).toLocaleString()}
             </span>
           </div>
@@ -64,7 +64,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
       {/* Rating */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
           Rating
         </label>
         <div className="flex gap-1">
@@ -78,8 +78,8 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
               <svg
                 className={`h-8 w-8 ${
                   rating && value <= rating
-                    ? 'text-yellow-400'
-                    : 'text-gray-300 dark:text-gray-600'
+                    ? 'text-amber-400'
+                    : 'text-zinc-300 dark:text-[#4c566a]'
                 }`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
@@ -93,7 +93,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
       {/* Tags */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
           Tags
         </label>
 
@@ -103,13 +103,13 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-1 text-xs text-violet-700 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]"
               >
                 {tag}
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
-                  className="hover:text-blue-900 dark:hover:text-blue-200"
+                  className="hover:text-violet-900 dark:hover:text-violet-200"
                 >
                   <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -133,13 +133,13 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
               }
             }}
             placeholder="Add tag..."
-            className="flex-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            className="flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm focus:border-violet-500 focus:outline-none dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
           />
           <button
             type="button"
             onClick={() => addTag(newTag)}
             disabled={!newTag.trim()}
-            className="rounded-md bg-blue-100 px-3 py-1.5 text-sm text-blue-700 hover:bg-blue-200 disabled:opacity-50 dark:bg-blue-900/30 dark:text-blue-400"
+            className="rounded-md bg-violet-100 px-3 py-1.5 text-sm text-violet-700 hover:bg-violet-200 disabled:opacity-50 dark:bg-[#5e81ac]/20 dark:text-[#88c0d0]"
           >
             Add
           </button>
@@ -147,14 +147,14 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
         {/* Common Tags */}
         <div className="mt-2">
-          <p className="mb-1 text-xs text-gray-500">Quick add:</p>
+          <p className="mb-1 text-xs text-zinc-500">Quick add:</p>
           <div className="flex flex-wrap gap-1">
             {COMMON_TAGS.filter((t) => !tags.includes(t)).slice(0, 6).map((tag) => (
               <button
                 key={tag}
                 type="button"
                 onClick={() => addTag(tag)}
-                className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
+                className="rounded bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 hover:bg-zinc-200 dark:bg-[#434c5e] dark:text-[#d8dee9] dark:hover:bg-[#4c566a]"
               >
                 +{tag}
               </button>
@@ -165,14 +165,14 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
 
       {/* Notes */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
           Notes
         </label>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={4}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
           placeholder="Add your notes about this result..."
         />
       </div>
@@ -181,7 +181,7 @@ export function ReviewPanel({ result, onUpdate }: ReviewPanelProps) {
       <button
         onClick={saveChanges}
         disabled={saving}
-        className="w-full rounded-lg bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        className="w-full rounded-lg bg-violet-600 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
       >
         {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Review'}
       </button>

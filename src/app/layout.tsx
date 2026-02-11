@@ -36,7 +36,7 @@ export default function RootLayout({
           {/* Mobile hamburger button */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="fixed left-4 top-4 z-40 rounded-lg bg-gray-900 p-2 text-white md:hidden"
+            className="fixed left-4 top-4 z-40 rounded-lg p-2 text-white md:hidden bg-sidebar"
             aria-label="Open menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -45,7 +45,7 @@ export default function RootLayout({
           </button>
 
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-          <main className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0">
+          <main className="flex-1 overflow-auto bg-zinc-50 dark:bg-[#2e3440] pt-16 md:pt-0">
             {children}
           </main>
         </div>
@@ -54,18 +54,18 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#333',
-              color: '#fff',
+              background: '#18181b',
+              color: '#fafafa',
             },
             success: {
               iconTheme: {
-                primary: '#10B981',
+                primary: '#10b981',
                 secondary: '#fff',
               },
             },
             error: {
               iconTheme: {
-                primary: '#EF4444',
+                primary: '#f43f5e',
                 secondary: '#fff',
               },
             },

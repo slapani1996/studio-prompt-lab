@@ -166,7 +166,7 @@ function RunsContent() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
       </div>
     );
   }
@@ -175,15 +175,15 @@ function RunsContent() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Run History</h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">Run History</h1>
+          <p className="mt-1 text-zinc-600 dark:text-[#d8dee9]">
             View and manage your image generation runs
           </p>
         </div>
         <button
           onClick={openModal}
           disabled={inputSets.length === 0 || templates.length === 0}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
@@ -197,7 +197,7 @@ function RunsContent() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+          className="rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
         >
           <option value="">All Statuses</option>
           <option value="pending">Pending</option>
@@ -208,9 +208,9 @@ function RunsContent() {
       </div>
 
       {runs.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-gray-300 p-12 text-center dark:border-gray-700">
+        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
           <svg
-            className="mx-auto h-12 w-12 text-gray-400"
+            className="mx-auto h-12 w-12 text-zinc-400"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
@@ -222,8 +222,8 @@ function RunsContent() {
               d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">No runs yet</h3>
-          <p className="mt-1 text-gray-500 dark:text-gray-400">
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">No runs yet</h3>
+          <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             {inputSets.length === 0 || templates.length === 0
               ? 'Create an input set and template first.'
               : 'Start a new run to generate images.'}
@@ -231,55 +231,55 @@ function RunsContent() {
           {inputSets.length > 0 && templates.length > 0 && (
             <button
               onClick={openModal}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
             >
               Start New Run
             </button>
           )}
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-800">
+        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-[#4c566a]">
+          <table className="min-w-full divide-y divide-zinc-200 dark:divide-[#4c566a]">
+            <thead className="bg-zinc-50 dark:bg-[#3b4252]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Run
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Input Set
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Template
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Results
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Created
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-[#d8dee9]">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
+            <tbody className="divide-y divide-zinc-200 bg-white dark:divide-[#4c566a] dark:bg-[#3b4252]">
               {runs.map((run) => (
-                <tr key={run.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                <tr key={run.id} className="hover:bg-zinc-50 dark:hover:bg-[#434c5e]">
                   <td className="whitespace-nowrap px-6 py-4">
                     <Link
                       href={`/runs/${run.id}`}
-                      className="font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400"
+                      className="font-medium text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]"
                     >
                       {run.id.slice(0, 8)}...
                     </Link>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0]">
                     {run.inputSet.name}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0]">
                     {run.template.name}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
@@ -287,16 +287,16 @@ function RunsContent() {
                       {run.status}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-700 dark:text-[#e5e9f0]">
                     {run.results.length} image{run.results.length !== 1 ? 's' : ''}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                  <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-500 dark:text-[#d8dee9]">
                     {new Date(run.createdAt).toLocaleString()}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-right">
                     <button
                       onClick={() => handleDelete(run.id)}
-                      className="text-red-600 hover:text-red-800 dark:text-red-400"
+                      className="text-rose-600 hover:text-rose-700 dark:text-rose-400"
                     >
                       Delete
                     </button>
@@ -311,22 +311,22 @@ function RunsContent() {
       {/* New Run Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-lg bg-white shadow-xl dark:bg-gray-800">
+          <div className="w-full max-w-md rounded-lg bg-white shadow-xl dark:bg-[#3b4252]">
             <form onSubmit={handleSubmit}>
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Start New Run</h2>
+              <div className="border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
+                <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">Start New Run</h2>
               </div>
 
               <div className="space-y-4 p-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
                     Input Set
                   </label>
                   <select
                     value={selectedInputSet}
                     onChange={(e) => setSelectedInputSet(e.target.value)}
                     required
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
                   >
                     <option value="">Select an input set...</option>
                     {inputSets.map((set) => (
@@ -338,14 +338,14 @@ function RunsContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
                     Prompt Template
                   </label>
                   <select
                     value={selectedTemplate}
                     onChange={(e) => setSelectedTemplate(e.target.value)}
                     required
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
                   >
                     <option value="">Select a template...</option>
                     {templates.map((template) => (
@@ -357,18 +357,18 @@ function RunsContent() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 border-t border-gray-200 px-6 py-4 dark:border-gray-700">
+              <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={executing || !selectedInputSet || !selectedTemplate}
-                  className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
                 >
                   {executing ? (
                     <>
@@ -397,7 +397,7 @@ export default function RunsPage() {
   return (
     <Suspense fallback={
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
       </div>
     }>
       <RunsContent />

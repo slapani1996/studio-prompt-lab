@@ -67,16 +67,19 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col bg-gray-900 transition-transform duration-300 ease-in-out md:static md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex h-full w-64 flex-col border-r border-sidebar transition-transform duration-300 ease-in-out md:static md:translate-x-0 bg-sidebar ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex h-16 shrink-0 items-center justify-between px-6">
-          <h1 className="text-xl font-bold text-white">Studio Prompt Lab</h1>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+            Studio Prompt Lab
+          </h1>
           {/* Mobile close button */}
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-gray-400 hover:bg-gray-800 hover:text-white md:hidden"
+            className="rounded-lg p-1 text-zinc-400 hover:text-white md:hidden"
+            style={{ backgroundColor: 'transparent' }}
             aria-label="Close menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -96,9 +99,18 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     onClick={onClose}
                     className={`group flex gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-gray-800 text-white'
-                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                        ? 'text-white'
+                        : 'text-zinc-400 hover:text-white'
                     }`}
+                    style={{
+                      backgroundColor: isActive ? 'var(--sidebar-active)' : 'transparent',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'var(--sidebar-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
                   >
                     <item.icon className="h-5 w-5 shrink-0" />
                     {item.name}
@@ -108,8 +120,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             })}
           </ul>
         </nav>
-        <div className="border-t border-gray-800 p-4">
-          <p className="text-xs text-gray-500">Studio Prompt Lab v1.0</p>
+        <div className="p-4" style={{ borderTop: '1px solid var(--sidebar-border)' }}>
+          <p className="text-xs text-zinc-500">Studio Prompt Lab v1.0</p>
         </div>
       </div>
     </>

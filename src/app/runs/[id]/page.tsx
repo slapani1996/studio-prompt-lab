@@ -177,7 +177,7 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
       </div>
     );
   }
@@ -185,8 +185,8 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
   if (!run) {
     return (
       <div className="flex h-full flex-col items-center justify-center">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Run not found</h2>
-        <Link href="/runs" className="mt-4 text-blue-600 hover:text-blue-800">
+        <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">Run not found</h2>
+        <Link href="/runs" className="mt-4 text-violet-600 hover:text-violet-700 dark:text-[#88c0d0]">
           Back to runs
         </Link>
       </div>
@@ -201,20 +201,20 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           <div className="flex items-center gap-3">
             <Link
               href="/runs"
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400"
+              className="text-zinc-500 hover:text-zinc-700 dark:text-[#d8dee9]"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
               </svg>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-[#eceff4]">
               Run Details
             </h1>
             <span className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(run.status)}`}>
               {run.status}
             </span>
           </div>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-sm text-zinc-500 dark:text-[#d8dee9]">
             ID: {run.id} | Created: {new Date(run.createdAt).toLocaleString()}
           </p>
         </div>
@@ -224,7 +224,7 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
             <button
               onClick={handleExecute}
               disabled={executing}
-              className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
             >
               {executing ? (
                 <>
@@ -244,11 +244,11 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           <button
             onClick={handleRerun}
             disabled={rerunning}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:bg-[#3b4252] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
           >
             {rerunning ? (
               <>
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-transparent"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-400 border-t-transparent"></div>
                 Re-running...
               </>
             ) : (
@@ -262,7 +262,7 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           </button>
           <button
             onClick={handleDelete}
-            className="rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:border-red-700 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-red-900/20"
+            className="rounded-lg border border-rose-300 bg-white px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 dark:border-rose-700 dark:bg-[#3b4252] dark:text-rose-400 dark:hover:bg-rose-900/20"
           >
             Delete
           </button>
@@ -271,8 +271,8 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
 
       {/* Error Message */}
       {run.error && (
-        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
-          <p className="text-sm text-red-700 dark:text-red-400">{run.error}</p>
+        <div className="mb-6 rounded-lg border border-rose-200 bg-rose-50 p-4 dark:border-[#bf616a] dark:bg-[#bf616a]/20">
+          <p className="text-sm text-rose-700 dark:text-rose-400">{run.error}</p>
         </div>
       )}
 
@@ -281,26 +281,26 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
         <div className="lg:col-span-2 space-y-6">
           {/* Input Set & Template Info */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Input Set</h3>
-              <p className="mt-1 font-semibold text-gray-900 dark:text-white">{run.inputSet.name}</p>
-              <div className="mt-2 flex gap-2 text-xs text-gray-500">
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+              <h3 className="text-sm font-medium text-zinc-500 dark:text-[#d8dee9]">Input Set</h3>
+              <p className="mt-1 font-semibold text-zinc-900 dark:text-[#eceff4]">{run.inputSet.name}</p>
+              <div className="mt-2 flex gap-2 text-xs text-zinc-500">
                 <span>{run.inputSet.images.length} images</span>
                 <span>|</span>
                 <span>{run.inputSet.products.length} products</span>
               </div>
             </div>
-            <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Template</h3>
-              <p className="mt-1 font-semibold text-gray-900 dark:text-white">{run.template.name}</p>
-              <p className="mt-2 text-xs text-gray-500">{run.template.steps.length} steps</p>
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+              <h3 className="text-sm font-medium text-zinc-500 dark:text-[#d8dee9]">Template</h3>
+              <p className="mt-1 font-semibold text-zinc-900 dark:text-[#eceff4]">{run.template.name}</p>
+              <p className="mt-2 text-xs text-zinc-500">{run.template.steps.length} steps</p>
             </div>
           </div>
 
           {/* Input Images Preview */}
           {run.inputSet.images.length > 0 && (
-            <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-              <h3 className="mb-3 font-medium text-gray-900 dark:text-white">Input Images</h3>
+            <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+              <h3 className="mb-3 font-medium text-zinc-900 dark:text-[#eceff4]">Input Images</h3>
               <div className="flex gap-2 overflow-x-auto">
                 {run.inputSet.images.map((image) => (
                   <img
@@ -315,8 +315,8 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           )}
 
           {/* Results */}
-          <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-            <h3 className="mb-4 font-medium text-gray-900 dark:text-white">
+          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+            <h3 className="mb-4 font-medium text-zinc-900 dark:text-[#eceff4]">
               Generated Results ({run.results.length})
             </h3>
             <ResultViewer
@@ -327,8 +327,8 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           </div>
 
           {/* Prompt Steps */}
-          <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-            <h3 className="mb-4 font-medium text-gray-900 dark:text-white">Prompt Steps</h3>
+          <div className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-[#4c566a] dark:bg-[#3b4252]">
+            <h3 className="mb-4 font-medium text-zinc-900 dark:text-[#eceff4]">Prompt Steps</h3>
             <div className="space-y-3">
               {run.template.steps.map((step, index) => {
                 const result = run.results.find((r) => r.stepOrder === step.order);
@@ -339,21 +339,21 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
                     key={step.id}
                     className={`rounded-lg border p-3 ${
                       hasError
-                        ? 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20'
-                        : 'border-gray-100 bg-gray-50 dark:border-gray-700 dark:bg-gray-900'
+                        ? 'border-rose-200 bg-rose-50 dark:border-[#bf616a] dark:bg-[#bf616a]/20'
+                        : 'border-zinc-100 bg-zinc-50 dark:border-[#4c566a] dark:bg-[#434c5e]'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      <span className="text-sm font-medium text-zinc-900 dark:text-[#eceff4]">
                         Step {index + 1}
                       </span>
-                      <div className="flex gap-2 text-xs text-gray-500">
+                      <div className="flex gap-2 text-xs text-zinc-500">
                         <span>{step.aspectRatio}</span>
                         <span>|</span>
                         <span>{step.imageSize}</span>
                       </div>
                     </div>
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{step.prompt}</p>
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-[#d8dee9]">{step.prompt}</p>
                   </div>
                 );
               })}
@@ -366,8 +366,8 @@ export default function RunDetailPage({ params }: { params: Promise<{ id: string
           {selectedResult ? (
             <ReviewPanel result={selectedResult} onUpdate={handleResultUpdate} />
           ) : (
-            <div className="rounded-lg border border-gray-200 bg-white p-6 text-center dark:border-gray-700 dark:bg-gray-800">
-              <p className="text-gray-500 dark:text-gray-400">
+            <div className="rounded-lg border border-zinc-200 bg-white p-6 text-center dark:border-zinc-800 dark:bg-zinc-900">
+              <p className="text-zinc-500 dark:text-[#d8dee9]">
                 Select a result to review
               </p>
             </div>

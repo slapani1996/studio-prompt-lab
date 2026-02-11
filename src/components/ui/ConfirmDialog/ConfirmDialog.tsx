@@ -4,9 +4,9 @@ import { Modal } from '../Modal';
 import type { ConfirmDialogProps } from './types';
 
 const variantStyles = {
-  danger: 'bg-red-600 hover:bg-red-700',
-  warning: 'bg-yellow-600 hover:bg-yellow-700',
-  info: 'bg-blue-600 hover:bg-blue-700',
+  danger: 'bg-rose-600 hover:bg-rose-700',
+  warning: 'bg-amber-600 hover:bg-amber-700',
+  info: 'bg-violet-600 hover:bg-violet-700',
 };
 
 export function ConfirmDialog({
@@ -31,7 +31,7 @@ export function ConfirmDialog({
           <button
             onClick={onClose}
             disabled={loading}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
           >
             {cancelLabel}
           </button>
@@ -45,7 +45,7 @@ export function ConfirmDialog({
         </>
       }
     >
-      <p className="text-sm text-gray-600 dark:text-gray-400">{message}</p>
+      <p className="text-sm text-zinc-600 dark:text-[#d8dee9]">{message}</p>
     </Modal>
   );
 }

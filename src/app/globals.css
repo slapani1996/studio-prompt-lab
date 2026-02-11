@@ -1,8 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f9fafb;
-  --foreground: #111827;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --sidebar-bg: #0f0d1a;
+  --sidebar-border: #1e1b2e;
+  --sidebar-active: #2d2640;
+  --sidebar-hover: #1e1b2e;
+  --primary: #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-foreground: #ffffff;
+
+  /* Nord Polar Night */
+  --nord0: #2e3440;
+  --nord1: #3b4252;
+  --nord2: #434c5e;
+  --nord3: #4c566a;
+  /* Nord Snow Storm */
+  --nord4: #d8dee9;
+  --nord5: #e5e9f0;
+  --nord6: #eceff4;
+  /* Nord Frost */
+  --nord8: #88c0d0;
+  --nord9: #81a1c1;
+  --nord10: #5e81ac;
+  /* Nord Aurora */
+  --nord11: #bf616a;
+  --nord14: #a3be8c;
+}
+
+/* Sidebar token utilities (use classes so var() resolves in this stylesheet) */
+.bg-sidebar {
+  background-color: var(--sidebar-bg);
+}
+.border-sidebar {
+  border-color: var(--sidebar-border);
 }
 
 @theme inline {
@@ -14,8 +46,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #111827;
-    --foreground: #f9fafb;
+    --background: var(--nord0);
+    --foreground: var(--nord5);
   }
 }
 
@@ -25,7 +57,7 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar with Nord accent */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -36,10 +68,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: #4c566a;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: #88c0d0;
 }

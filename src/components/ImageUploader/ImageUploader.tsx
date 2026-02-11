@@ -25,8 +25,8 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
         onClick={() => fileInputRef.current?.click()}
         className={`relative cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
           isDragging
-            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-            : 'border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500'
+            ? 'border-violet-500 bg-violet-50 dark:bg-[#5e81ac]/20'
+            : 'border-zinc-300 hover:border-zinc-400 dark:border-[#4c566a] dark:hover:border-[#88c0d0]'
         }`}
       >
         <input
@@ -38,7 +38,7 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
           className="hidden"
         />
         <svg
-          className="mx-auto h-12 w-12 text-gray-400"
+          className="mx-auto h-12 w-12 text-zinc-400"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
@@ -50,10 +50,10 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
             d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
           />
         </svg>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          <span className="font-medium text-blue-600 dark:text-blue-400">Click to upload</span> or drag and drop
+        <p className="mt-2 text-sm text-zinc-600 dark:text-[#d8dee9]">
+          <span className="font-medium text-violet-600 dark:text-[#88c0d0]">Click to upload</span> or drag and drop
         </p>
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
+        <p className="mt-1 text-xs text-zinc-500 dark:text-[#d8dee9]">
           PNG, JPG, WEBP up to 10MB each
         </p>
       </div>
@@ -61,7 +61,7 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
       {/* Existing Images */}
       {existingImages.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Existing Images</h4>
+          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">Existing Images</h4>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {existingImages.map((image) => (
               <div key={image.id} className="group relative aspect-square">
@@ -74,7 +74,7 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
                   <button
                     type="button"
                     onClick={() => onRemoveExisting(image.id)}
-                    className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                    className="absolute -right-2 -top-2 rounded-full bg-rose-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -93,7 +93,7 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
       {/* New Image Previews */}
       {images.length > 0 && (
         <div>
-          <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">New Images ({images.length})</h4>
+          <h4 className="mb-2 text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">New Images ({images.length})</h4>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {images.map((image) => (
               <div key={image.id} className="group relative aspect-square">
@@ -105,7 +105,7 @@ export function ImageUploader({ onImagesChange, existingImages = [], onRemoveExi
                 <button
                   type="button"
                   onClick={() => removeImage(image.id)}
-                  className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                  className="absolute -right-2 -top-2 rounded-full bg-rose-500 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

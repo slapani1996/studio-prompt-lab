@@ -199,7 +199,7 @@ function InputSetsContent() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
       </div>
     );
   }
@@ -208,14 +208,14 @@ function InputSetsContent() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Input Sets</h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-[#eceff4]">Input Sets</h1>
+          <p className="mt-1 text-zinc-600 dark:text-[#d8dee9]">
             Manage your image and product collections for generation
           </p>
         </div>
         <button
           onClick={openCreateModal}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -225,9 +225,9 @@ function InputSetsContent() {
       </div>
 
       {inputSets.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-gray-300 p-12 text-center dark:border-gray-700">
+        <div className="rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center dark:border-[#4c566a]">
           <svg
-            className="mx-auto h-12 w-12 text-gray-400"
+            className="mx-auto h-12 w-12 text-zinc-400"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
@@ -239,13 +239,13 @@ function InputSetsContent() {
               d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
             />
           </svg>
-          <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">No input sets</h3>
-          <p className="mt-1 text-gray-500 dark:text-gray-400">
+          <h3 className="mt-2 text-lg font-medium text-zinc-900 dark:text-[#eceff4]">No input sets</h3>
+          <p className="mt-1 text-zinc-500 dark:text-[#d8dee9]">
             Get started by creating a new input set with images and products.
           </p>
           <button
             onClick={openCreateModal}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700"
           >
             Create Input Set
           </button>
@@ -255,10 +255,10 @@ function InputSetsContent() {
           {inputSets.map((inputSet) => (
             <div
               key={inputSet.id}
-              className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+              className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition-all hover:shadow-lg hover:shadow-violet-500/10 dark:border-[#4c566a] dark:bg-[#3b4252]"
             >
               {/* Image Preview */}
-              <div className="relative h-40 bg-gray-100 dark:bg-gray-700">
+              <div className="relative h-40 bg-zinc-100 dark:bg-[#434c5e]">
                 {inputSet.images.length > 0 ? (
                   <div className="flex h-full">
                     {inputSet.images.slice(0, 3).map((img, i) => (
@@ -282,7 +282,7 @@ function InputSetsContent() {
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <svg className="h-12 w-12 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                     </svg>
                   </div>
@@ -291,13 +291,13 @@ function InputSetsContent() {
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-semibold text-gray-900 dark:text-white">{inputSet.name}</h3>
-                <div className="mt-2 flex gap-4 text-sm text-gray-500 dark:text-gray-400">
+                <h3 className="font-semibold text-zinc-900 dark:text-[#eceff4]">{inputSet.name}</h3>
+                <div className="mt-2 flex gap-4 text-sm text-zinc-500 dark:text-[#d8dee9]">
                   <span>{inputSet.images.length} images</span>
                   <span>{inputSet.products.length} products</span>
                   <span>{inputSet._count?.runs || 0} runs</span>
                 </div>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-zinc-400">
                   Created {new Date(inputSet.createdAt).toLocaleDateString()}
                 </p>
 
@@ -305,13 +305,13 @@ function InputSetsContent() {
                 <div className="mt-4 flex gap-2">
                   <button
                     onClick={() => openEditModal(inputSet)}
-                    className="flex-1 rounded bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                    className="flex-1 rounded bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-[#434c5e] dark:text-[#e5e9f0] dark:hover:bg-[#4c566a]"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(inputSet.id)}
-                    className="rounded bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
+                    className="rounded bg-rose-100 px-3 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-400 dark:hover:bg-rose-900/50"
                   >
                     Delete
                   </button>
@@ -325,10 +325,10 @@ function InputSetsContent() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white shadow-xl dark:bg-gray-800">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white shadow-xl dark:bg-[#3b4252]">
             <form onSubmit={handleSubmit}>
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <div className="border-b border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
+                <h2 className="text-xl font-semibold text-zinc-900 dark:text-[#eceff4]">
                   {editingSet ? 'Edit Input Set' : 'Create Input Set'}
                 </h2>
               </div>
@@ -336,7 +336,7 @@ function InputSetsContent() {
               <div className="space-y-6 p-6">
                 {/* Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
                     Name
                   </label>
                   <input
@@ -344,14 +344,14 @@ function InputSetsContent() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500 dark:border-[#4c566a] dark:bg-[#434c5e] dark:text-[#eceff4]"
                     placeholder="e.g., Kitchen Remodel Project"
                   />
                 </div>
 
                 {/* Images */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
                     Images
                   </label>
                   <ImageUploader
@@ -363,7 +363,7 @@ function InputSetsContent() {
 
                 {/* Products */}
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-[#e5e9f0]">
                     Products
                   </label>
                   <ProductSearch
@@ -375,18 +375,18 @@ function InputSetsContent() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 border-t border-gray-200 px-6 py-4 dark:border-gray-700">
+              <div className="flex justify-end gap-3 border-t border-zinc-200 px-6 py-4 dark:border-[#4c566a]">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-[#4c566a] dark:text-[#e5e9f0] dark:hover:bg-[#434c5e]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving || !name}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 disabled:opacity-50"
                 >
                   {saving ? 'Saving...' : editingSet ? 'Update' : 'Create'}
                 </button>
@@ -403,7 +403,7 @@ export default function InputSetsPage() {
   return (
     <Suspense fallback={
       <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent"></div>
       </div>
     }>
       <InputSetsContent />
