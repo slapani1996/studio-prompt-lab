@@ -182,13 +182,30 @@ export function ProductSearch({
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                {products.map((product) => (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 max-h-[50vh] overflow-y-auto">
+                {products.map((product) => {
+                  const isSelected = isProductSelected(product.id);
+                  const isExisting = existingProducts.some((p) => p.catalogId === product.id);
+                  const isNewlySelected = selectedProducts.some((p) => p.catalogId === product.id);
+
+                  const handleClick = () => {
+                    if (isNewlySelected) {
+                      removeProduct(product.id);
+                    } else if (isExisting && onRemoveExisting) {
+                      const existingProduct = existingProducts.find((p) => p.catalogId === product.id);
+                      if (existingProduct) {
+                        onRemoveExisting(existingProduct.id);
+                      }
+                    } else {
+                      addProduct(product);
+                    }
+                  };
+
+                  return (
                   <button
                     key={product.id}
                     type="button"
-                    onClick={() => addProduct(product)}
-                    disabled={isProductSelected(product.id)}
+                    onClick={handleClick}
                     className={`rounded-lg border p-2 text-left transition-colors ${
                       isProductSelected(product.id)
                         ? "border-green-300 bg-emerald-50 dark:border-green-700 dark:bg-emerald-900/20"
@@ -216,14 +233,15 @@ export function ProductSearch({
                       as="p"
                       className="text-xs text-zinc-500"
                     />
-                    {isProductSelected(product.id) && (
+                    {isSelected && (
                       <span className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
                         <Check className="size-4" />
                         Selected
                       </span>
                     )}
                   </button>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Pagination */}

@@ -20,6 +20,7 @@ function InputSetsContent() {
     saving,
     existingImages,
     existingProducts,
+    selectedProducts,
     searchQuery,
     setName,
     setNewImages,
@@ -164,6 +165,7 @@ function InputSetsContent() {
         onClose={closeModal}
         title={editingSet ? "Edit Input Set" : "Create Input Set"}
         className="!max-w-3xl"
+        scrollable
         footer={
           <>
             <Button variant="secondary" onClick={closeModal}>
@@ -209,7 +211,7 @@ function InputSetsContent() {
               Products
             </label>
             <ProductSearch
-              selectedProducts={[]}
+              selectedProducts={selectedProducts}
               onProductsChange={setSelectedProducts}
               existingProducts={existingProducts}
               onRemoveExisting={handleRemoveExistingProduct}

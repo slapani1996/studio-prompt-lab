@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { CatalogProduct, SelectedProduct, ExistingProduct, UseProductSearchReturn } from './types';
 
 export function useProductSearch(
@@ -13,9 +13,20 @@ export function useProductSearch(
   const [category, setCategory] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  // Refs for abort controller and debounce timer
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchProducts = useCallback(async () => {
+    // Abort any in-flight request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    // Create new AbortController
+    abortControllerRef.current = new AbortController();
+
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -24,12 +35,17 @@ export function useProductSearch(
       params.set('page', page.toString());
       params.set('perPage', '12');
 
-      const response = await fetch(`/api/catalog?${params}`);
+      const response = await fetch(`/api/catalog?${params}`, {
+        signal: abortControllerRef.current.signal
+      });
       const data = await response.json();
 
       setProducts(data.data || []);
       setTotalPages(data.pagination?.totalPages || 1);
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        return; // Silently ignore aborted requests
+      }
       console.error('Failed to fetch products:', error);
       setProducts([]);
     } finally {
@@ -45,14 +61,25 @@ export function useProductSearch(
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
-    if (searchTimeout) clearTimeout(searchTimeout);
-    setSearchTimeout(
-      setTimeout(() => {
-        setPage(1);
-        fetchProducts();
-      }, 300)
-    );
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      setPage(1);
+    }, 300);
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleCategoryChange = (value: string) => {
     setCategory(value);

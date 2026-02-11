@@ -110,7 +110,7 @@ function PromptsContent() {
                       key={index}
                       className="rounded bg-zinc-50 p-2 dark:bg-[#1F242F]"
                     >
-                      <p className="text-xs text-zinc-700 dark:text-[#CECFD2]">
+                      <p className="line-clamp-2 text-xs text-zinc-700 dark:text-[#CECFD2]">
                         <span className="font-medium">Step {index + 1}:</span>{" "}
                         {step.prompt}
                       </p>

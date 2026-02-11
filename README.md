@@ -166,7 +166,7 @@ image-gen/
 - Export all rated results as JSON or CSV
 - Export individual runs with full metadata
 
-## Deployment to Vercel
+## Deployment to Render
 
 ### Option 1: Turso Database (Recommended for Production)
 
@@ -185,35 +185,39 @@ turso db show studio-prompt-lab --url
 turso db tokens create studio-prompt-lab
 ```
 
-1. **Push schema to Turso:**
+2. **Push schema to Turso:**
 
 ```bash
 turso db shell studio-prompt-lab < prisma/migrations/*/migration.sql
 ```
 
-1. **Deploy to Vercel:**
+3. **Deploy to Render:**
    - Push code to GitHub
-   - Import repository in [vercel.com](https://vercel.com)
+   - Create a new Web Service in [render.com](https://render.com)
+   - Connect your GitHub repository
+   - Configure the service:
+     - **Build Command**: `npm install && npx prisma generate && npm run build`
+     - **Start Command**: `npm start`
    - Add environment variables:
      - `TURSO_DATABASE_URL`: Your Turso database URL
      - `TURSO_AUTH_TOKEN`: Your Turso auth token
      - `GEMINI_API_KEY`: Your Gemini API key
      - `CATALOG_API_URL`: `https://api.studioxlowes.com/catalog/v3`
-     - `NEXT_PUBLIC_APP_URL`: Your Vercel deployment URL
-     - `DATABASE_URL`= `file:./dev.db`
+     - `NEXT_PUBLIC_APP_URL`: Your Render deployment URL
+     - `DATABASE_URL`: `file:./dev.db`
 
-2. Deploy
+4. Deploy
 
 ### Option 2: SQLite (Development Only)
 
 For quick testing with SQLite:
 
-1. Add environment variables in Vercel:
+1. Add environment variables in Render:
    - `DATABASE_URL`: `file:./dev.db`
    - `GEMINI_API_KEY`: Your API key
    - `CATALOG_API_URL`: `https://api.studioxlowes.com/catalog/v3`
 
-Note: SQLite data will not persist between Vercel deployments.
+Note: SQLite data will not persist between Render deployments.
 
 ## API Reference
 
