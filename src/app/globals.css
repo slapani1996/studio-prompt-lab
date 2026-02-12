@@ -14,12 +14,16 @@
   --primary: #7F56D9;
   --primary-hover: #6941C6;
   --primary-foreground: #ffffff;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: #d4d4d8;
+  --scrollbar-thumb-hover: #a1a1aa;
 }
 
 /* Sidebar token utilities (use classes so var() resolves in this stylesheet) */
 .bg-sidebar {
   background-color: var(--sidebar-bg);
 }
+
 .border-sidebar {
   border-color: var(--sidebar-border);
 }
@@ -44,6 +48,9 @@ button {
   --sidebar-hover: #161B26;
   --sidebar-text: #a1a1aa;
   --sidebar-text-active: #B692F6;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: #333741;
+  --scrollbar-thumb-hover: #9E77ED;
 }
 
 body {
@@ -59,14 +66,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333741;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9E77ED;
+  background: var(--scrollbar-thumb-hover);
 }
