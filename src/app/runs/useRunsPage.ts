@@ -25,6 +25,7 @@ export function useRunsPage(): UseRunsPageReturn {
   const [selectedInputSet, setSelectedInputSet] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [executing, setExecuting] = useState(false);
+  const [showAILoader, setShowAILoader] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -94,6 +95,8 @@ export function useRunsPage(): UseRunsPageReturn {
       }
 
       setExecuting(true);
+      setShowModal(false);
+      setShowAILoader(true);
 
       try {
         const createRes = await fetch("/api/runs", {
@@ -120,16 +123,19 @@ export function useRunsPage(): UseRunsPageReturn {
         }
 
         await fetchData();
-        closeModal();
-        toast.success("Run started successfully");
+        setShowAILoader(false);
+        toast.success("Run completed successfully");
         router.push(`/runs/${run.id}`);
       } catch {
+        setShowAILoader(false);
         toast.error("Failed to start run");
       } finally {
         setExecuting(false);
+        setSelectedInputSet("");
+        setSelectedTemplate("");
       }
     },
-    [selectedInputSet, selectedTemplate, fetchData, closeModal, router]
+    [selectedInputSet, selectedTemplate, fetchData, router]
   );
 
   const handleDelete = useCallback((id: string) => {
@@ -175,6 +181,7 @@ export function useRunsPage(): UseRunsPageReturn {
     selectedInputSet,
     selectedTemplate,
     executing,
+    showAILoader,
     statusFilter,
     searchQuery,
     showDeleteDialog,

@@ -8,6 +8,7 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { SearchInput } from "@/components/ui/SearchInput";
+import { AIGenerationLoader } from "@/components/ui/AIGenerationLoader";
 import {
   PaginatedTable,
   TableRow,
@@ -34,6 +35,7 @@ function RunsContent() {
     selectedInputSet,
     selectedTemplate,
     executing,
+    showAILoader,
     statusFilter,
     searchQuery,
     showDeleteDialog,
@@ -241,6 +243,8 @@ function RunsContent() {
         variant="danger"
         loading={deleting}
       />
+
+      <AIGenerationLoader isVisible={showAILoader} />
     </div>
   );
 }

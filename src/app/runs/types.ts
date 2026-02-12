@@ -38,6 +38,7 @@ export interface UseRunsPageReturn {
   selectedInputSet: string;
   selectedTemplate: string;
   executing: boolean;
+  showAILoader: boolean;
   statusFilter: string;
   searchQuery: string;
   showDeleteDialog: boolean;
