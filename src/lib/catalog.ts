@@ -49,12 +49,9 @@ export async function fetchProducts(options: {
   // Build URL with query parameters
   const params = new URLSearchParams();
 
-  // Map category ID to category name for the external API
+  // Pass category name directly to the external API
   if (category) {
-    const categoryObj = PRODUCT_CATEGORIES.find(c => c.id === category);
-    if (categoryObj) {
-      params.set('categoryName', categoryObj.name);
-    }
+    params.set('categoryName', category);
   }
 
   params.set('perPage', perPage.toString());
@@ -131,13 +128,3 @@ export async function fetchProductById(id: string): Promise<CatalogProduct | nul
   return response.json();
 }
 
-export const PRODUCT_CATEGORIES = [
-  { id: 'faucets', name: 'Faucets' },
-  { id: 'mirrors', name: 'Mirror' },
-  { id: 'shower-systems', name: 'Shower Systems' },
-  { id: 'decorative-lighting', name: 'Decorative Lighting' },
-  { id: 'vanities', name: 'Vanities' },
-  { id: 'tub-doors', name: 'Tub Doors' },
-  { id: 'towel-rings', name: 'Towel Rings' },
-  { id: 'tub-filler', name: 'Tub Filler' },
-];

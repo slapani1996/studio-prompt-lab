@@ -20,6 +20,10 @@ export function PromptEditor({
     onChange({ ...step, [field]: value });
   };
 
+  const selectedModelId =
+    AVAILABLE_MODELS.find((m) => m.id === step.model)?.id ||
+    AVAILABLE_MODELS[0]?.id;
+
   const modelOptions = AVAILABLE_MODELS.map((m) => ({
     value: m.id,
     label: m.name,
@@ -76,7 +80,7 @@ export function PromptEditor({
           </label>
           <Dropdown
             options={modelOptions}
-            value={step.model}
+            value={selectedModelId}
             onChange={(value) => updateField("model", value)}
             ariaLabel="Select model"
             buttonClassName="rounded-md focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"

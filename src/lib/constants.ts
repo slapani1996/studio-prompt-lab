@@ -35,15 +35,3 @@ export const COMMON_TAGS = [
   'perfect',
 ] as const;
 
-// Product categories
-export const PRODUCT_CATEGORIES = [
-  { id: '', name: 'All Products' },
-  { id: 'faucets', name: 'Faucets' },
-  { id: 'mirrors', name: 'Mirrors' },
-  { id: 'shower-systems', name: 'Shower Systems' },
-  { id: 'decorative-lighting', name: 'Decorative Lighting' },
-  { id: 'vanities', name: 'Vanities' },
-  { id: 'tub-doors', name: 'Tub Doors' },
-  { id: 'towel-rings', name: 'Towel Rings' },
-  { id: 'tub-filler', name: 'Tub Filler' },
-] as const;

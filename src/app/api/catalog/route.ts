@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchProducts, PRODUCT_CATEGORIES } from '@/lib/catalog';
+import { fetchProducts } from '@/lib/catalog';
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,10 +11,7 @@ export async function GET(request: NextRequest) {
 
     const result = await fetchProducts({ category, search, page, perPage });
 
-    return NextResponse.json({
-      ...result,
-      categories: PRODUCT_CATEGORIES,
-    });
+    return NextResponse.json(result);
   } catch (error) {
     console.error('[API] Catalog error:', error instanceof Error ? error.message : error);
     return NextResponse.json(

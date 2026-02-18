@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { CatalogProduct, SelectedProduct, ExistingProduct, UseProductSearchReturn } from './types';
+import type { CatalogProduct, SelectedProduct, ExistingProduct, UseProductSearchReturn, Category } from './types';
 
 export function useProductSearch(
   selectedProducts: SelectedProduct[],
@@ -13,10 +13,30 @@ export function useProductSearch(
   const [category, setCategory] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [categories, setCategories] = useState<Category[]>([{ id: '', name: 'All Products' }]);
 
   // Refs for abort controller and debounce timer
   const abortControllerRef = useRef<AbortController | null>(null);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fetch categories from API
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await fetch('/api/catalog/categories');
+        const data = await response.json();
+        if (data.categories && Array.isArray(data.categories)) {
+          setCategories([
+            { id: '', name: 'All Products' },
+            ...data.categories,
+          ]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories:', error);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const fetchProducts = useCallback(async () => {
     // Abort any in-flight request
@@ -121,6 +141,7 @@ export function useProductSearch(
     loading,
     search,
     category,
+    categories,
     page,
     totalPages,
     handleSearchChange,

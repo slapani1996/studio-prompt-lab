@@ -59,7 +59,6 @@ export type RunStatus = 'pending' | 'running' | 'completed' | 'failed';
 // Model options
 export const AVAILABLE_MODELS = [
   { id: 'gemini-2.0-flash-exp-image-generation', name: 'Nano Banana (Flash)', description: 'Fast image generation' },
-  { id: 'imagen-3.0-generate-002', name: 'Imagen 3', description: 'High-quality image generation' },
 ] as const;
 
 export const ASPECT_RATIOS = [

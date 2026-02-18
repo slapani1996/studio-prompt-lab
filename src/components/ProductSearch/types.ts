@@ -41,6 +41,7 @@ export interface UseProductSearchReturn {
   loading: boolean;
   search: string;
   category: string;
+  categories: Category[];
   page: number;
   totalPages: number;
   handleSearchChange: (value: string) => void;

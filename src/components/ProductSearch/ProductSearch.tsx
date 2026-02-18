@@ -1,24 +1,12 @@
 "use client";
 
 import { useProductSearch } from "./useProductSearch";
-import type { ProductSearchProps, Category } from "./types";
+import type { ProductSearchProps } from "./types";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { TruncatedText } from "@/components/ui/TruncatedText";
 import { Check, Image, Plus, X } from "lucide-react";
-
-const CATEGORIES: Category[] = [
-  { id: "", name: "All Products" },
-  { id: "faucets", name: "Faucets" },
-  { id: "mirrors", name: "Mirrors" },
-  { id: "shower-systems", name: "Shower Systems" },
-  { id: "decorative-lighting", name: "Decorative Lighting" },
-  { id: "vanities", name: "Vanities" },
-  { id: "tub-doors", name: "Tub Doors" },
-  { id: "towel-rings", name: "Towel Rings" },
-  { id: "tub-filler", name: "Tub Filler" },
-];
 
 export function ProductSearch({
   selectedProducts,
@@ -33,6 +21,7 @@ export function ProductSearch({
     loading,
     search,
     category,
+    categories,
     page,
     totalPages,
     handleSearchChange,
@@ -43,7 +32,7 @@ export function ProductSearch({
     isProductSelected,
   } = useProductSearch(selectedProducts, onProductsChange, existingProducts);
 
-  const categoryOptions = CATEGORIES.map((c) => ({
+  const categoryOptions = categories.map((c) => ({
     value: c.id,
     label: c.name,
   }));
