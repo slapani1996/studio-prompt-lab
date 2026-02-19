@@ -15,7 +15,7 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid path' }, { status: 400 });
     }
 
-    const filePath = path.join(process.cwd(), 'public', 'uploads', filename);
+    const filePath = path.join(process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads'), filename);
     const file = await readFile(filePath);
 
     // Determine content type

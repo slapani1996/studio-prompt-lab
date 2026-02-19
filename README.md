@@ -120,8 +120,8 @@ image-gen/
 ├── prisma/
 │   └── schema.prisma             # Database schema
 ├── public/
-│   ├── uploads/                  # Uploaded images
-│   └── outputs/                  # Generated images
+│   ├── uploads/                  # Uploaded images (local dev only)
+│   └── outputs/                  # Generated images (local dev only)
 └── .env.example
 ```
 
@@ -205,8 +205,15 @@ turso db shell studio-prompt-lab < prisma/migrations/*/migration.sql
      - `CATALOG_API_URL`: `https://api.studioxlowes.com/catalog/v3`
      - `NEXT_PUBLIC_APP_URL`: Your Render deployment URL
      - `DATABASE_URL`: `file:./dev.db`
+     - `UPLOAD_DIR`: `/data/uploads` (requires Render Disk, see below)
 
-4. Deploy
+4. **Set up Render Disk for persistent image storage:**
+   - Go to your Render service → **Disks** tab
+   - Click **Add Disk**
+   - Name: `uploads`, Mount Path: `/data/uploads`, Size: 1GB+
+   - This ensures uploaded and generated images persist across deploys
+
+5. Deploy
 
 ### Option 2: SQLite (Development Only)
 
@@ -216,8 +223,13 @@ For quick testing with SQLite:
    - `DATABASE_URL`: `file:./dev.db`
    - `GEMINI_API_KEY`: Your API key
    - `CATALOG_API_URL`: `https://api.studioxlowes.com/catalog/v3`
+   - `UPLOAD_DIR`: `/data/uploads` (requires Render Disk)
 
-Note: SQLite data will not persist between Render deployments.
+2. Add a Render Disk (required for image persistence):
+   - Go to **Disks** → **Add Disk**
+   - Mount Path: `/data/uploads`
+
+Note: SQLite data will not persist between Render deployments. Use Turso for production.
 
 ## API Reference
 

@@ -57,7 +57,10 @@ export async function POST(
 
     for (const image of run.inputSet.images) {
       try {
-        const imagePath = path.join(process.cwd(), 'public', image.path);
+        // image.path is stored as /api/uploads/filename, extract just the filename
+        const filename = image.path.replace(/^\/api\/uploads\//, '');
+        const uploadDir = process.env.UPLOAD_DIR || path.join(process.cwd(), 'public', 'uploads');
+        const imagePath = path.join(uploadDir, filename);
         const fs = await import('fs/promises');
         const buffer = await fs.readFile(imagePath);
         inputImages.push({
@@ -80,7 +83,10 @@ export async function POST(
     let currentImages = inputImages;
     let hasError = false;
 
-    const outputDir = path.join(process.cwd(), 'public', 'outputs', run.id);
+    const baseOutputDir = process.env.UPLOAD_DIR
+      ? path.join(process.env.UPLOAD_DIR, 'outputs')
+      : path.join(process.cwd(), 'public', 'outputs');
+    const outputDir = path.join(baseOutputDir, run.id);
     await mkdir(outputDir, { recursive: true });
 
     for (const step of run.template.steps) {
